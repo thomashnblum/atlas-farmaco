@@ -1,4 +1,4 @@
-import { Molecule, PharmacodynamicInteraction, PharmacokineticInteraction } from '../data/schema';
+import { Molecule, MoleculeReceptorInteraction, MoleculeEnzymeInteraction } from '../data/schema';
 
 export interface AIInsight {
   title: string;
@@ -9,8 +9,8 @@ export interface AIInsight {
 export const aiService = {
   generateClinicalInsights: async (
     molecules: Molecule[],
-    pdParams: PharmacodynamicInteraction[],
-    pkParams: PharmacokineticInteraction[]
+    pdParams: MoleculeReceptorInteraction[],
+    pkParams: MoleculeEnzymeInteraction[]
   ): Promise<AIInsight | null> => {
     // Simular delay de rede (IA pensando...)
     await new Promise(resolve => setTimeout(resolve, 800));

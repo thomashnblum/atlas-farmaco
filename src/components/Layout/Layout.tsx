@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { cn } from '../../utils/cn';
-import { Network, Search, BookOpen, Menu, Sparkles, SlidersHorizontal } from 'lucide-react';
+import { Network, Search, BookOpen, Menu, Sparkles, SlidersHorizontal, Beaker, Info } from 'lucide-react';
 import { dataService } from '../../services/dataService';
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
@@ -16,8 +16,10 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
     { name: 'Dashboard', href: '/', icon: Network },
     { name: 'Atlas Relacional', href: '/atlas', icon: Search },
     { name: 'Catálogo de Fármacos', href: '/molecules', icon: BookOpen },
+    { name: 'Catálogo de Enzimas', href: '/enzymes', icon: Beaker },
     { name: 'Navegador Dinâmico (PK/PD)', href: '/navigator', icon: Sparkles },
     { name: 'Comparar', href: '/compare', icon: SlidersHorizontal },
+    { name: 'Glossário de Símbolos', href: '/glossary', icon: Info },
   ];
 
   // Close search on outside click
@@ -120,11 +122,11 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
                       {results.enzymes.map(e => (
                         <div 
                           key={e.id} 
-                          className="px-2 py-1.5 hover:bg-zinc-800 rounded cursor-pointer text-sm text-zinc-500"
+                          className="px-2 py-1.5 hover:bg-zinc-800 rounded cursor-pointer text-sm text-indigo-400"
                           onClick={() => {
                             setSearchOpen(false);
                             setSearchQuery('');
-                            navigate('/atlas');
+                            navigate('/enzymes', { state: { selectedEnzymeId: e.id } });
                           }}
                         >
                           {e.name}

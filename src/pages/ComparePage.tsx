@@ -3,6 +3,7 @@ import { dataService } from '../services/dataService';
 import { Molecule } from '../data/schema';
 import { Sparkles } from 'lucide-react';
 import { aiService, AIInsight } from '../services/aiService';
+import { ProfileSymbolBadge } from '../components/UI/ProfileSymbolBadge';
 
 export const ComparePage = () => {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
@@ -89,7 +90,16 @@ export const ComparePage = () => {
                   >
                     ×
                   </button>
-                  <h2 className="text-xl font-bold text-zinc-100 mb-1 uppercase tracking-tight">{mol.name}</h2>
+                  <div className="flex items-center gap-2 flex-wrap mb-1">
+                    <h2 className="text-xl font-bold text-zinc-100 uppercase tracking-tight">{mol.name}</h2>
+                    {mol.profileSymbols && mol.profileSymbols.length > 0 && (
+                      <div className="flex gap-1">
+                        {mol.profileSymbols.map((sym) => (
+                          <ProfileSymbolBadge key={sym} symbolKey={sym} size="sm" />
+                        ))}
+                      </div>
+                    )}
+                  </div>
                   <span className="inline-flex max-w-fit rounded bg-amber-400/20 text-amber-300 border border-amber-400/30 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest mb-6">
                     {mol.class}
                   </span>

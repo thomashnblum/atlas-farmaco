@@ -1,4 +1,5 @@
 import { Molecule } from '../../data/schema';
+import { ProfileSymbolBadge } from '../UI/ProfileSymbolBadge';
 
 interface MoleculeCardProps {
   key?: any;
@@ -14,10 +15,19 @@ export const MoleculeCard = ({ molecule, onClick }: MoleculeCardProps) => {
     >
       <div className="flex justify-between items-start mb-4">
         <div>
-          <h3 className="text-lg font-bold text-amber-400 group-hover:text-amber-300 transition-colors">{molecule.name}</h3>
+          <div className="flex items-center gap-2 flex-wrap">
+            <h3 className="text-lg font-bold text-amber-400 group-hover:text-amber-300 transition-colors">{molecule.name}</h3>
+            {molecule.profileSymbols && molecule.profileSymbols.length > 0 && (
+              <div className="flex gap-1" onClick={(e) => e.stopPropagation()}>
+                {molecule.profileSymbols.map((sym) => (
+                  <ProfileSymbolBadge key={sym} symbolKey={sym} size="sm" />
+                ))}
+              </div>
+            )}
+          </div>
           <p className="text-xs text-zinc-500 font-medium font-mono lowercase">{molecule.tradeNames.join(', ')}</p>
         </div>
-        <span className="inline-flex items-center rounded bg-amber-400/10 px-1.5 py-0.5 text-[10px] font-bold text-amber-400 border border-amber-400/20 uppercase">
+        <span className="inline-flex items-center rounded bg-amber-400/10 px-1.5 py-0.5 text-[10px] font-bold text-amber-400 border border-amber-400/20 uppercase text-right shrink-0">
           {molecule.class}
         </span>
       </div>

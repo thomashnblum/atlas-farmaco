@@ -10,6 +10,8 @@ import { DashboardPage } from './pages/DashboardPage';
 import { MoleculeIndexPage } from './pages/MoleculeIndexPage';
 import { NavigatorPage } from './pages/NavigatorPage';
 import { ComparePage } from './pages/ComparePage';
+import { GlossaryPage } from './pages/GlossaryPage';
+import { EnzymesPage } from './pages/EnzymesPage';
 
 const AtlasViewPage = React.lazy(() => import('./pages/AtlasViewPage').then(module => ({ default: module.AtlasViewPage })));
 
@@ -31,6 +33,8 @@ export default function App() {
             <Route path="/navigator" element={<NavigatorPage />} />
             <Route path="/atlas" element={<AtlasViewPage />} />
             <Route path="/compare" element={<ComparePage />} />
+            <Route path="/glossary" element={<GlossaryPage />} />
+            <Route path="/enzymes" element={<EnzymesPage />} />
           </Routes>
         </Suspense>
       </Layout>

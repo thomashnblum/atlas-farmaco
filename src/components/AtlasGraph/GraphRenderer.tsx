@@ -49,6 +49,10 @@ export const GraphRenderer = ({ visibleGroups, onNodeSelect, zoomToNodeId, zoomT
         fgRef.current.d3Force('link').distance(120);
       }
 
+      // Add centering forces to keep isolated nodes from escaping
+      fgRef.current.d3Force('x', d3Force.forceX(0).strength(0.08));
+      fgRef.current.d3Force('y', d3Force.forceY(0).strength(0.08));
+
       if (typeof fgRef.current.d3ReheatSimulation === 'function') {
         fgRef.current.d3ReheatSimulation();
       }
@@ -99,10 +103,6 @@ export const GraphRenderer = ({ visibleGroups, onNodeSelect, zoomToNodeId, zoomT
   }, []);
 
   const handleNodeClick = useCallback((node: GraphNode) => {
-    // Center map on node
-    const distance = 40;
-    const distRatio = 1 + distance/Math.hypot(node.x!, node.y!, node.z || 0);
-
     fgRef.current?.centerAt(node.x, node.y, 1000);
     fgRef.current?.zoom(4, 1000);
     
@@ -118,7 +118,7 @@ export const GraphRenderer = ({ visibleGroups, onNodeSelect, zoomToNodeId, zoomT
       <div className="absolute top-4 left-4 z-10 bg-zinc-900/80 backdrop-blur border border-zinc-800 p-4 rounded-lg shadow-2xl pointer-events-none">
         <h3 className="font-bold mb-3 text-xs uppercase tracking-wider text-zinc-500 font-mono">Legenda</h3>
         <div className="flex flex-col gap-3 text-xs text-zinc-500 font-mono tracking-wide">
-          <div className="flex items-center gap-2"><div className="w-2.5 h-2.5 rounded-full bg-[#38BDF8] shadow-[0_0_8px_#38BDF8]"></div> MOLÉCULAS</div>
+          <div className="flex items-center gap-2"><div className="w-2.5 h-2.5 rounded-full bg-[#fbbf24] shadow-[0_0_8px_#fbbf24]"></div> MOLÉCULAS</div>
           <div className="flex items-center gap-2"><div className="w-2.5 h-2.5 rounded-full bg-[#F43F5E] shadow-[0_0_8px_#F43F5E]"></div> ALVOS / RECEPTORES</div>
           <div className="flex items-center gap-2"><div className="w-2.5 h-2.5 rounded-full bg-[#94A3B8]"></div> ENZIMAS (CYP450)</div>
         </div>

@@ -4,6 +4,8 @@ import { dataService } from '../services/dataService';
 import { MoleculeCard } from '../components/Molecules/MoleculeCard';
 import { Molecule, MoleculeReceptorInteraction, MoleculeEnzymeInteraction } from '../data/schema';
 import { ArrowLeft, Database, ShieldAlert } from 'lucide-react';
+import { ProfileSymbolBadge } from '../components/UI/ProfileSymbolBadge';
+import { MoleculeStructureViewer } from '../components/Molecules/MoleculeStructureViewer';
 
 export const MoleculeIndexPage = () => {
   const [selectedMolecule, setSelectedMolecule] = useState<Molecule | null>(null);
@@ -42,9 +44,18 @@ export const MoleculeIndexPage = () => {
         </button>
 
         <div className="bg-zinc-900 rounded-2xl p-6 md:p-8 border border-zinc-800 shadow-2xl relative">
-          <div className="mb-8 border-b border-zinc-800 pb-6 flex justify-between items-start">
+          <div className="mb-8 border-b border-zinc-800 pb-6 flex justify-between items-start flex-wrap gap-4">
             <div>
-              <h1 className="text-3xl font-extrabold text-zinc-100">{selectedMolecule.name}</h1>
+              <div className="flex items-center gap-3 flex-wrap">
+                <h1 className="text-3xl font-extrabold text-zinc-100">{selectedMolecule.name}</h1>
+                {selectedMolecule.profileSymbols && selectedMolecule.profileSymbols.length > 0 && (
+                  <div className="flex gap-1.5">
+                    {selectedMolecule.profileSymbols.map((sym) => (
+                      <ProfileSymbolBadge key={sym} symbolKey={sym} size="md" tooltipPosition="bottom" />
+                    ))}
+                  </div>
+                )}
+              </div>
               <p className="text-zinc-500 mt-1 font-mono text-sm lowercase">Comercial: {selectedMolecule.tradeNames.join(', ')}</p>
             </div>
             <span className="inline-flex items-center rounded bg-amber-400 px-2 py-1 text-[10px] font-bold text-zinc-950 uppercase tracking-widest">
@@ -52,7 +63,7 @@ export const MoleculeIndexPage = () => {
             </span>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
             <div className="col-span-1 space-y-8">
               <section>
                 <h3 className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-3 font-mono">Mecanismo de Ação</h3>
@@ -60,8 +71,38 @@ export const MoleculeIndexPage = () => {
               </section>
 
               <section>
-                <h3 className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-3 font-mono">Para que é usado na psiquiatria</h3>
-                <p className="text-zinc-500 leading-relaxed text-sm">{selectedMolecule.psychiatryUse || 'Informação primária não listada.'}</p>
+                <h3 className="text-xs font-bold text-teal-400 uppercase tracking-widest mb-3 font-mono flex items-center gap-2">
+                  <Database className="w-4 h-4" /> Indicações Clínicas Principais (Bula)
+                </h3>
+                <p className="text-[10px] text-zinc-500 italic mb-4">Uso oficial aprovado e indicado no tratamento de primeira escolha ou adjuvante.</p>
+                {selectedMolecule.onLabelUses && selectedMolecule.onLabelUses.length > 0 ? (
+                  <div className="space-y-3">
+                    {selectedMolecule.onLabelUses.map((use, i) => (
+                      <div key={i} className="bg-teal-500/5 border border-teal-500/20 p-3.5 rounded-xl transition-all hover:bg-teal-500/10">
+                        <div className="flex justify-between items-start mb-2 flex-wrap gap-2">
+                          <span className="font-bold text-sm text-zinc-100">{use.condition}</span>
+                          <div className="flex gap-1.5 flex-wrap">
+                            <span className="text-[9px] uppercase font-mono font-extrabold px-1.5 py-0.5 rounded border bg-teal-500/10 text-teal-400 border-teal-500/30">
+                              {use.line}
+                            </span>
+                            <span className={`text-[9px] uppercase font-mono font-extrabold px-1.5 py-0.5 rounded border ${
+                              use.evidence === 'Padrão-Ouro' ? 'bg-amber-400/20 text-amber-300 border-amber-400/40 animate-pulse' :
+                              use.evidence === 'Robusto' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' :
+                              use.evidence === 'Moderado' ? 'bg-blue-500/10 text-blue-400 border-blue-500/30' :
+                              'bg-zinc-500/10 text-zinc-500 border-zinc-500/30'
+                            }`}>
+                              {use.evidence === 'Padrão-Ouro' && '🏆 '} {use.evidence}
+                            </span>
+                          </div>
+                        </div>
+                        <p className="text-[12px] text-zinc-400 leading-relaxed font-sans">{use.justification}</p>
+                        {use.notes && <p className="text-[11px] text-zinc-500 italic mt-2 border-t border-zinc-800 pt-2">{use.notes}</p>}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-zinc-500 leading-relaxed text-sm">{selectedMolecule.psychiatryUse || 'Informação primária não listada.'}</p>
+                )}
               </section>
 
               {selectedMolecule.offLabelUses && selectedMolecule.offLabelUses.length > 0 && (
@@ -219,6 +260,8 @@ export const MoleculeIndexPage = () => {
                   <p className="text-zinc-500 text-sm italic font-mono">Nenhuma via metabólica crítica cadastrada.</p>
                 )}
               </section>
+
+              <MoleculeStructureViewer molecule={selectedMolecule} />
             </div>
           </div>
         </div>

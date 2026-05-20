@@ -119,6 +119,9 @@ export const receptors: Receptor[] = [
   { id: 'r18', name: 'δ-Opioide', type: 'Receptor', neurotransmitterSystem: 'Opioide', description: 'Envolvido em efeitos antidepressivos, neuroprotetores e analgesia.' },
   { id: 'r19', name: 'NMDA', type: 'Canal Iônico', neurotransmitterSystem: 'Glutamatérgico', description: 'Principal canal excitatório para neuroplasticidade.' },
   { id: 'r20', name: 'xCT', type: 'Enzima Alvo', neurotransmitterSystem: 'Glutamatérgico', description: 'Antiporter cistina-glutamato, modulador do glutamato na fenda extrassináptica.' },
+  { id: 'r21', name: 'Sigma-1', type: 'Receptor', neurotransmitterSystem: 'Glutamatérgico / Geral', description: 'Receptor chaperona intracelular associado à neuroproteção, plasticidade sináptica e efeitos ansiolíticos.' },
+  { id: 'r22', name: '5-HT3', type: 'Receptor', neurotransmitterSystem: 'Serotoninérgico', description: 'Canal iônico serotoninérgico; seu antagonismo alivia náuseas e aumenta acetilcolina/noradrenalina no córtex.' },
+  { id: 'r23', name: '5-HT7', type: 'Receptor', neurotransmitterSystem: 'Serotoninérgico', description: 'Receptor metabotrópico regulador do sono, ritmo circadiano e cognição pré-frontal.' }
 ];
 
 export const enzymes: MetabolicEnzyme[] = [
@@ -253,6 +256,22 @@ export const pdInteractions: MoleculeReceptorInteraction[] = [
   { moleculeId: 'm54', receptorId: 'r5', actionType: 'Inibidor de Recaptação', affinityKi: null },
   { moleculeId: 'm55', receptorId: 'r5', actionType: 'Inibidor de Recaptação', affinityKi: null },
   { moleculeId: 'm57', receptorId: 'r4', actionType: 'Inibidor de Recaptação', affinityKi: null },
+
+  // Novas interações para Lítio (m27) para puxá-lo ao centro do Atlas
+  { moleculeId: 'm27', receptorId: 'r19', actionType: 'Modulador Alostérico', affinityKi: null, notes: 'Inibe a sinalização excitotóxica hiperativa do receptor NMDA.' },
+  { moleculeId: 'm27', receptorId: 'r9', actionType: 'Agonista', affinityKi: null, notes: 'Aumenta a liberação e eficácia da transmissão no receptor 5-HT1A.' },
+  { moleculeId: 'm27', receptorId: 'r12', actionType: 'Outro', affinityKi: null, notes: 'Penetra nas células neuronais através de canais rápidos de sódio voltagem-dependentes.' },
+
+  // Novas interações para Sigma-1 (r21) - Fluvoxamina (m8), Sertralina (m4), Fluoxetina (m1)
+  { moleculeId: 'm8', receptorId: 'r21', actionType: 'Agonista', affinityKi: 36, notes: 'Elevada afinidade pelo Sigma-1, conferindo efeitos ansiolíticos e anti-inflamatórios proeminentes.' },
+  { moleculeId: 'm4', receptorId: 'r21', actionType: 'Antagonista', affinityKi: 57, notes: 'Afinidade moderada que atua como antagonista ou agonista inverso.' },
+  { moleculeId: 'm1', receptorId: 'r21', actionType: 'Agonista', affinityKi: 240, notes: 'Afinidade moderada a fraca pelo receptor Sigma-1.' },
+
+  // Novas interações para 5-HT3 (r22) e 5-HT7 (r23) - Vortioxetina (m33), Trazodona (m32), Mirtazapina (m17)
+  { moleculeId: 'm33', receptorId: 'r22', actionType: 'Antagonista', affinityKi: 3.7, notes: 'Bloqueio potente de 5-HT3, induzindo liberação de acetilcolina e dopamina.' },
+  { moleculeId: 'm33', receptorId: 'r23', actionType: 'Antagonista', affinityKi: 19, notes: 'Antagonismo potente de 5-HT7, melhorando ritmos circadianos e cognição.' },
+  { moleculeId: 'm32', receptorId: 'r23', actionType: 'Antagonista', affinityKi: 29, notes: 'Bloqueio de 5-HT7 contribui para a regulação do sono profundo.' },
+  { moleculeId: 'm17', receptorId: 'r22', actionType: 'Antagonista', affinityKi: 8.1, notes: 'Forte antagonismo de 5-HT3, reduzindo propensões a náuseas e regulando o apetite.' }
 ];
 
 export const pkInteractions: MoleculeEnzymeInteraction[] = [
@@ -346,4 +365,12 @@ export const pkInteractions: MoleculeEnzymeInteraction[] = [
   { moleculeId: 'm54', enzymeId: 'e2', role: 'Indutor Moderado', notes: 'Reduz níveis de contraceptivos orais e outros fármacos via indução.' },
   { moleculeId: 'm56', enzymeId: 'e3', role: 'Substrato', notes: 'Uso de fluvoxamina pode gerar intoxicação grave.' },
   { moleculeId: 'm57', enzymeId: 'e1', role: 'Substrato', notes: 'Metabolizadores lentos de 2D6 apresentam níveis plasmáticos muito maiores.' },
+
+  // Novas interações farmacocinéticas para os iMAOs (m19, m20, m21) para conectá-los ao sistema CYP450
+  { moleculeId: 'm21', enzymeId: 'e4', role: 'Substrato', notes: 'Metabolizada majoritariamente pelo CYP2C19.' },
+  { moleculeId: 'm21', enzymeId: 'e1', role: 'Substrato', notes: 'Metabolização secundária via CYP2D6.' },
+  { moleculeId: 'm20', enzymeId: 'e1', role: 'Substrato', notes: 'Depurada por vias do CYP2D6.' },
+  { moleculeId: 'm20', enzymeId: 'e4', role: 'Inibidor Moderado', notes: 'Inibe secundariamente o CYP2C19.' },
+  { moleculeId: 'm19', enzymeId: 'e1', role: 'Substrato', notes: 'Metabolizada por vias do CYP2D6.' },
+  { moleculeId: 'm19', enzymeId: 'e2', role: 'Substrato', notes: 'Metabolizada secundariamente pelo CYP3A4.' }
 ];

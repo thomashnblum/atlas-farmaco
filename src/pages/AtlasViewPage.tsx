@@ -150,13 +150,10 @@ export const AtlasViewPage = () => {
                      <p className="leading-relaxed">{selectedNode.data.description}</p>
                    </div>
                    <button
-                     onClick={() => {
-                       setZoomNodeId(selectedNode.id);
-                       setZoomTrigger(t => t + 1);
-                     }}
-                     className="mt-4 w-full bg-zinc-500/10 border border-zinc-500/30 text-zinc-500 hover:bg-zinc-500/20 hover:text-zinc-300 font-mono text-xs tracking-widest uppercase py-2 rounded transition-colors"
+                     onClick={() => navigate('/enzymes', { state: { selectedEnzymeId: selectedNode.id } })}
+                     className="mt-4 w-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 hover:bg-indigo-500/20 hover:text-indigo-300 font-mono text-xs tracking-widest uppercase py-2 rounded transition-colors"
                    >
-                     Ver no Atlas →
+                     Ver Ficha Completa →
                    </button>
                  </>
                )}
