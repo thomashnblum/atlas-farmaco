@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { cn } from '../../utils/cn';
-import { Network, Search, BookOpen, Menu, Sparkles, SlidersHorizontal, Beaker, Info } from 'lucide-react';
+import { Network, Search, BookOpen, Menu, Sparkles, SlidersHorizontal, Beaker, Info, LogOut, User as UserIcon, LogIn, Activity } from 'lucide-react';
 import { dataService } from '../../services/dataService';
+import { useAuth } from '../../context/AuthContext';
+import { supabase } from '../../services/supabaseClient';
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -11,12 +13,14 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const searchRef = useRef<HTMLDivElement>(null);
+  const { session, user } = useAuth();
 
   const navigation = [
     { name: 'Dashboard', href: '/', icon: Network },
     { name: 'Atlas Relacional', href: '/atlas', icon: Search },
     { name: 'Catálogo de Fármacos', href: '/molecules', icon: BookOpen },
     { name: 'Catálogo de Enzimas', href: '/enzymes', icon: Beaker },
+    { name: 'Catálogo de Receptores', href: '/receptors', icon: Activity },
     { name: 'Navegador Dinâmico (PK/PD)', href: '/navigator', icon: Sparkles },
     { name: 'Comparar', href: '/compare', icon: SlidersHorizontal },
     { name: 'Glossário de Símbolos', href: '/glossary', icon: Info },
@@ -45,6 +49,11 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 
   const results = searchResults();
   const hasResults = results.molecules.length > 0 || results.receptors.length > 0 || results.enzymes.length > 0;
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    navigate('/login');
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-zinc-950 text-zinc-100 font-sans">
@@ -161,6 +170,32 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
               </Link>
             );
           })}
+          
+          <div className="flex items-center ml-4 pl-4 border-l border-zinc-800">
+            {session ? (
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 text-zinc-400">
+                  <UserIcon className="w-4 h-4" />
+                  <span className="hidden lg:inline">{user?.email?.split('@')[0]}</span>
+                </div>
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center gap-1.5 text-zinc-500 hover:text-rose-400 transition-colors"
+                  title="Sair"
+                >
+                  <LogOut className="w-4 h-4" />
+                </button>
+              </div>
+            ) : (
+              <Link
+                to="/login"
+                className="flex items-center gap-2 px-3 py-1.5 bg-amber-400/10 text-amber-400 hover:bg-amber-400/20 rounded-md transition-colors"
+              >
+                <LogIn className="w-4 h-4" />
+                Entrar
+              </Link>
+            )}
+          </div>
         </nav>
         
         <button 
@@ -192,6 +227,36 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
               </Link>
             );
           })}
+          
+          <div className="pt-2 mt-2 border-t border-zinc-800">
+            {session ? (
+              <div className="flex items-center justify-between p-3">
+                <div className="flex items-center gap-2 text-zinc-400 text-sm">
+                  <UserIcon className="w-4 h-4" />
+                  <span className="truncate max-w-[150px]">{user?.email}</span>
+                </div>
+                <button
+                  onClick={() => {
+                    handleLogout();
+                    setMobileMenuOpen(false);
+                  }}
+                  className="flex items-center gap-2 text-rose-400 hover:text-rose-300 transition-colors text-sm font-medium"
+                >
+                  <LogOut className="w-4 h-4" />
+                  Sair
+                </button>
+              </div>
+            ) : (
+              <Link
+                to="/login"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center justify-center gap-2 p-3 mt-2 rounded-lg bg-amber-400/10 text-amber-400 hover:bg-amber-400/20 text-sm font-medium transition-colors"
+              >
+                <LogIn className="w-4 h-4" />
+                Entrar / Criar Conta
+              </Link>
+            )}
+          </div>
         </div>
       )}
 

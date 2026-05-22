@@ -128,13 +128,10 @@ export const AtlasViewPage = () => {
                      <p className="leading-relaxed">{selectedNode.data.description}</p>
                    </div>
                    <button
-                     onClick={() => {
-                       setZoomNodeId(selectedNode.id);
-                       setZoomTrigger(t => t + 1);
-                     }}
+                     onClick={() => navigate('/receptors', { state: { selectedReceptorId: selectedNode.id } })}
                      className="mt-4 w-full bg-rose-500/10 border border-rose-500/30 text-rose-400 hover:bg-rose-500/20 hover:text-rose-300 font-mono text-xs tracking-widest uppercase py-2 rounded transition-colors"
                    >
-                     Ver no Atlas →
+                     Ver Ficha Completa →
                    </button>
                  </>
                )}

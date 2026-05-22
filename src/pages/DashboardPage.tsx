@@ -31,37 +31,83 @@ export const DashboardPage = () => {
         <div className="absolute inset-0 bg-[radial-gradient(#27272a_1px,transparent_1px)] bg-[size:24px_24px] opacity-40 pointer-events-none" />
         
         {/* Content */}
-        <div className="relative z-10 max-w-3xl">
-          <div className="flex items-center gap-3 text-[10px] text-zinc-400 font-mono tracking-widest uppercase mb-4">
-            <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span>v1.0.4 - SINC-REALTIME ACTIVED</span>
-            <span className="text-zinc-700">|</span>
-            <span className="text-amber-400 font-bold bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/20">
-              DADOS VERIFICÁVEIS (STAHL'S / PUBMED)
-            </span>
+        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="max-w-3xl">
+            <div className="flex items-center gap-3 text-[10px] text-zinc-400 font-mono tracking-widest uppercase mb-4">
+              <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span>v1.0.4 - SINC-REALTIME ACTIVED</span>
+              <span className="text-zinc-700">|</span>
+              <span className="text-amber-400 font-bold bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/20">
+                DADOS VERIFICÁVEIS (STAHL'S / PUBMED)
+              </span>
+            </div>
+
+            <h1 className="text-4xl md:text-6xl font-black text-zinc-100 tracking-tight leading-none mb-6">
+              ATLAS <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-amber-200 to-indigo-300 font-light">FÁRMACO</span>
+            </h1>
+            
+            <p className="text-base md:text-lg text-zinc-400 mb-8 leading-relaxed max-w-2xl font-light">
+              Base de dados científica e visualizador de grafos em tempo real para o mapeamento de interações farmacodinâmicas e vias farmacocinéticas em psicofarmacologia clínica.
+            </p>
+
+            <div className="flex flex-col gap-6 mt-8">
+              <div>
+                <Link 
+                  to="/atlas" 
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-base bg-gradient-to-r from-amber-400 to-amber-500 text-zinc-950 font-black tracking-wide hover:brightness-110 active:scale-98 transition-all shadow-[0_0_30px_rgba(251,191,36,0.2)] hover:shadow-[0_0_40px_rgba(251,191,36,0.3)]"
+                >
+                  <Activity className="w-5 h-5" /> ABRIR ATLAS RELACIONAL
+                </Link>
+              </div>
+              
+              <div className="flex flex-wrap items-center gap-3 md:gap-4 mt-2">
+                <Link 
+                  to="/molecules" 
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm bg-zinc-900/80 text-zinc-300 font-medium border border-zinc-800 hover:bg-zinc-800 hover:text-amber-300 hover:border-amber-400/30 transition-all active:scale-95"
+                >
+                  <BookOpen className="w-4 h-4" /> Catálogo de Fármacos
+                </Link>
+                <Link 
+                  to="/enzymes" 
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm bg-zinc-900/80 text-zinc-300 font-medium border border-zinc-800 hover:bg-zinc-800 hover:text-indigo-300 hover:border-indigo-400/30 transition-all active:scale-95"
+                >
+                  <Beaker className="w-4 h-4" /> Catálogo de Enzimas
+                </Link>
+                <Link 
+                  to="/receptors" 
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm bg-zinc-900/80 text-zinc-300 font-medium border border-zinc-800 hover:bg-zinc-800 hover:text-rose-300 hover:border-rose-400/30 transition-all active:scale-95"
+                >
+                  <Network className="w-4 h-4" /> Receptores e Alvos
+                </Link>
+                <Link 
+                  to="/navigator" 
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm bg-zinc-900/80 text-zinc-300 font-medium border border-zinc-800 hover:bg-zinc-800 hover:text-emerald-300 hover:border-emerald-400/30 transition-all active:scale-95"
+                >
+                  <Zap className="w-4 h-4" /> Navegador PK / PD
+                </Link>
+                <Link 
+                  to="/compare" 
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm bg-zinc-900/80 text-zinc-300 font-medium border border-zinc-800 hover:bg-zinc-800 hover:text-purple-300 hover:border-purple-400/30 transition-all active:scale-95"
+                >
+                  <SlidersHorizontal className="w-4 h-4" /> Comparar Fármacos
+                </Link>
+                <Link 
+                  to="/glossary" 
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm bg-zinc-900/80 text-zinc-300 font-medium border border-zinc-800 hover:bg-zinc-800 hover:text-teal-300 hover:border-teal-400/30 transition-all active:scale-95"
+                >
+                  <Info className="w-4 h-4" /> Glossário
+                </Link>
+              </div>
+            </div>
           </div>
-
-          <h1 className="text-4xl md:text-6xl font-black text-zinc-100 tracking-tight leading-none mb-6">
-            ATLAS <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-amber-200 to-indigo-300 font-light">FÁRMACO</span>
-          </h1>
           
-          <p className="text-base md:text-lg text-zinc-400 mb-8 leading-relaxed max-w-2xl font-light">
-            Base de dados científica e visualizador de grafos em tempo real para o mapeamento de interações farmacodinâmicas e vias farmacocinéticas em psicofarmacologia clínica.
-          </p>
-
-          <div className="flex flex-wrap gap-4">
-            <Link 
-              to="/atlas" 
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg text-sm bg-gradient-to-r from-amber-400 to-amber-500 text-zinc-950 font-bold hover:brightness-110 active:scale-98 transition shadow-[0_0_25px_rgba(251,191,36,0.15)]"
-            >
-              <Activity className="w-4 h-4" /> ABRIR ATLAS RELACIONAL
-            </Link>
-            <Link 
-              to="/navigator" 
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg text-sm bg-zinc-900/80 text-amber-300 font-bold border border-zinc-800 hover:bg-zinc-800 hover:border-amber-400/30 transition active:scale-98"
-            >
-              <Zap className="w-4 h-4" /> SIMULAR INTERAÇÕES PK
-            </Link>
+          <div className="hidden lg:flex items-center justify-center relative">
+            <div className="absolute inset-0 bg-gradient-to-l from-transparent via-zinc-900/20 to-zinc-900/80 z-10 rounded-3xl mix-blend-overlay pointer-events-none" />
+            <img 
+              src="/hero_art.png" 
+              alt="Neural Network Art" 
+              className="w-full max-w-md object-cover rounded-3xl opacity-80 mix-blend-lighten shadow-[0_0_50px_rgba(236,72,153,0.15)] border border-white/5"
+            />
           </div>
         </div>
       </section>
