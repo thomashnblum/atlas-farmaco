@@ -20,7 +20,7 @@ export const MoleculeCard = ({ molecule, onClick }: MoleculeCardProps) => {
             {molecule.profileSymbols && molecule.profileSymbols.length > 0 && (
               <div className="flex gap-1" onClick={(e) => e.stopPropagation()}>
                 {molecule.profileSymbols.map((sym) => (
-                  <ProfileSymbolBadge key={sym} symbolKey={sym} size="sm" />
+                  <ProfileSymbolBadge key={sym} symbolKey={sym} size="sm" tooltipPosition="bottom" />
                 ))}
               </div>
             )}
