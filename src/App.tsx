@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { Suspense } from 'react';
+import React, { Suspense, useState, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import { dataService } from './services/dataService';
 import { Layout } from './components/Layout/Layout';
 import { DashboardPage } from './pages/DashboardPage';
 import { MoleculeIndexPage } from './pages/MoleculeIndexPage';
@@ -21,6 +22,23 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 const AtlasViewPage = React.lazy(() => import('./pages/AtlasViewPage').then(module => ({ default: module.AtlasViewPage })));
 
 export default function App() {
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
+
+  useEffect(() => {
+    dataService.loadData().then(() => setIsDataLoaded(true));
+  }, []);
+
+  if (!isDataLoaded) {
+    return (
+      <div className="flex-1 flex items-center justify-center p-8 text-zinc-500 font-mono text-sm min-h-screen bg-[#09090b]">
+        <div className="flex flex-col items-center gap-4">
+          <span className="w-8 h-8 rounded-full border-2 border-amber-400 border-t-transparent animate-spin"></span>
+          SINCRONIZANDO COM A NUVEM...
+        </div>
+      </div>
+    );
+  }
+
   return (
     <AuthProvider>
       <Router>

@@ -10,9 +10,9 @@ if (!supabaseUrl || !supabaseAnonKey) {
 
 // Inicializa a conexão com o banco de dados
 // Removemos '/rest/v1/' caso o usuário tenha copiado a URL da aba Data API por engano
-const cleanSupabaseUrl = supabaseUrl ? supabaseUrl.replace('/rest/v1/', '').replace(/\/$/, '') : '';
+const cleanSupabaseUrl = supabaseUrl ? supabaseUrl.replace('/rest/v1/', '').replace(/\/$/, '') : 'https://placeholder.supabase.co';
 
 export const supabase = createClient(
   cleanSupabaseUrl,
-  supabaseAnonKey || ''
+  supabaseAnonKey || 'placeholder'
 );
