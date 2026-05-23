@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { Network, Search, Filter, Fingerprint, Info, Brain, Zap, Activity, ArrowLeft } from 'lucide-react';
 import { dataService } from '../services/dataService';
 import { cn } from '../utils/cn';
@@ -9,23 +9,33 @@ export const ReceptorsPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedSystem, setSelectedSystem] = useState<string | null>(null);
   const [selectedType, setSelectedType] = useState<string | null>(null);
-  const [selectedReceptor, setSelectedReceptor] = useState<Receptor | null>(null);
-
+  
   const location = useLocation();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const receptors = useMemo(() => dataService.getReceptors(), []);
+
+  const selectedReceptor = useMemo(() => {
+    const id = searchParams.get('id');
+    return id ? receptors.find(r => r.id === id) || null : null;
+  }, [searchParams, receptors]);
+
+  const setSelectedReceptor = (rec: Receptor | null) => {
+    if (rec) {
+      setSearchParams({ id: rec.id });
+    } else {
+      setSearchParams({});
+    }
+  };
 
   useEffect(() => {
     if (location.state && location.state.selectedReceptorId) {
       const searchId = location.state.selectedReceptorId;
-      const rec = receptors.find(r => r.id === searchId);
-      if (rec) {
-        setSelectedReceptor(rec);
-      }
-      navigate(location.pathname, { replace: true, state: {} });
+      setSearchParams({ id: searchId }, { replace: true });
+      navigate(location.pathname + '?id=' + searchId, { replace: true, state: {} });
     }
-  }, [location.state, receptors, navigate]);
+  }, [location.state, navigate, location.pathname, setSearchParams]);
 
   const systems = useMemo(() => {
     const sys = new Set(receptors.map(r => r.neurotransmitterSystem));

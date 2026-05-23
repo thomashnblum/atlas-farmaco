@@ -57,7 +57,7 @@ export const AtlasViewPage = () => {
            </button>
            <button 
              onClick={() => toggleGroup('enzyme')}
-             className={`px-3 py-1.5 rounded border transition-colors ${visibleGroups.enzyme ? 'bg-zinc-600/30 border-zinc-400/50 text-zinc-500' : 'bg-zinc-800 border-zinc-700 text-zinc-500'}`}
+             className={`px-3 py-1.5 rounded border transition-colors ${visibleGroups.enzyme ? 'bg-blue-500/20 border-blue-500/50 text-blue-400' : 'bg-zinc-800 border-zinc-700 text-zinc-500'}`}
            >
              ENZIMAS
            </button>

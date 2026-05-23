@@ -239,12 +239,15 @@ export const pdInteractions: MoleculeReceptorInteraction[] = [
   { moleculeId: 'm28', receptorId: 'r13', actionType: 'Outro', affinityKi: null },
 
   // Off-label e outras neuro-ações
-  { moleculeId: 'm47', receptorId: 'r16', actionType: 'Antagonista', affinityKi: null },
-  { moleculeId: 'm47', receptorId: 'r17', actionType: 'Antagonista', affinityKi: null },
-  { moleculeId: 'm47', receptorId: 'r18', actionType: 'Antagonista', affinityKi: null },
+  { moleculeId: 'm47', receptorId: 'r16', actionType: 'Antagonista', affinityKi: 0.08 },
+  { moleculeId: 'm47', receptorId: 'r17', actionType: 'Antagonista', affinityKi: 0.22 },
+  { moleculeId: 'm47', receptorId: 'r18', actionType: 'Antagonista', affinityKi: 2.8 },
   { moleculeId: 'm48', receptorId: 'r19', actionType: 'Antagonista', affinityKi: null },
   { moleculeId: 'm49', receptorId: 'r20', actionType: 'Outro', affinityKi: null },
+  { moleculeId: 'm49', receptorId: 'r19', actionType: 'Modulador Alostérico', affinityKi: null, notes: 'Modulação indireta do receptor NMDA via glutationa/xCT.' },
   { moleculeId: 'm50', receptorId: 'r19', actionType: 'Antagonista', affinityKi: null },
+  { moleculeId: 'm50', receptorId: 'r5', actionType: 'Inibidor de Recaptação', affinityKi: null, notes: 'Inibição fraca do DAT contribui para efeitos estimulantes.' },
+  { moleculeId: 'm28', receptorId: 'r15', actionType: 'Antagonista', affinityKi: null, notes: 'Inibição de canais de cálcio voltagem-dependentes (N e P/Q).' },
   
   // Estimulantes
   { moleculeId: 'm51', receptorId: 'r5', actionType: 'Inibidor de Recaptação', affinityKi: null },

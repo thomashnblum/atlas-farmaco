@@ -61,8 +61,8 @@ export const NavigatorPage = () => {
   return (
     <div className="p-6 md:p-8 flex flex-col gap-6 h-full">
       <div>
-        <h1 className="text-2xl font-bold text-zinc-100 tracking-tight uppercase mb-2">Painel de Simulação PK</h1>
-        <p className="text-zinc-500 text-sm">Combine moléculas para cruzar vias metabólicas enzimáticas (CYP450) e detectar riscos de inibição ou indução.</p>
+        <h1 className="text-2xl font-bold text-zinc-100 tracking-tight uppercase mb-2">Painel de Simulação de Interações</h1>
+        <p className="text-zinc-500 text-sm">Analise conflitos de farmacocinética metabólica (CYP450) e detecte interações sinérgicas ou antagônicas em receptores (farmacodinâmica) em tempo real.</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 flex-1">

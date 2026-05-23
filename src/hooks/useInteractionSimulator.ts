@@ -70,7 +70,10 @@ export const useInteractionSimulator = (selectedMoleculeIds: string[]) => {
               const rec = dataService.getReceptorById(intA.receptorId);
               if (!rec) return;
 
+              let specificHandled = false;
+
               if (rec.id === 'r1' && intA.actionType === 'Inibidor de Recaptação' && matchB.actionType === 'Inibidor de Recaptação') {
+                specificHandled = true;
                 alerts.push({
                   type: 'danger',
                   perpetrator: molA,
@@ -82,6 +85,7 @@ export const useInteractionSimulator = (selectedMoleculeIds: string[]) => {
               }
 
               if (rec.id === 'r2' && intA.actionType.includes('Antagonista') && matchB.actionType.includes('Antagonista')) {
+                specificHandled = true;
                 alerts.push({
                   type: 'warning',
                   perpetrator: molA,
@@ -93,6 +97,7 @@ export const useInteractionSimulator = (selectedMoleculeIds: string[]) => {
               }
 
               if (rec.id === 'r6' && intA.actionType === 'Antagonista' && matchB.actionType === 'Antagonista') {
+                specificHandled = true;
                 alerts.push({
                   type: 'info',
                   perpetrator: molA,
@@ -106,6 +111,7 @@ export const useInteractionSimulator = (selectedMoleculeIds: string[]) => {
               const isMAOI = (a: Molecule) => a.class === 'iMAO';
               const isSerotonergic = (a: Molecule) => a.class === 'ISRS' || a.class === 'ISRSN';
               if ((isMAOI(molA) && isSerotonergic(molB)) || (isMAOI(molB) && isSerotonergic(molA))) {
+                specificHandled = true;
                 alerts.push({
                    type: 'danger',
                    perpetrator: molA,
@@ -114,6 +120,44 @@ export const useInteractionSimulator = (selectedMoleculeIds: string[]) => {
                    message: `CONTRAINDICAÇÃO ABSOLUTA: Combinação iMAO + ISRS/ISRSN. Risco de síndrome serotoninérgica grave ou fatal.`,
                    mechanismExplanation: `A combinação de inibidores da MAO com inibidores de recaptação de serotonina impede simultaneamente o recolhimento e o catabolismo central da Serotonina, causando toxicidade letal.`
                 });
+              }
+
+              // Dynamic Generic Rules for any other overlapping receptor (except global GABA check handled later)
+              if (!specificHandled && rec.id !== 'r13') {
+                 const isA_Antagonist = intA.actionType.includes('Antagonista');
+                 const isB_Antagonist = matchB.actionType.includes('Antagonista');
+                 
+                 const isA_Agonist = intA.actionType.includes('Agonista') || intA.actionType.includes('Inibidor de Recaptação') || intA.actionType.includes('Modulador');
+                 const isB_Agonist = matchB.actionType.includes('Agonista') || matchB.actionType.includes('Inibidor de Recaptação') || matchB.actionType.includes('Modulador');
+
+                 if (isA_Antagonist && isB_Antagonist) {
+                    alerts.push({
+                      type: 'warning',
+                      perpetrator: molA,
+                      victim: molB,
+                      receptorName: rec.name,
+                      message: `Sinergismo de bloqueio no alvo ${rec.name}.`,
+                      mechanismExplanation: `Ambas as moléculas atuam como antagonistas ou bloqueadores em ${rec.name}. O uso concomitante potencializa o bloqueio dessa via, podendo gerar efeitos adversos aditivos ou exacerbar a inibição funcional do sistema ${rec.neurotransmitterSystem}.`
+                    });
+                 } else if (isA_Agonist && isB_Agonist) {
+                    alerts.push({
+                      type: 'warning',
+                      perpetrator: molA,
+                      victim: molB,
+                      receptorName: rec.name,
+                      message: `Superativação farmacodinâmica no alvo ${rec.name}.`,
+                      mechanismExplanation: `Ambas exercem ações excitatórias, agonistas ou de acúmulo sináptico simultâneas no receptor ${rec.name}. Há risco de super-estimulação da via ${rec.neurotransmitterSystem}, o que pode facilmente ultrapassar a janela terapêutica e causar toxicidade.`
+                    });
+                 } else if ((isA_Antagonist && isB_Agonist) || (isB_Antagonist && isA_Agonist)) {
+                    alerts.push({
+                      type: 'info',
+                      perpetrator: molA,
+                      victim: molB,
+                      receptorName: rec.name,
+                      message: `Competição de efeitos no alvo ${rec.name}.`,
+                      mechanismExplanation: `Forças opostas detectadas: uma molécula tenta ativar ou modular positivamente a via, enquanto a outra a bloqueia ou antagoniza. Isso geralmente resulta em anulação mútua ou redução drástica do efeito terapêutico de um dos fármacos no receptor ${rec.name}.`
+                    });
+                 }
               }
             }
           });

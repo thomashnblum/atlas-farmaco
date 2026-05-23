@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useState, useEffect, useMemo } from 'react';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { dataService } from '../services/dataService';
 import { MoleculeCard } from '../components/Molecules/MoleculeCard';
 import { Molecule, MoleculeReceptorInteraction, MoleculeEnzymeInteraction } from '../data/schema';
@@ -8,23 +8,32 @@ import { ProfileSymbolBadge } from '../components/UI/ProfileSymbolBadge';
 import { MoleculeStructureViewer } from '../components/Molecules/MoleculeStructureViewer';
 
 export const MoleculeIndexPage = () => {
-  const [selectedMolecule, setSelectedMolecule] = useState<Molecule | null>(null);
   const [axisFilter, setAxisFilter] = useState<string | null>(null);
   const location = useLocation();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const allMolecules = dataService.getMolecules();
+
+  const selectedMolecule = useMemo(() => {
+    const id = searchParams.get('id');
+    return id ? allMolecules.find(m => m.id === id) || null : null;
+  }, [searchParams, allMolecules]);
+
+  const setSelectedMolecule = (mol: Molecule | null) => {
+    if (mol) {
+      setSearchParams({ id: mol.id });
+    } else {
+      setSearchParams({});
+    }
+  };
 
   useEffect(() => {
     if (location.state && (location.state.selectedId || location.state.selectedMoleculeId)) {
       const searchId = location.state.selectedId || location.state.selectedMoleculeId;
-      const mol = allMolecules.find(m => m.id === searchId);
-      if (mol) {
-        setSelectedMolecule(mol);
-      }
-      // Clear state so it doesn't re-trigger on back navigation if not desired
-      navigate(location.pathname, { replace: true, state: {} });
+      setSearchParams({ id: searchId }, { replace: true });
+      navigate(location.pathname + '?id=' + searchId, { replace: true, state: {} });
     }
-  }, [location.state, allMolecules, navigate]);
+  }, [location.state, navigate, location.pathname, setSearchParams]);
 
   const molecules = axisFilter 
     ? allMolecules.filter(m => m.clinicalAxes.includes(axisFilter as any))
