@@ -176,8 +176,8 @@ export const pdInteractions: MoleculeReceptorInteraction[] = [
   { moleculeId: 'm10', receptorId: 'r4', actionType: 'Inibidor de Recaptação', affinityKi: 558 },
   { moleculeId: 'm11', receptorId: 'r1', actionType: 'Inibidor de Recaptação', affinityKi: 0.8 },
   { moleculeId: 'm11', receptorId: 'r4', actionType: 'Inibidor de Recaptação', affinityKi: 7.5 },
-  { moleculeId: 'm12', receptorId: 'r1', actionType: 'Inibidor de Recaptação', affinityKi: null },
-  { moleculeId: 'm12', receptorId: 'r4', actionType: 'Inibidor de Recaptação', affinityKi: null },
+  { moleculeId: 'm12', receptorId: 'r1', actionType: 'Inibidor de Recaptação', affinityKi: 200 },
+  { moleculeId: 'm12', receptorId: 'r4', actionType: 'Inibidor de Recaptação', affinityKi: 100 },
   
   // Triciclicos
   { moleculeId: 'm13', receptorId: 'r1', actionType: 'Inibidor de Recaptação', affinityKi: 2.8 },
