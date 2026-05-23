@@ -37,8 +37,8 @@ export const DashboardPage = () => {
               <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
               <span>v1.0.4 - SINC-REALTIME ACTIVED</span>
               <span className="text-zinc-700">|</span>
-              <span className="text-amber-400 font-bold bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/20">
-                DADOS VERIFICÁVEIS (STAHL'S / PUBMED)
+              <span className="text-amber-400 font-bold bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/20" title="Stahl's Essential Psychopharmacology, PubMed, NIMH PDSP Ki Database, DrugBank e The Maudsley Prescribing Guidelines">
+                DADOS VERIFICÁVEIS (STAHL / PUBMED / PDSP / DRUGBANK)
               </span>
             </div>
 

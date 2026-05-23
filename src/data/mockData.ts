@@ -210,8 +210,8 @@ export const pdInteractions: MoleculeReceptorInteraction[] = [
   { moleculeId: 'm30', receptorId: 'r12', actionType: 'Outro', affinityKi: null },
 
   // Alternatives/Outros
-  { moleculeId: 'm31', receptorId: 'r4', actionType: 'Inibidor de Recaptação', affinityKi: 52600 },
-  { moleculeId: 'm31', receptorId: 'r5', actionType: 'Inibidor de Recaptação', affinityKi: null },
+  { moleculeId: 'm31', receptorId: 'r4', actionType: 'Inibidor de Recaptação', affinityKi: 526 },
+  { moleculeId: 'm31', receptorId: 'r5', actionType: 'Inibidor de Recaptação', affinityKi: 526 },
   { moleculeId: 'm32', receptorId: 'r3', actionType: 'Antagonista', affinityKi: 36 },
   { moleculeId: 'm32', receptorId: 'r6', actionType: 'Antagonista', affinityKi: 220 },
   { moleculeId: 'm32', receptorId: 'r1', actionType: 'Inibidor de Recaptação', affinityKi: 160 },
@@ -249,14 +249,15 @@ export const pdInteractions: MoleculeReceptorInteraction[] = [
   { moleculeId: 'm50', receptorId: 'r5', actionType: 'Inibidor de Recaptação', affinityKi: null, notes: 'Inibição fraca do DAT contribui para efeitos estimulantes.' },
   { moleculeId: 'm28', receptorId: 'r15', actionType: 'Antagonista', affinityKi: null, notes: 'Inibição de canais de cálcio voltagem-dependentes (N e P/Q).' },
   
-  // Estimulantes
-  { moleculeId: 'm51', receptorId: 'r5', actionType: 'Inibidor de Recaptação', affinityKi: null },
-  { moleculeId: 'm51', receptorId: 'r4', actionType: 'Inibidor de Recaptação', affinityKi: null },
-  { moleculeId: 'm52', receptorId: 'r5', actionType: 'Inibidor de Recaptação', affinityKi: null },
-  { moleculeId: 'm52', receptorId: 'r4', actionType: 'Inibidor de Recaptação', affinityKi: null },
-  { moleculeId: 'm53', receptorId: 'r5', actionType: 'Inibidor de Recaptação', affinityKi: null },
-  { moleculeId: 'm53', receptorId: 'r4', actionType: 'Inibidor de Recaptação', affinityKi: null },
-  { moleculeId: 'm54', receptorId: 'r5', actionType: 'Inibidor de Recaptação', affinityKi: null },
+  // Estimulantes e TDAH
+  { moleculeId: 'm51', receptorId: 'r5', actionType: 'Inibidor de Recaptação', affinityKi: 34 },
+  { moleculeId: 'm51', receptorId: 'r4', actionType: 'Inibidor de Recaptação', affinityKi: 339 },
+  { moleculeId: 'm52', receptorId: 'r5', actionType: 'Substrato (Liberador)', affinityKi: 40 },
+  { moleculeId: 'm52', receptorId: 'r4', actionType: 'Substrato (Liberador)', affinityKi: 26 },
+  { moleculeId: 'm53', receptorId: 'r5', actionType: 'Substrato (Liberador)', affinityKi: 40 },
+  { moleculeId: 'm53', receptorId: 'r4', actionType: 'Substrato (Liberador)', affinityKi: 26 },
+  { moleculeId: 'm54', receptorId: 'r5', actionType: 'Inibidor de Recaptação', affinityKi: 1451 },
+  { moleculeId: 'm54', receptorId: 'r4', actionType: 'Inibidor de Recaptação', affinityKi: 5 },
   { moleculeId: 'm55', receptorId: 'r5', actionType: 'Inibidor de Recaptação', affinityKi: null },
   { moleculeId: 'm57', receptorId: 'r4', actionType: 'Inibidor de Recaptação', affinityKi: null },
 

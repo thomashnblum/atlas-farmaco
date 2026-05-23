@@ -151,6 +151,11 @@ export const RECEPTOR_CLINICAL_PROFILES: Record<string, ReceptorClinicalProfile>
       'Redução da ansiedade, TOC e melhora do humor após semanas.',
       'Disfunção sexual, náusea e apatia induzida por ISRS (longo prazo).'
     ],
+    activationEffects: [
+      'Efeitos da Inversão do Transportador (Substratos/Liberadores):',
+      'Liberação maciça e não-vesicular de serotonina na fenda sináptica.',
+      'Efeito entactógeno e empatógeno profundo (ex: MDMA).'
+    ],
     clinicalSignificance: 'O alvo primário dos Inibidores Seletivos da Recaptação de Serotonina (ISRS) e Duais.'
   },
   'NET': {
@@ -160,6 +165,11 @@ export const RECEPTOR_CLINICAL_PROFILES: Record<string, ReceptorClinicalProfile>
       'Aumento da energia, foco e frequência cardíaca.',
       'Efeito secundário no aumento de Dopamina no Córtex Pré-Frontal (onde não há DAT).'
     ],
+    activationEffects: [
+      'Efeitos da Inversão do Transportador (Substratos/Liberadores):',
+      'Liberação excessiva e rápida de noradrenalina (ex: Anfetaminas).',
+      'Aumento dramático no tônus simpático (alerta, taquicardia, pressão arterial elevada).'
+    ],
     clinicalSignificance: 'Fundamental no tratamento do TDAH (Atomoxetina, Bupropiona, Estimulantes) e depressão melancólica ou com retardo motor.'
   },
   'DAT': {
@@ -168,6 +178,11 @@ export const RECEPTOR_CLINICAL_PROFILES: Record<string, ReceptorClinicalProfile>
       'Aumento brusco de Dopamina no estriado e accumbens.',
       'Efeito estimulante clássico, melhora drástica da atenção e motivação.',
       'Potencial de dependência e euforia.'
+    ],
+    activationEffects: [
+      'Efeitos da Inversão do Transportador (Substratos/Liberadores):',
+      'Transporte reverso bombeando dopamina ativamente para fora do neurônio (ex: Anfetaminas).',
+      'Euforia intensa, altíssimo potencial de abuso e neurotoxicidade em altas doses.'
     ],
     clinicalSignificance: 'Alvo chave de estimulantes (Metilfenidato, Anfetaminas) e responsável pelo alívio rápido dos sintomas de TDAH.'
   },
