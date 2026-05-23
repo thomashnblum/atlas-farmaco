@@ -13,22 +13,22 @@ export const MoleculeCard = ({ molecule, onClick }: MoleculeCardProps) => {
       onClick={onClick}
       className="bg-zinc-900 border border-zinc-800 p-5 rounded-xl hover:border-zinc-700 transition-all cursor-pointer flex flex-col h-full group"
     >
-      <div className="flex justify-between items-start mb-4">
-        <div>
+      <div className="flex justify-between items-start mb-4 gap-2">
+        <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2 flex-wrap">
-            <h3 className="text-lg font-bold text-amber-400 group-hover:text-amber-300 transition-colors">{molecule.name}</h3>
+            <h3 className="text-lg font-bold text-amber-400 group-hover:text-amber-300 transition-colors break-words">{molecule.name}</h3>
             {molecule.profileSymbols && molecule.profileSymbols.length > 0 && (
-              <div className="flex gap-1" onClick={(e) => e.stopPropagation()}>
+              <div className="flex gap-1 shrink-0" onClick={(e) => e.stopPropagation()}>
                 {molecule.profileSymbols.map((sym) => (
-                  <ProfileSymbolBadge key={sym} symbolKey={sym} size="sm" tooltipPosition="bottom" />
+                  <ProfileSymbolBadge key={sym} symbolKey={sym} size="sm" />
                 ))}
               </div>
             )}
           </div>
-          <p className="text-xs text-zinc-500 font-medium font-mono lowercase">{molecule.tradeNames.join(', ')}</p>
+          <p className="text-xs text-zinc-500 font-medium font-mono lowercase truncate">{molecule.tradeNames.join(', ')}</p>
         </div>
-        <span className="inline-flex items-center rounded bg-amber-400/10 px-1.5 py-0.5 text-[10px] font-bold text-amber-400 border border-amber-400/20 uppercase text-right shrink-0">
-          {molecule.class}
+        <span className="inline-flex items-center rounded bg-amber-400/10 px-1.5 py-0.5 text-[9px] sm:text-[10px] font-bold text-amber-400 border border-amber-400/20 uppercase text-center shrink-0 max-w-[45%]">
+          <span className="truncate">{molecule.class}</span>
         </span>
       </div>
       

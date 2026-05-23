@@ -243,7 +243,7 @@ export const pdInteractions: MoleculeReceptorInteraction[] = [
   { moleculeId: 'm47', receptorId: 'r17', actionType: 'Antagonista', affinityKi: 0.22 },
   { moleculeId: 'm47', receptorId: 'r18', actionType: 'Antagonista', affinityKi: 2.8 },
   { moleculeId: 'm48', receptorId: 'r19', actionType: 'Antagonista', affinityKi: null },
-  { moleculeId: 'm49', receptorId: 'r20', actionType: 'Outro', affinityKi: null },
+  { moleculeId: 'm49', receptorId: 'r20', actionType: 'Precursor / Modulador', affinityKi: null },
   { moleculeId: 'm49', receptorId: 'r19', actionType: 'Modulador Alostérico', affinityKi: null, notes: 'Modulação indireta do receptor NMDA via glutationa/xCT.' },
   { moleculeId: 'm50', receptorId: 'r19', actionType: 'Antagonista', affinityKi: null },
   { moleculeId: 'm50', receptorId: 'r5', actionType: 'Inibidor de Recaptação', affinityKi: null, notes: 'Inibição fraca do DAT contribui para efeitos estimulantes.' },

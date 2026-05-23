@@ -78,9 +78,12 @@ export const NavigatorPage = () => {
                 value=""
               >
                 <option value="" disabled>ESCOLHA UM FÁRMACO...</option>
-                {molecules.filter(m => !selectedIds.includes(m.id)).map(m => (
-                  <option key={m.id} value={m.id}>{m.name.toUpperCase()}</option>
-                ))}
+                {[...molecules]
+                  .sort((a, b) => a.name.localeCompare(b.name))
+                  .filter(m => !selectedIds.includes(m.id))
+                  .map(m => (
+                    <option key={m.id} value={m.id}>{m.name.toUpperCase()}</option>
+                  ))}
               </select>
             </div>
           </div>

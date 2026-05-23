@@ -21,7 +21,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
     { name: 'Catálogo de Fármacos', href: '/molecules', icon: BookOpen },
     { name: 'Catálogo de Enzimas', href: '/enzymes', icon: Beaker },
     { name: 'Catálogo de Receptores', href: '/receptors', icon: Activity },
-    { name: 'Navegador Dinâmico (PK/PD)', href: '/navigator', icon: Sparkles },
+    { name: 'Simulador de Interações', href: '/navigator', icon: Sparkles },
     { name: 'Comparar', href: '/compare', icon: SlidersHorizontal },
     { name: 'Glossário de Símbolos', href: '/glossary', icon: Info },
   ];
@@ -56,7 +56,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-zinc-950 text-zinc-100 font-sans">
+    <div className="flex flex-col min-h-screen bg-zinc-950 text-zinc-100 font-sans overflow-x-hidden">
       <header className="h-16 border-b border-zinc-800 bg-zinc-900/50 flex items-center justify-between px-4 md:px-8 shrink-0 sticky top-0 z-50 backdrop-blur-sm gap-4">
         <div className="flex items-center space-x-3 shrink-0">
           <div className="w-8 h-8 bg-amber-400 rounded flex items-center justify-center shrink-0">
