@@ -173,7 +173,8 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
           
           <div className="flex items-center ml-4 pl-4 border-l border-zinc-800">
             {session ? (
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-4">
+                <Link to="/admin" className="text-xs font-bold text-amber-500 hover:text-amber-400 uppercase tracking-widest border border-amber-500/30 px-2 py-1 rounded bg-amber-500/10">CMS Admin</Link>
                 <div className="flex items-center gap-2 text-zinc-400">
                   <UserIcon className="w-4 h-4" />
                   <span className="hidden lg:inline">{user?.email?.split('@')[0]}</span>

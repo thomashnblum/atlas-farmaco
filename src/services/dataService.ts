@@ -99,5 +99,53 @@ export const dataService = {
   getPharmacokinetics: (moleculeId?: string): MoleculeEnzymeInteraction[] => {
     if (!moleculeId) return pkInteractions;
     return pkInteractions.filter(pk => pk.moleculeId === moleculeId);
+  },
+
+  // CRUD Operations para o Painel Administrativo (CMS)
+  createMolecule: async (molecule: Partial<Molecule>) => {
+    const { error } = await supabase.from('molecules').insert([{
+      id: molecule.id,
+      name: molecule.name,
+      trade_names: molecule.tradeNames || [],
+      class: molecule.class,
+      clinical_axes: molecule.clinicalAxes || [],
+      mechanisms: molecule.mechanisms,
+      notes: molecule.notes,
+      side_effects: molecule.sideEffects || [],
+      contraindications: molecule.contraindications || [],
+      routes: molecule.routes || [],
+      psychiatry_use: molecule.psychiatryUse,
+      off_label_uses: molecule.offLabelUses || [],
+      on_label_uses: molecule.onLabelUses || [],
+      profile_symbols: molecule.profileSymbols || []
+    }]);
+    if (error) throw error;
+    await dataService.loadData(); // Recarrega os caches
+  },
+
+  updateMolecule: async (id: string, molecule: Partial<Molecule>) => {
+    const { error } = await supabase.from('molecules').update({
+      name: molecule.name,
+      trade_names: molecule.tradeNames,
+      class: molecule.class,
+      clinical_axes: molecule.clinicalAxes,
+      mechanisms: molecule.mechanisms,
+      notes: molecule.notes,
+      side_effects: molecule.sideEffects,
+      contraindications: molecule.contraindications,
+      routes: molecule.routes,
+      psychiatry_use: molecule.psychiatryUse,
+      off_label_uses: molecule.offLabelUses,
+      on_label_uses: molecule.onLabelUses,
+      profile_symbols: molecule.profileSymbols
+    }).eq('id', id);
+    if (error) throw error;
+    await dataService.loadData();
+  },
+
+  deleteMolecule: async (id: string) => {
+    const { error } = await supabase.from('molecules').delete().eq('id', id);
+    if (error) throw error;
+    await dataService.loadData();
   }
 };

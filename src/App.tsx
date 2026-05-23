@@ -16,6 +16,7 @@ import { EnzymesPage } from './pages/EnzymesPage';
 import { ReceptorsPage } from './pages/ReceptorsPage';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
+import { AdminPage } from './pages/AdminPage';
 import { AuthProvider } from './context/AuthContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
 
@@ -73,6 +74,11 @@ export default function App() {
               <Route path="/atlas" element={
                 <ProtectedRoute>
                   <AtlasViewPage />
+                </ProtectedRoute>
+              } />
+              <Route path="/admin" element={
+                <ProtectedRoute>
+                  <AdminPage />
                 </ProtectedRoute>
               } />
             </Routes>
