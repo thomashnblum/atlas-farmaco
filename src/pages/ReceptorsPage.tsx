@@ -4,6 +4,7 @@ import { Network, Search, Filter, Fingerprint, Info, Brain, Zap, Activity, Arrow
 import { dataService } from '../services/dataService';
 import { cn } from '../utils/cn';
 import { Receptor } from '../data/schema';
+import { RECEPTOR_CLINICAL_PROFILES } from '../data/clinicalKnowledge';
 
 export const ReceptorsPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -88,8 +89,44 @@ export const ReceptorsPage = () => {
     const allPd = dataService.getPharmacodynamics();
     const relatedInteractions = allPd.filter(pd => pd.receptorId === selectedReceptor.id);
 
+    // Agrupar interações
+    const antagonists = relatedInteractions.filter(i => i.actionType.toLowerCase().includes('antagonista') || i.actionType.toLowerCase().includes('inibidor'));
+    const agonists = relatedInteractions.filter(i => i.actionType.toLowerCase().includes('agonista'));
+    const modulators = relatedInteractions.filter(i => !antagonists.includes(i) && !agonists.includes(i));
+
+    // Perfil Clínico
+    const clinicalProfile = RECEPTOR_CLINICAL_PROFILES[selectedReceptor.name];
+
+    // Helper para cor do Ki
+    const getKiColor = (ki: number | null | undefined) => {
+      if (ki == null) return 'text-zinc-500';
+      if (ki < 1) return 'text-rose-400 font-bold'; // Muito forte
+      if (ki < 10) return 'text-amber-400 font-bold'; // Forte
+      if (ki < 100) return 'text-emerald-400'; // Moderada
+      return 'text-zinc-400'; // Fraca
+    };
+
+    const renderInteractionCard = (interaction: any, bgColor: string, borderColor: string, iconColor: string) => {
+      const molecule = dataService.getMoleculeById(interaction.moleculeId);
+      if (!molecule) return null;
+      return (
+        <div key={interaction.moleculeId} onClick={() => navigate('/molecules', { state: { selectedMoleculeId: interaction.moleculeId } })} className={cn("p-4 rounded-xl border flex items-center justify-between cursor-pointer transition-all hover:scale-[1.02]", bgColor, borderColor)}>
+          <div>
+            <h4 className={cn("font-bold text-sm mb-1", iconColor)}>{molecule.name}</h4>
+            <span className="text-[10px] uppercase tracking-widest text-zinc-500 font-mono">{interaction.actionType}</span>
+          </div>
+          <div className="text-right">
+            <div className="text-xs text-zinc-500 uppercase tracking-widest font-mono mb-1">Afinidade (Ki)</div>
+            <div className={cn("font-mono text-sm", getKiColor(interaction.affinityKi))}>
+              {interaction.affinityKi != null ? `${interaction.affinityKi} nM` : 'N/D'}
+            </div>
+          </div>
+        </div>
+      );
+    };
+
     return (
-      <div className="p-6 md:p-8 max-w-7xl mx-auto">
+      <div className="p-6 md:p-8 max-w-5xl mx-auto">
         <button 
           onClick={() => setSelectedReceptor(null)}
           className="flex items-center gap-2 text-sm font-bold text-rose-400 hover:text-rose-300 mb-6 transition uppercase tracking-wider"
@@ -97,90 +134,123 @@ export const ReceptorsPage = () => {
           <ArrowLeft className="w-4 h-4" /> Voltar ao Catálogo de Receptores
         </button>
 
-        <div className="bg-zinc-900 rounded-2xl p-6 md:p-8 border border-zinc-800 shadow-2xl relative">
-          <div className="mb-8 border-b border-zinc-800 pb-6 flex justify-between items-start flex-wrap gap-4">
+        {/* HERO SECTION */}
+        <div className="bg-zinc-900 rounded-3xl p-8 md:p-10 border border-zinc-800 shadow-2xl relative mb-8 overflow-hidden">
+          <div className={cn("absolute top-0 left-0 w-full h-2", getSystemColor(selectedReceptor.neurotransmitterSystem).split(' ')[1])}></div>
+          <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-white/5 to-transparent rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
+          
+          <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
             <div>
-              <div className="flex items-center gap-3 flex-wrap">
-                <h1 className="text-3xl font-extrabold text-zinc-100">{selectedReceptor.name}</h1>
+              <div className="flex items-center gap-3 mb-4">
                 <span className={cn(
-                  "px-3 py-1 rounded text-xs font-bold uppercase tracking-wider border",
+                  "px-3 py-1 rounded text-[10px] font-bold uppercase tracking-widest border",
                   getSystemColor(selectedReceptor.neurotransmitterSystem)
                 )}>
                   {selectedReceptor.neurotransmitterSystem}
                 </span>
+                <span className="px-3 py-1 rounded text-[10px] font-bold uppercase tracking-widest border border-zinc-700 bg-zinc-800 text-zinc-300 flex items-center gap-1">
+                  {getTypeIcon(selectedReceptor.type)} {selectedReceptor.type}
+                </span>
               </div>
-              <div className="flex items-center gap-2 text-zinc-400 mt-3 font-mono text-sm">
-                {getTypeIcon(selectedReceptor.type)}
-                <span>{selectedReceptor.type}</span>
-              </div>
+              <h1 className="text-4xl md:text-5xl font-black text-zinc-100 tracking-tight">{selectedReceptor.name}</h1>
+            </div>
+            
+            <div className="w-full md:w-1/2 bg-zinc-950/50 p-5 rounded-2xl border border-zinc-800/80">
+              <h3 className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-2 font-mono">Descrição Biológica</h3>
+              <p className="text-sm text-zinc-300 leading-relaxed">
+                {selectedReceptor.description}
+              </p>
             </div>
           </div>
+        </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-            <div className="col-span-1 space-y-8">
-              <section>
-                <h3 className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-3 font-mono">Descrição do Alvo Biológico</h3>
-                <p className="text-zinc-300 leading-relaxed text-sm bg-zinc-800/40 border border-zinc-700/50 p-4 rounded-lg">
-                  {selectedReceptor.description}
-                </p>
-              </section>
-            </div>
+        {/* CLINICAL DICTIONARY SECTION */}
+        {clinicalProfile && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            {clinicalProfile.blockadeEffects && clinicalProfile.blockadeEffects.length > 0 && (
+              <div className="bg-rose-500/5 border border-rose-500/20 rounded-2xl p-6">
+                <h3 className="text-xs font-bold text-rose-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-rose-500"></span> Efeitos do Bloqueio (Antagonismo)
+                </h3>
+                <ul className="space-y-3">
+                  {clinicalProfile.blockadeEffects.map((effect, idx) => (
+                    <li key={idx} className="text-sm text-zinc-300 leading-relaxed flex items-start gap-2">
+                      <span className="text-rose-500/50 mt-1">■</span> {effect}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            
+            {clinicalProfile.activationEffects && clinicalProfile.activationEffects.length > 0 && (
+              <div className="bg-emerald-500/5 border border-emerald-500/20 rounded-2xl p-6">
+                <h3 className="text-xs font-bold text-emerald-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500"></span> Efeitos da Ativação (Agonismo)
+                </h3>
+                <ul className="space-y-3">
+                  {clinicalProfile.activationEffects.map((effect, idx) => (
+                    <li key={idx} className="text-sm text-zinc-300 leading-relaxed flex items-start gap-2">
+                      <span className="text-emerald-500/50 mt-1">■</span> {effect}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            
+            {clinicalProfile.clinicalSignificance && (
+              <div className="md:col-span-2 bg-indigo-500/5 border border-indigo-500/20 rounded-2xl p-6">
+                <h3 className="text-xs font-bold text-indigo-400 uppercase tracking-widest mb-2 flex items-center gap-2">
+                  <Activity className="w-4 h-4" /> Importância Clínica na Psiquiatria
+                </h3>
+                <p className="text-sm text-zinc-300 leading-relaxed italic">"{clinicalProfile.clinicalSignificance}"</p>
+              </div>
+            )}
+          </div>
+        )}
 
-            <div className="col-span-1 lg:col-span-2 space-y-8">
-              <section>
-                <div className="flex items-center gap-2 mb-4 border-b border-zinc-800 pb-3">
-                  <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
-                  <h3 className="font-bold tracking-widest text-zinc-100 uppercase text-sm">
-                    Fármacos Agonistas / Antagonistas
-                  </h3>
-                </div>
-                
-                {relatedInteractions.length > 0 ? (
-                  <div className="border border-zinc-800 rounded-xl overflow-hidden bg-zinc-900/50">
-                    <table className="min-w-full divide-y divide-zinc-800 text-left text-sm">
-                      <thead className="bg-zinc-800/80">
-                        <tr>
-                          <th className="px-4 py-3 font-mono text-[10px] uppercase font-bold text-zinc-500 tracking-widest">Fármaco (Molécula)</th>
-                          <th className="px-4 py-3 font-mono text-[10px] uppercase font-bold text-zinc-500 tracking-widest">Ação no Receptor</th>
-                          <th className="px-4 py-3 font-mono text-[10px] uppercase font-bold text-zinc-500 tracking-widest">Afinidade (Ki)</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-zinc-800/50">
-                        {relatedInteractions.map((interaction, i) => {
-                          const molecule = dataService.getMoleculeById(interaction.moleculeId);
-                          return (
-                            <tr key={`${interaction.moleculeId}-${i}`} className="hover:bg-zinc-800/30 transition-colors">
-                              <td className="px-4 py-3 font-bold text-zinc-200">
-                                <button 
-                                  onClick={() => navigate('/molecules', { state: { selectedMoleculeId: interaction.moleculeId } })}
-                                  className="hover:text-amber-400 transition-colors text-left"
-                                >
-                                  {molecule?.name}
-                                </button>
-                              </td>
-                              <td className="px-4 py-3">
-                                <span className="inline-flex rounded text-[10px] bg-zinc-800 border border-zinc-700 px-2 py-0.5 font-bold uppercase tracking-wider text-rose-400/80">
-                                  {interaction.actionType}
-                                </span>
-                              </td>
-                              <td className="px-4 py-3 text-[11px] font-mono font-bold text-rose-300">
-                                {interaction.affinityKi != null ? `${interaction.affinityKi} nM` : <span className="text-zinc-500 font-mono">N/D</span>}
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
-                  </div>
-                ) : (
-                  <div className="flex flex-col items-center justify-center p-8 bg-zinc-900/20 border border-zinc-800/50 rounded-xl border-dashed">
-                    <Info className="w-8 h-8 text-zinc-600 mb-2" />
-                    <p className="text-zinc-500 text-sm italic font-mono">Nenhum fármaco mapeado interagindo primariamente com este alvo.</p>
-                  </div>
+        {/* INTERACTION MATRIX */}
+        <div className="space-y-8">
+          <h2 className="text-xl font-bold text-zinc-100 border-b border-zinc-800 pb-4">Matriz de Interação Farmacológica</h2>
+          
+          {antagonists.length > 0 && (
+            <section>
+              <h3 className="text-xs font-bold text-rose-400 uppercase tracking-widest mb-4 font-mono">Antagonistas / Bloqueadores / Inibidores</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {antagonists.sort((a, b) => (a.affinityKi || 9999) - (b.affinityKi || 9999)).map(interaction => 
+                  renderInteractionCard(interaction, 'bg-zinc-900', 'border-rose-500/20 hover:border-rose-500/50', 'text-rose-100 group-hover:text-rose-400')
                 )}
-              </section>
+              </div>
+            </section>
+          )}
+
+          {agonists.length > 0 && (
+            <section>
+              <h3 className="text-xs font-bold text-emerald-400 uppercase tracking-widest mb-4 font-mono">Agonistas (Totais e Parciais)</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {agonists.sort((a, b) => (a.affinityKi || 9999) - (b.affinityKi || 9999)).map(interaction => 
+                  renderInteractionCard(interaction, 'bg-zinc-900', 'border-emerald-500/20 hover:border-emerald-500/50', 'text-emerald-100 group-hover:text-emerald-400')
+                )}
+              </div>
+            </section>
+          )}
+
+          {modulators.length > 0 && (
+            <section>
+              <h3 className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-4 font-mono">Moduladores Alostéricos e Outros</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {modulators.sort((a, b) => (a.affinityKi || 9999) - (b.affinityKi || 9999)).map(interaction => 
+                  renderInteractionCard(interaction, 'bg-zinc-900', 'border-amber-500/20 hover:border-amber-500/50', 'text-amber-100 group-hover:text-amber-400')
+                )}
+              </div>
+            </section>
+          )}
+
+          {relatedInteractions.length === 0 && (
+            <div className="flex flex-col items-center justify-center p-12 bg-zinc-900/20 border border-zinc-800/50 rounded-2xl border-dashed">
+              <Info className="w-8 h-8 text-zinc-600 mb-3" />
+              <p className="text-zinc-500 text-sm italic font-mono">Nenhum fármaco mapeado interagindo primariamente com este alvo no banco de dados atual.</p>
             </div>
-          </div>
+          )}
         </div>
       </div>
     );
