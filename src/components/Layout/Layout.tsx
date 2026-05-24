@@ -152,7 +152,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
           )}
         </div>
         
-        <nav className="hidden md:flex space-x-2 lg:space-x-4 text-[13px] font-medium h-full shrink-0">
+        <nav className="hidden xl:flex space-x-1 lg:space-x-3 text-[12px] font-medium h-full shrink-0 items-center">
           {navigation.map((item) => {
             const isActive = location.pathname === item.href;
             return (
@@ -160,7 +160,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
                 key={item.name}
                 to={item.href}
                 className={cn(
-                  "flex items-center gap-2 transition-colors h-full border-b-2 border-transparent",
+                  "flex items-center gap-1.5 transition-colors h-full border-b-2 border-transparent px-1",
                   isActive 
                     ? "text-amber-300 border-amber-300" 
                     : "text-zinc-500 hover:text-zinc-100"
@@ -203,7 +203,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
         </nav>
         
         <button 
-          className="md:hidden p-2 text-zinc-500 hover:text-zinc-100"
+          className="xl:hidden p-2 text-zinc-500 hover:text-zinc-100 ml-auto"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
           <Menu className="w-5 h-5" />
@@ -211,7 +211,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
       </header>
 
       {mobileMenuOpen && (
-        <div className="md:hidden bg-zinc-900 border-b border-zinc-800 p-4 space-y-2">
+        <div className="xl:hidden bg-zinc-900 border-b border-zinc-800 p-4 space-y-2">
           {navigation.map((item) => {
             const isActive = location.pathname === item.href;
             return (
