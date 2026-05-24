@@ -102,12 +102,13 @@ export const DashboardPage = () => {
           </div>
           
           <div className="hidden lg:flex items-center justify-center relative">
-            <div className="absolute inset-0 bg-gradient-to-l from-transparent via-zinc-900/20 to-zinc-900/80 z-10 rounded-3xl mix-blend-overlay pointer-events-none" />
-            <img 
-              src="/hero_art.png" 
-              alt="Neural Network Art" 
-              className="w-full max-w-md object-cover rounded-3xl opacity-80 mix-blend-lighten shadow-[0_0_50px_rgba(236,72,153,0.15)] border border-white/5"
-            />
+            <div className="relative z-10 p-1 bg-zinc-950 rounded-3xl border border-zinc-800 shadow-2xl overflow-hidden aspect-square flex items-center justify-center group">
+              <img 
+                src="/hero_network_v2.png" 
+                alt="Grafo Relacional Farmacológico"
+                className="w-full h-full object-cover rounded-[1.4rem] opacity-70 group-hover:opacity-100 transition-opacity duration-700"
+              />
+            </div>
           </div>
         </div>
       </section>

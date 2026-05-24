@@ -15,7 +15,7 @@ export const GlossaryPage = () => {
     sym.shortLabel.toLowerCase().includes(searchQuery.toLowerCase()) ||
     sym.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
     sym.clinicalSignificance.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  ).sort((a, b) => a.label.localeCompare(b.label));
 
   return (
     <div className="p-6 md:p-8 flex flex-col h-full overflow-y-auto">

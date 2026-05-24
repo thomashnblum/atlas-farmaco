@@ -315,37 +315,47 @@ export const ReceptorsPage = () => {
         </div>
       </div>
 
-      {/* Grid of Receptors */}
+      {/* Grouped Grid of Receptors */}
       {filteredReceptors.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filteredReceptors.map(receptor => (
-            <button 
-              key={receptor.id}
-              onClick={() => setSelectedReceptor(receptor)}
-              className="bg-zinc-900/40 border border-zinc-800/80 rounded-xl p-6 hover:border-rose-500/50 hover:bg-zinc-900/80 transition-all group flex flex-col text-left active:scale-95 shadow-lg hover:shadow-rose-900/20"
-            >
-              <div className="flex justify-between items-start mb-4 w-full">
-                <h3 className="text-xl font-bold text-zinc-100 group-hover:text-rose-400 transition-colors">
-                  {receptor.name}
-                </h3>
-                <span className={cn(
-                  "px-2.5 py-1 rounded text-[10px] font-bold uppercase tracking-wider border",
-                  getSystemColor(receptor.neurotransmitterSystem)
-                )}>
-                  {receptor.neurotransmitterSystem}
-                </span>
+        <div className="space-y-12">
+          {systems.map(sys => {
+            const sysReceptors = filteredReceptors.filter(r => r.neurotransmitterSystem === sys).sort((a, b) => a.name.localeCompare(b.name));
+            
+            if (sysReceptors.length === 0) return null;
+
+            return (
+              <div key={sys} className="space-y-4">
+                <h2 className={cn("text-xl font-bold uppercase tracking-widest border-b pb-2 flex items-center gap-3", getSystemColor(sys).replace('bg-', 'border-').split(' ')[0])}>
+                  {sys}
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {sysReceptors.map(receptor => (
+                    <button 
+                      key={receptor.id}
+                      onClick={() => setSelectedReceptor(receptor)}
+                      className="bg-zinc-900/40 border border-zinc-800/80 rounded-xl p-6 hover:border-rose-500/50 hover:bg-zinc-900/80 transition-all group flex flex-col text-left active:scale-95 shadow-lg hover:shadow-rose-900/20"
+                    >
+                      <div className="flex justify-between items-start mb-4 w-full">
+                        <h3 className="text-xl font-bold text-zinc-100 group-hover:text-rose-400 transition-colors">
+                          {receptor.name}
+                        </h3>
+                        <span className={cn(
+                          "px-2.5 py-1 rounded text-[10px] font-bold uppercase tracking-wider border",
+                          getSystemColor(receptor.neurotransmitterSystem)
+                        )}>
+                          {receptor.type}
+                        </span>
+                      </div>
+                      
+                      <p className="text-zinc-400 text-sm leading-relaxed flex-1 w-full">
+                        {receptor.description}
+                      </p>
+                    </button>
+                  ))}
+                </div>
               </div>
-              
-              <div className="flex items-center gap-2 text-zinc-500 mb-4 bg-zinc-950/50 px-3 py-2 rounded-lg text-sm border border-zinc-900 w-full">
-                {getTypeIcon(receptor.type)}
-                <span>{receptor.type}</span>
-              </div>
-              
-              <p className="text-zinc-400 text-sm leading-relaxed flex-1 w-full">
-                {receptor.description}
-              </p>
-            </button>
-          ))}
+            );
+          })}
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center p-12 bg-zinc-900/20 border border-zinc-800/50 rounded-xl border-dashed">

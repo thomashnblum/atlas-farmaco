@@ -35,9 +35,9 @@ export const MoleculeIndexPage = () => {
     }
   }, [location.state, navigate, location.pathname, setSearchParams]);
 
-  const molecules = axisFilter 
+  const molecules = (axisFilter 
     ? allMolecules.filter(m => m.clinicalAxes.includes(axisFilter as any))
-    : allMolecules;
+    : allMolecules).sort((a, b) => a.name.localeCompare(b.name));
 
   if (selectedMolecule) {
     const pd = dataService.getPharmacodynamics(selectedMolecule.id);
