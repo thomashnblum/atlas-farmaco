@@ -68,41 +68,54 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
           </h1>
         </div>
 
-        <div className="flex-1 max-w-sm relative hidden sm:block" ref={searchRef}>
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -tranzinc-y-1/2 w-4 h-4 text-zinc-500" />
-            <input 
-              type="text" 
-              placeholder="Buscar..." 
-              className="w-full bg-zinc-950 border border-zinc-800 rounded-full py-1.5 pl-9 pr-4 text-sm text-zinc-100 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-colors"
+        <div className="flex-1 max-w-md xl:max-w-lg mx-4 relative hidden md:block" ref={searchRef}>
+          <div className="relative group">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500 group-focus-within:text-amber-400 transition-colors" />
+            <input
+              type="text"
+              placeholder="Pesquise no Atlas..."
               value={searchQuery}
-              onChange={(e) => {
-                setSearchQuery(e.target.value);
-                setSearchOpen(true);
-              }}
+              onChange={(e) => setSearchQuery(e.target.value)}
               onFocus={() => setSearchOpen(true)}
+              className="w-full bg-zinc-900 border border-zinc-800 rounded-lg pl-9 pr-4 py-2 text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/50 transition-all"
             />
           </div>
-          
-          {searchOpen && searchQuery.length >= 2 && (
-            <div className="absolute top-full mt-2 w-full bg-zinc-900 border border-zinc-800 rounded-xl shadow-2xl overflow-hidden max-h-96 overflow-y-auto">
-              {hasResults ? (
+          {searchOpen && searchQuery.length > 1 && (
+            <div className="absolute top-full left-0 right-0 mt-2 bg-zinc-900 border border-zinc-800 rounded-xl shadow-2xl overflow-hidden max-h-96 overflow-y-auto z-50">
+              {results.molecules.length > 0 || results.receptors.length > 0 || results.disorders.length > 0 || results.enzymes.length > 0 ? (
                 <div className="py-2">
                   {results.molecules.length > 0 && (
                     <div className="px-3 pb-2">
-                      <h4 className="text-[10px] uppercase tracking-widest font-bold text-zinc-500 mb-1">Moléculas</h4>
+                      <h4 className="text-[10px] uppercase tracking-widest font-bold text-zinc-500 mb-1">Fármacos</h4>
                       {results.molecules.map(m => (
                         <div 
                           key={m.id} 
-                           className="px-2 py-1.5 hover:bg-zinc-800 rounded cursor-pointer text-sm text-amber-300"
-                           onClick={() => {
-                             setSearchOpen(false);
-                             setSearchQuery('');
-                             // Simulating navigation by directing to Molecule Index (in a real app we'd pass ID through URL or state)
-                             navigate('/molecules', { state: { selectedId: m.id } });
-                           }}
+                          className="px-2 py-1.5 hover:bg-zinc-800 rounded cursor-pointer text-sm text-zinc-300"
+                          onClick={() => {
+                            setSearchOpen(false);
+                            setSearchQuery('');
+                            navigate('/molecules', { state: { selectedMoleculeId: m.id } });
+                          }}
                         >
-                          {m.name} <span className="text-zinc-500 text-xs">({m.tradeNames[0]})</span>
+                          {m.name}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {results.disorders.length > 0 && (
+                    <div className="px-3 pb-2">
+                      <h4 className="text-[10px] uppercase tracking-widest font-bold text-zinc-500 mb-1">Transtornos</h4>
+                      {results.disorders.map(d => (
+                        <div 
+                          key={d.id} 
+                          className="px-2 py-1.5 hover:bg-zinc-800 rounded cursor-pointer text-sm text-amber-400"
+                          onClick={() => {
+                            setSearchOpen(false);
+                            setSearchQuery('');
+                            navigate(`/disorders/${d.id}`);
+                          }}
+                        >
+                          {d.name}
                         </div>
                       ))}
                     </div>
@@ -117,8 +130,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
                           onClick={() => {
                             setSearchOpen(false);
                             setSearchQuery('');
-                            // Assuming navigation to atlas Highlights this node
-                            navigate('/atlas');
+                            navigate('/receptors', { state: { selectedReceptorId: r.id } });
                           }}
                         >
                           {r.name}
@@ -152,35 +164,37 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
           )}
         </div>
         
-        <nav className="hidden xl:flex space-x-1 lg:space-x-3 text-[12px] font-medium h-full shrink-0 items-center">
-          {navigation.map((item) => {
-            const isActive = location.pathname === item.href;
-            return (
-              <Link
-                key={item.name}
-                to={item.href}
-                className={cn(
-                  "flex items-center gap-1.5 transition-colors h-full border-b-2 border-transparent px-1",
-                  isActive 
-                    ? "text-amber-300 border-amber-300" 
-                    : "text-zinc-500 hover:text-zinc-100"
-                )}
-              >
-                <item.icon className="w-4 h-4" />
-                {item.name}
-              </Link>
-            );
-          })}
+        <div className="flex items-center gap-4 ml-auto xl:ml-0 overflow-hidden">
+          <nav className="hidden 2xl:flex space-x-1 lg:space-x-3 text-[12px] font-medium h-full items-center whitespace-nowrap">
+            {navigation.map((item) => {
+              const isActive = location.pathname === item.href;
+              return (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className={cn(
+                    "flex items-center gap-1.5 transition-colors h-16 border-b-2 border-transparent px-1",
+                    isActive 
+                      ? "text-amber-300 border-amber-300" 
+                      : "text-zinc-500 hover:text-zinc-100"
+                  )}
+                >
+                  <item.icon className="w-4 h-4" />
+                  {item.name}
+                </Link>
+              );
+            })}
+          </nav>
           
-          <div className="flex items-center ml-4 pl-4 border-l border-zinc-800">
+          <div className="hidden sm:flex items-center pl-4 xl:border-l xl:border-zinc-800 shrink-0">
             {session ? (
-              <div className="flex items-center gap-3 md:gap-4">
+              <div className="flex items-center gap-3">
                 {user?.email === 'thomas.n.blum@gmail.com' && (
-                  <Link to="/admin" className="text-[10px] md:text-xs font-bold text-amber-500 hover:text-amber-400 uppercase tracking-widest border border-amber-500/30 px-2 py-1 rounded bg-amber-500/10 whitespace-nowrap">CMS Admin</Link>
+                  <Link to="/admin" className="text-[10px] font-bold text-amber-500 hover:text-amber-400 uppercase tracking-widest border border-amber-500/30 px-2 py-1 rounded bg-amber-500/10 whitespace-nowrap shrink-0">CMS Admin</Link>
                 )}
-                <div className="flex items-center gap-1.5 md:gap-2 text-zinc-400 max-w-[80px] md:max-w-[120px]">
+                <div className="flex items-center gap-1.5 text-zinc-400 max-w-[100px] sm:max-w-[150px]">
                   <UserIcon className="w-4 h-4 shrink-0" />
-                  <span className="truncate text-xs">{user?.email?.split('@')[0]}</span>
+                  <span className="truncate text-xs font-mono">{user?.email?.split('@')[0]}</span>
                 </div>
                 <button
                   onClick={handleLogout}
@@ -193,17 +207,17 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
             ) : (
               <Link
                 to="/login"
-                className="flex items-center gap-2 px-3 py-1.5 bg-amber-400/10 text-amber-400 hover:bg-amber-400/20 rounded-md transition-colors"
+                className="flex items-center gap-2 px-3 py-1.5 bg-amber-400/10 text-amber-400 hover:bg-amber-400/20 rounded-md transition-colors text-sm"
               >
                 <LogIn className="w-4 h-4" />
                 Entrar
               </Link>
             )}
           </div>
-        </nav>
+        </div>
         
         <button 
-          className="xl:hidden p-2 text-zinc-500 hover:text-zinc-100 ml-auto"
+          className="2xl:hidden p-2 text-zinc-500 hover:text-zinc-100 ml-2 shrink-0"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
           <Menu className="w-5 h-5" />
@@ -211,7 +225,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
       </header>
 
       {mobileMenuOpen && (
-        <div className="xl:hidden bg-zinc-900 border-b border-zinc-800 p-4 space-y-2">
+        <div className="2xl:hidden bg-zinc-900 border-b border-zinc-800 p-4 space-y-2 max-h-[80vh] overflow-y-auto">
           {navigation.map((item) => {
             const isActive = location.pathname === item.href;
             return (
