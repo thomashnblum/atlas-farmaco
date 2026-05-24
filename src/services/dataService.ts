@@ -7,17 +7,21 @@ let receptors: Receptor[] = [];
 let enzymes: MetabolicEnzyme[] = [];
 let pdInteractions: MoleculeReceptorInteraction[] = [];
 let pkInteractions: MoleculeEnzymeInteraction[] = [];
+let disorders: Disorder[] = [];
+let disorderTreatments: DisorderTreatment[] = [];
 
 export const dataService = {
   loadData: async () => {
     try {
       console.log('Iniciando sincronização com Supabase...');
-      const [molRes, recRes, enzRes, pdRes, pkRes] = await Promise.all([
+      const [molRes, recRes, enzRes, pdRes, pkRes, disRes, treatRes] = await Promise.all([
         supabase.from('molecules').select('*'),
         supabase.from('receptors').select('*'),
         supabase.from('enzymes').select('*'),
         supabase.from('pd_interactions').select('*'),
-        supabase.from('pk_interactions').select('*')
+        supabase.from('pk_interactions').select('*'),
+        supabase.from('disorders').select('*'),
+        supabase.from('disorder_treatments').select('*')
       ]);
 
       if (molRes.error) throw molRes.error;
@@ -25,6 +29,25 @@ export const dataService = {
       if (enzRes.error) throw enzRes.error;
       if (pdRes.error) throw pdRes.error;
       if (pkRes.error) throw pkRes.error;
+      // Transtornos podem falhar se as tabelas ainda não existirem (graceful degrade)
+      if (!disRes.error) {
+        disorders = (disRes.data || []).map((d: any) => ({
+          id: d.id,
+          name: d.name,
+          description: d.description,
+          cid10: d.cid10,
+          dsm5: d.dsm5
+        }));
+      }
+      if (!treatRes.error) {
+        disorderTreatments = (treatRes.data || []).map((t: any) => ({
+          id: t.id,
+          disorderId: t.disorder_id,
+          moleculeId: t.molecule_id,
+          line: t.line,
+          notes: t.notes
+        }));
+      }
 
       molecules = (molRes.data || []).map((m: any) => ({
         id: m.id,
@@ -147,5 +170,51 @@ export const dataService = {
     const { error } = await supabase.from('molecules').delete().eq('id', id);
     if (error) throw error;
     await dataService.loadData();
+  },
+
+  // === PD Interactions ===
+  addPDInteraction: async (pd: MoleculeReceptorInteraction) => {
+    const { error } = await supabase.from('pd_interactions').insert([{
+      molecule_id: pd.moleculeId,
+      receptor_id: pd.receptorId,
+      action_type: pd.actionType,
+      affinity_ki: pd.affinityKi,
+      notes: pd.notes
+    }]);
+    if (error) throw error;
+    await dataService.loadData();
+  },
+  removePDInteraction: async (moleculeId: string, receptorId: string) => {
+    const { error } = await supabase.from('pd_interactions')
+      .delete()
+      .match({ molecule_id: moleculeId, receptor_id: receptorId });
+    if (error) throw error;
+    await dataService.loadData();
+  },
+
+  // === PK Interactions ===
+  addPKInteraction: async (pk: MoleculeEnzymeInteraction) => {
+    const { error } = await supabase.from('pk_interactions').insert([{
+      molecule_id: pk.moleculeId,
+      enzyme_id: pk.enzymeId,
+      role: pk.role,
+      notes: pk.notes
+    }]);
+    if (error) throw error;
+    await dataService.loadData();
+  },
+  removePKInteraction: async (moleculeId: string, enzymeId: string) => {
+    const { error } = await supabase.from('pk_interactions')
+      .delete()
+      .match({ molecule_id: moleculeId, enzyme_id: enzymeId });
+    if (error) throw error;
+    await dataService.loadData();
+  },
+
+  // === Disorders ===
+  getDisorders: (): Disorder[] => disorders,
+  getDisorderById: (id: string): Disorder | undefined => disorders.find(d => d.id === id),
+  getTreatmentsForDisorder: (disorderId: string): DisorderTreatment[] => {
+    return disorderTreatments.filter(t => t.disorderId === disorderId);
   }
 };

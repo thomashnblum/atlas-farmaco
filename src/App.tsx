@@ -17,6 +17,8 @@ import { ReceptorsPage } from './pages/ReceptorsPage';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { AdminPage } from './pages/AdminPage';
+import { DisordersPage } from './pages/DisordersPage';
+import { DisorderDetailPage } from './pages/DisorderDetailPage';
 import { AuthProvider } from './context/AuthContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
 
@@ -60,6 +62,8 @@ export default function App() {
               
               {/* Rotas de Catálogo (Podem ser públicas para atrair SEO ou protegidas) */}
               <Route path="/molecules" element={<MoleculeIndexPage />} />
+              <Route path="/disorders" element={<DisordersPage />} />
+              <Route path="/disorders/:id" element={<DisorderDetailPage />} />
               <Route path="/enzymes" element={<EnzymesPage />} />
               <Route path="/receptors" element={<ReceptorsPage />} />
               <Route path="/compare" element={<ComparePage />} />

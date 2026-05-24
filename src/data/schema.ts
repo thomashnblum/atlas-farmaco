@@ -89,3 +89,19 @@ export interface MoleculeEnzymeInteraction {
   notes?: string;
   sources?: string[];
 }
+
+export interface Disorder {
+  id: string;
+  name: string;
+  description: string;
+  cid10?: string;
+  dsm5?: string;
+}
+
+export interface DisorderTreatment {
+  id?: string;
+  disorderId: string;
+  moleculeId: string;
+  line: '1ª Linha' | '2ª Linha' | '3ª Linha' | 'Adjuvante' | 'Refratária' | 'Off-label';
+  notes?: string;
+}

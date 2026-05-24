@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { cn } from '../../utils/cn';
-import { Network, Search, BookOpen, Menu, Sparkles, SlidersHorizontal, Beaker, Info, LogOut, User as UserIcon, LogIn, Activity } from 'lucide-react';
+import { Network, Search, BookOpen, Menu, Sparkles, SlidersHorizontal, Beaker, Info, LogOut, User as UserIcon, LogIn, Activity, Brain } from 'lucide-react';
 import { dataService } from '../../services/dataService';
 import { useAuth } from '../../context/AuthContext';
 import { supabase } from '../../services/supabaseClient';
@@ -19,6 +19,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
     { name: 'Dashboard', href: '/', icon: Network },
     { name: 'Atlas Relacional', href: '/atlas', icon: Search },
     { name: 'Catálogo de Fármacos', href: '/molecules', icon: BookOpen },
+    { name: 'Catálogo de Transtornos', href: '/disorders', icon: Brain },
     { name: 'Catálogo de Enzimas', href: '/enzymes', icon: Beaker },
     { name: 'Catálogo de Receptores', href: '/receptors', icon: Activity },
     { name: 'Simulador de Interações', href: '/navigator', icon: Sparkles },
