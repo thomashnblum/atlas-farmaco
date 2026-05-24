@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { dataService } from '../services/dataService';
 import { Disorder, DisorderTreatment } from '../data/schema';
 import { Brain, ArrowLeft, Activity, Info, Pill } from 'lucide-react';
+import { DISORDER_CLINICAL_PROFILES } from '../data/clinicalKnowledge';
 
 export const DisorderDetailPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -42,6 +43,8 @@ export const DisorderDetailPage = () => {
   // Ordem de apresentação das linhas
   const lineOrder = ['1ª Linha', '2ª Linha', '3ª Linha', 'Adjuvante', 'Refratária', 'Off-label'];
 
+  const profile = disorder ? DISORDER_CLINICAL_PROFILES[disorder.id] : null;
+
   return (
     <div className="p-6 md:p-8 max-w-4xl mx-auto space-y-8 animate-fade-in pb-24">
       <button 
@@ -69,11 +72,60 @@ export const DisorderDetailPage = () => {
             </div>
           </div>
 
-          <div className="bg-zinc-950/50 rounded-2xl p-6 border border-zinc-800/50 text-zinc-300 leading-relaxed text-sm">
-            {disorder.description}
+            <div className="bg-zinc-950/50 rounded-2xl p-6 border border-zinc-800/50 text-zinc-300 leading-relaxed text-sm">
+              {disorder.description}
+            </div>
           </div>
         </div>
-      </div>
+
+        {profile && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {profile.epidemiology && (
+              <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-5">
+                <h3 className="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-3 flex items-center gap-2">
+                  <Activity className="w-4 h-4 text-indigo-400" /> Epidemiologia
+                </h3>
+                <p className="text-sm text-zinc-300">{profile.epidemiology}</p>
+              </div>
+            )}
+            {profile.prognosis && (
+              <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-5">
+                <h3 className="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-3 flex items-center gap-2">
+                  <Activity className="w-4 h-4 text-emerald-400" /> Prognóstico
+                </h3>
+                <p className="text-sm text-zinc-300">{profile.prognosis}</p>
+              </div>
+            )}
+            {profile.neurobiology && profile.neurobiology.length > 0 && (
+              <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-5 md:col-span-2">
+                <h3 className="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-3 flex items-center gap-2">
+                  <Brain className="w-4 h-4 text-amber-400" /> Neurobiologia & Circuitos
+                </h3>
+                <ul className="space-y-2">
+                  {profile.neurobiology.map((item, idx) => (
+                    <li key={idx} className="text-sm text-zinc-300 flex items-start gap-2">
+                      <span className="text-amber-500/50 mt-1">■</span> {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {profile.clinicalMarkers && profile.clinicalMarkers.length > 0 && (
+              <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-5 md:col-span-2">
+                <h3 className="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-3 flex items-center gap-2">
+                  <Info className="w-4 h-4 text-rose-400" /> Marcadores Clínicos / Chaves Diagnósticas
+                </h3>
+                <ul className="space-y-2">
+                  {profile.clinicalMarkers.map((item, idx) => (
+                    <li key={idx} className="text-sm text-zinc-300 flex items-start gap-2">
+                      <span className="text-rose-500/50 mt-1">■</span> {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        )}
 
       <div className="space-y-6">
         <h2 className="text-xl font-bold text-zinc-100 flex items-center gap-2 border-b border-zinc-800 pb-4">

@@ -175,7 +175,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
           <div className="flex items-center ml-4 pl-4 border-l border-zinc-800">
             {session ? (
               <div className="flex items-center gap-3 md:gap-4">
-                {user?.email === 'thomashnblum@gmail.com' && (
+                {user?.email === 'thomas.n.blum@gmail.com' && (
                   <Link to="/admin" className="text-[10px] md:text-xs font-bold text-amber-500 hover:text-amber-400 uppercase tracking-widest border border-amber-500/30 px-2 py-1 rounded bg-amber-500/10 whitespace-nowrap">CMS Admin</Link>
                 )}
                 <div className="flex items-center gap-1.5 md:gap-2 text-zinc-400 max-w-[80px] md:max-w-[120px]">

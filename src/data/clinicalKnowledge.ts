@@ -211,3 +211,89 @@ export const RECEPTOR_CLINICAL_PROFILES: Record<string, ReceptorClinicalProfile>
     clinicalSignificance: 'O alvo da Cetamina revolucionou o tratamento da depressão resistente.'
   }
 };
+
+export interface DisorderClinicalProfile {
+  id: string;
+  epidemiology?: string;
+  neurobiology?: string[];
+  clinicalMarkers?: string[];
+  prognosis?: string;
+}
+
+export const DISORDER_CLINICAL_PROFILES: Record<string, DisorderClinicalProfile> = {
+  'tr_tag': {
+    id: 'tr_tag',
+    epidemiology: 'Prevalência ao longo da vida de ~5-6%. Mais comum em mulheres. Frequentemente comórbido com TDM.',
+    neurobiology: [
+      'Hiperatividade da amígdala e ínsula.',
+      'Hipoatividade do córtex pré-frontal ventromedial (falha no "freio" top-down).',
+      'Desregulação nos sistemas GABAérgico e serotoninérgico.'
+    ],
+    clinicalMarkers: [
+      'Tensão muscular crônica (frequentemente relatada como dores no corpo).',
+      'Hipervigilância e perturbação do sono.',
+      'Sintomas autonômicos (taquicardia leve, sudorese).'
+    ],
+    prognosis: 'Crônico e flutuante. A maioria dos pacientes experimenta exacerbações durante períodos de estresse. A remissão completa é difícil sem tratamento adequado a longo prazo.'
+  },
+  'tr_mdd': {
+    id: 'tr_mdd',
+    epidemiology: 'Prevalência ao longo da vida de ~15-20%. A principal causa de incapacidade no mundo.',
+    neurobiology: [
+      'Atrofia hipocampal mediada por estresse crônico e excesso de cortisol.',
+      'Hipoatividade no córtex pré-frontal dorsolateral e hiperatividade no córtex cingulado anterior subgenual.',
+      'Deficiências na sinalização de BDNF (Fator Neurotrófico Derivado do Cérebro) limitando a neuroplasticidade.'
+    ],
+    clinicalMarkers: [
+      'Anedonia profunda (incapacidade de sentir prazer).',
+      'Despertar matinal precoce (insônia terminal) em formas melancólicas.',
+      'Retardo ou agitação psicomotora evidente.'
+    ],
+    prognosis: 'Episódico, mas com alto risco de recorrência. O risco aumenta substancialmente a cada novo episódio. Cerca de 30% evoluem para Depressão Resistente ao Tratamento.'
+  },
+  'tr_tdah': {
+    id: 'tr_tdah',
+    epidemiology: 'Prevalência de ~5% em crianças e ~2.5% em adultos. Forte componente genético (herdabilidade > 70%).',
+    neurobiology: [
+      'Hipoatividade dopaminérgica e noradrenérgica no córtex pré-frontal e estriado.',
+      'Atraso na maturação cortical (especialmente em regiões frontais).',
+      'Disfunção na rede de modo padrão (DMN), que falha em "desligar" durante tarefas cognitivas.'
+    ],
+    clinicalMarkers: [
+      'Dificuldade sustentada de manter a atenção em tarefas monótonas.',
+      'Impulsividade verbal e motora (interrupções constantes).',
+      'Desregulação emocional secundária (frustração rápida).'
+    ],
+    prognosis: 'Para muitos, os sintomas de hiperatividade diminuem na idade adulta, mas os déficits de atenção e funções executivas frequentemente persistem e causam prejuízo ocupacional crônico.'
+  },
+  'tr_sz': {
+    id: 'tr_sz',
+    epidemiology: 'Prevalência mundial de ~1%. Início típico no fim da adolescência ou início da fase adulta.',
+    neurobiology: [
+      'Hiperatividade dopaminérgica mesolímbica (causa os sintomas positivos/psicose).',
+      'Hipoatividade dopaminérgica mesocortical (causa os sintomas negativos/cognitivos).',
+      'Hipoatividade dos receptores NMDA (hipótese glutamatérgica).'
+    ],
+    clinicalMarkers: [
+      'Alucinações auditivas (vozes de comando ou comentários).',
+      'Delírios persecutórios ou bizarros.',
+      'Achatamento afetivo e alogia (pobreza do discurso).'
+    ],
+    prognosis: 'Curso crônico com exacerbações agudas. O prognóstico é melhor quando o primeiro episódio é tratado rapidamente (Duração da Psicose Não Tratada curta). O declínio funcional é comum.'
+  },
+  'tr_bipolar_1': {
+    id: 'tr_bipolar_1',
+    epidemiology: 'Prevalência de ~1%. Taxa igual entre homens e mulheres. Alto risco de suicídio (15-20%).',
+    neurobiology: [
+      'Desregulação das vias de sinalização intracelular (ex: GSK-3, inositol trifosfato).',
+      'Hiperatividade da amígdala e disfunção do córtex pré-frontal durante fases de mania.',
+      'Anormalidades na homeostase de cálcio intracelular.'
+    ],
+    clinicalMarkers: [
+      'Necessidade reduzida de sono (acordar descansado após poucas horas).',
+      'Logorreia (pressão por falar) e fuga de ideias.',
+      'Comportamentos de risco grandiosos (gastos excessivos, indiscrições sexuais).'
+    ],
+    prognosis: 'Condição para a vida toda. O tratamento profilático (estabilizadores de humor) é quase sempre necessário para prevenir recorrências destrutivas.'
+  }
+};
