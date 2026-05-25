@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams, Link } from 'react-router-dom';
 import { Network, Search, Filter, Fingerprint, Info, Brain, Zap, Activity, ArrowLeft } from 'lucide-react';
 import { dataService } from '../services/dataService';
 import { cn } from '../utils/cn';
