@@ -27,13 +27,13 @@ export const AdminPage = () => {
   const [newPd, setNewPd] = useState<Partial<MoleculeReceptorInteraction>>({ actionType: 'Antagonista' });
   const [newPk, setNewPk] = useState<Partial<MoleculeEnzymeInteraction>>({ role: 'Inibidor Forte' });
 
-  if (!session) {
-    return <Navigate to="/login" replace />;
-  }
-
   useEffect(() => {
     loadData();
   }, []);
+
+  if (!session) {
+    return <Navigate to="/login" replace />;
+  }
 
   const loadData = () => {
     setMolecules(dataService.getMolecules());
@@ -176,7 +176,17 @@ export const AdminPage = () => {
   };
 
   return (
-    <div className="p-6 md:p-8 max-w-7xl mx-auto space-y-8">
+    <div className="p-6 md:p-8 max-w-7xl mx-auto space-y-8 relative">
+      {/* Loading Overlay */}
+      {loading && (
+        <div className="absolute inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center rounded-xl">
+          <div className="flex flex-col items-center gap-4 text-amber-400 font-mono text-sm">
+            <span className="w-8 h-8 rounded-full border-2 border-amber-400 border-t-transparent animate-spin"></span>
+            PROCESSANDO OPERAÇÃO...
+          </div>
+        </div>
+      )}
+
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h1 className="text-3xl font-black text-zinc-100 flex items-center gap-3">

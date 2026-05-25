@@ -17,15 +17,16 @@ export const LoginPage = () => {
     setLoading(true);
     setError(null);
 
-    const { error } = await supabase.auth.signInWithPassword({
+    const { error: signInError } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
 
-    if (error) {
-      setError(error.message);
+    if (signInError) {
+      setError(signInError.message);
       setLoading(false);
     } else {
+      setLoading(false);
       // Login bem-sucedido, AuthContext vai reagir e nós redirecionamos
       navigate('/');
     }

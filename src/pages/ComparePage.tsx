@@ -16,11 +16,17 @@ export const ComparePage = () => {
       const selectedMolecules = selectedIds.map(id => dataService.getMoleculeById(id)).filter(Boolean) as any[];
       if (selectedMolecules.length >= 2) {
         setLoadingInsight(true);
-        const pd = selectedMolecules.flatMap(m => dataService.getPharmacodynamics(m.id));
-        const pk = selectedMolecules.flatMap(m => dataService.getPharmacokinetics(m.id));
-        const newInsight = await aiService.generateClinicalInsights(selectedMolecules, pd, pk);
-        setInsight(newInsight);
-        setLoadingInsight(false);
+        try {
+          const pd = selectedMolecules.flatMap(m => dataService.getPharmacodynamics(m.id));
+          const pk = selectedMolecules.flatMap(m => dataService.getPharmacokinetics(m.id));
+          const newInsight = await aiService.generateClinicalInsights(selectedMolecules, pd, pk);
+          setInsight(newInsight);
+        } catch (error) {
+          console.error("Erro ao gerar insight:", error);
+          setInsight(null);
+        } finally {
+          setLoadingInsight(false);
+        }
       } else {
         setInsight(null);
       }

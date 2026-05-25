@@ -295,5 +295,175 @@ export const DISORDER_CLINICAL_PROFILES: Record<string, DisorderClinicalProfile>
       'Comportamentos de risco grandiosos (gastos excessivos, indiscrições sexuais).'
     ],
     prognosis: 'Condição para a vida toda. O tratamento profilático (estabilizadores de humor) é quase sempre necessário para prevenir recorrências destrutivas.'
+  },
+  'tr_bipolar_2': {
+    id: 'tr_bipolar_2',
+    epidemiology: 'Prevalência de ~1.1%. Maior risco em mulheres para rápida ciclagem.',
+    neurobiology: [
+      'Similar ao Bipolar I, porém com flutuações menos extremas na excitabilidade cortical.',
+      'Forte componente de desregulação circadiana e vulnerabilidade ao estresse.'
+    ],
+    clinicalMarkers: [
+      'Episódios depressivos maiores (geralmente mais frequentes e longos que no Tipo I).',
+      'Hipomania (euforia ou irritabilidade sem sintomas psicóticos e sem grave prejuízo funcional).',
+      'Aumento de energia percebido por outros como "mudança de personalidade".'
+    ],
+    prognosis: 'Alta morbidade devido à fase depressiva crônica. Alto risco de letalidade por suicídio. Requer monitoramento contínuo.'
+  },
+  'tr_ocd': {
+    id: 'tr_ocd',
+    epidemiology: 'Prevalência de 1-2%. Idade média de início aos 19 anos.',
+    neurobiology: [
+      'Hiperatividade no circuito Córtico-Estriado-Tálamo-Cortical (CSTC).',
+      'Disfunção na sinalização serotoninérgica e glutamatérgica.'
+    ],
+    clinicalMarkers: [
+      'Obsessões: Pensamentos ou imagens intrusivas que geram ansiedade extrema.',
+      'Compulsões: Comportamentos repetitivos ou atos mentais visando neutralizar a ansiedade.',
+      'Egodistonia (o paciente reconhece que os sintomas são irracionais).'
+    ],
+    prognosis: 'Curso frequentemente crônico e flutuante. Responde a ISRS em altas doses e Terapia Cognitivo-Comportamental (EPR).'
+  },
+  'tr_ptsd': {
+    id: 'tr_ptsd',
+    epidemiology: 'Prevalência de ~7% a 9% ao longo da vida. Maior incidência em mulheres após trauma.',
+    neurobiology: [
+      'Hiperreatividade da amígdala à estímulos ameaçadores.',
+      'Hipoatividade do córtex pré-frontal medial (falha na extinção do medo).',
+      'Hipersensibilidade dos receptores glicocorticoides e níveis anormais de cortisol.'
+    ],
+    clinicalMarkers: [
+      'Flashbacks ou pesadelos intrusivos relacionados ao trauma.',
+      'Evitação persistente de gatilhos.',
+      'Hipervigilância e resposta de sobressalto exagerada.'
+    ],
+    prognosis: 'Variável. Pode cronificar se não tratado. Responde bem a terapias de exposição e dessensibilização (EMDR, TCC).'
+  },
+  'tr_panico': {
+    id: 'tr_panico',
+    epidemiology: 'Prevalência de 2-3%. Muitas vezes cursa com agorafobia.',
+    neurobiology: [
+      'Aumento da sensibilidade do Locus Coeruleus (descargas súbitas de noradrenalina).',
+      'Disfunção do circuito de alarme ("suffocation false alarm network").'
+    ],
+    clinicalMarkers: [
+      'Ataques súbitos de medo intenso que atingem o pico em minutos.',
+      'Sintomas somáticos intensos (palpitações, falta de ar, tontura).',
+      'Ansiedade antecipatória (medo de ter outro ataque).'
+    ],
+    prognosis: 'Bom com tratamento (ISRS e TCC). Sem tratamento, pode levar a reclusão severa (agorafobia).'
+  },
+  'tr_social': {
+    id: 'tr_social',
+    epidemiology: 'Prevalência de ~7%. Início precoce na infância ou adolescência.',
+    neurobiology: [
+      'Hiperatividade da amígdala em resposta a faces humanas avaliativas.',
+      'Desregulação dopaminérgica no estriado (relacionada ao medo de julgamento social).'
+    ],
+    clinicalMarkers: [
+      'Medo intenso e persistente de situações onde possa ser julgado.',
+      'Sintomas autonômicos em exposição (rubor facial, tremores).',
+      'Evitação de contato visual ou interações.'
+    ],
+    prognosis: 'Crônico se não tratado. Remissão possível com exposição contínua e farmacologia.'
+  },
+  'tr_insonia': {
+    id: 'tr_insonia',
+    epidemiology: 'Afeta 10-30% dos adultos de forma crônica.',
+    neurobiology: [
+      'Hiperativação fisiológica e cortical 24h ("hyperarousal").',
+      'Déficit na sinalização inibitória de GABA e orexina (hipocretina) hiperativa.'
+    ],
+    clinicalMarkers: [
+      'Dificuldade de iniciar ou manter o sono (>3 vezes por semana).',
+      'Fadiga diurna, prejuízo cognitivo e irritabilidade.',
+      'Preocupação excessiva com o sono.'
+    ],
+    prognosis: 'Pode cronificar e desencadear outros transtornos (Depressão). TCC para insônia (TCC-I) é a primeira linha, acompanhada de hipnóticos conforme necessidade.'
+  },
+  'tr_borderline': {
+    id: 'tr_borderline',
+    epidemiology: 'Prevalência de 1-2%. Alta mortalidade por suicídio (até 10%).',
+    neurobiology: [
+      'Hiperreatividade da amígdala e hipoatividade do córtex pré-frontal orbital.',
+      'Desregulação nos sistemas de opioides endógenos e oxitocina (dificuldade de apego/vínculo).'
+    ],
+    clinicalMarkers: [
+      'Medo crônico de abandono real ou imaginário.',
+      'Instabilidade afetiva extrema (mudanças de humor em horas).',
+      'Comportamentos automutilatórios e impulsividade.'
+    ],
+    prognosis: 'Tende a estabilizar na meia-idade. A Terapia Comportamental Dialética (DBT) é o tratamento padrão ouro. Fármacos são usados para sintomas alvo (ex: impulsividade).'
+  },
+  'tr_eating_an': {
+    id: 'tr_eating_an',
+    epidemiology: 'Prevalência de ~0.4%. Uma das maiores taxas de mortalidade em psiquiatria.',
+    neurobiology: [
+      'Disfunção nos circuitos de recompensa (restrição calórica passa a ser recompensadora).',
+      'Alterações na sinalização de serotonina e dopamina nos gânglios da base.'
+    ],
+    clinicalMarkers: [
+      'Recusa em manter peso corporal mínimo normal.',
+      'Medo intenso de ganhar peso.',
+      'Distorção severa da imagem corporal.'
+    ],
+    prognosis: 'Cerca de 50% recuperam-se totalmente, mas 20-30% tornam-se crônicos. Tratamento multidisciplinar é vital.'
+  },
+  'tr_eating_bn': {
+    id: 'tr_eating_bn',
+    epidemiology: 'Prevalência de 1-1.5%. Mais comum no fim da adolescência.',
+    neurobiology: [
+      'Disfunção serotoninérgica associada à saciedade e impulsividade.',
+      'Hipofunção do controle inibitório pré-frontal.'
+    ],
+    clinicalMarkers: [
+      'Episódios de compulsão alimentar seguidos de culpa.',
+      'Comportamentos purgativos (vômitos, laxantes, exercícios excessivos).',
+      'Sinais físicos (Sinal de Russell nos dedos, desgaste do esmalte dentário).'
+    ],
+    prognosis: 'Frequentemente responde a ISRS (Fluoxetina) e TCC. Prognóstico ligeiramente melhor que Anorexia.'
+  },
+  'tr_sud_alcohol': {
+    id: 'tr_sud_alcohol',
+    epidemiology: 'Prevalência de até 8% em algumas populações. Causa massiva de morbidade médica.',
+    neurobiology: [
+      'Recompensas agudas via liberação de Dopamina no Núcleo Accumbens e GABA no estriado.',
+      'Uso crônico causa regulação negativa (down-regulation) de GABA e up-regulation de Glutamato, gerando hiperexcitabilidade na abstinência.'
+    ],
+    clinicalMarkers: [
+      'Tolerância e síndrome de abstinência (tremores, delírio).',
+      'Gasto de tempo significativo em obter ou se recuperar do uso.',
+      'Uso persistente apesar das consequências físicas/sociais.'
+    ],
+    prognosis: 'Recaídas são comuns. Grupos de apoio e farmacoterapia (Naltrexona, Acamprosato, Dissulfiram) aumentam o sucesso a longo prazo.'
+  },
+  'tr_pmdd': {
+    id: 'tr_pmdd',
+    epidemiology: 'Afeta 3-8% das mulheres em idade reprodutiva.',
+    neurobiology: [
+      'Sensibilidade anormal do cérebro às flutuações hormonais normais (estrogênio e progesterona).',
+      'Disfunção do metabólito da progesterona (Alopregnanolona) no receptor GABA-A.'
+    ],
+    clinicalMarkers: [
+      'Labilidade emocional, irritabilidade severa e tensão na semana anterior à menstruação.',
+      'Alívio total dos sintomas após o início do fluxo.',
+      'Sintomas físicos (inchaço, dor nas mamas).'
+    ],
+    prognosis: 'Altamente responsivo a ISRS de uso contínuo ou apenas na fase lútea. Cessa após a menopausa.'
+  },
+  'tr_demencia_alz': {
+    id: 'tr_demencia_alz',
+    epidemiology: 'Crescente com o envelhecimento populacional (afeta >10% dos >65 anos).',
+    neurobiology: [
+      'Acúmulo de placas de beta-amiloide extracelulares.',
+      'Emaranhados neurofibrilares intracelulares de proteína Tau hiperfosforilada.',
+      'Morte de neurônios colinérgicos no Núcleo Basal de Meynert.'
+    ],
+    clinicalMarkers: [
+      'Déficit de memória episódica (esquecimento de eventos recentes).',
+      'Dificuldades de linguagem (anomia) e desorientação espacial.',
+      'Declínio funcional progressivo para AVDs.'
+    ],
+    prognosis: 'Incurável e progressivo. Tratamentos (Inibidores da Colinesterase) apenas lentificam o declínio cognitivo transitoriamente.'
   }
 };

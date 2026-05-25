@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { Shield, Search, AlertTriangle, HelpCircle, Activity, Info, Beaker, GitMerge, ArrowRight, Dna } from 'lucide-react';
 import { cn } from '../utils/cn';
+import { RichText } from '../components/UI/RichText';
 
 interface DrugRef {
   id: string;
@@ -27,7 +28,7 @@ interface DetailedEnzyme {
   clinicalDica: string;
 }
 
-const ENZYME_DETAILS: Record<string, DetailedEnzyme> = {
+export const ENZYME_DETAILS: Record<string, DetailedEnzyme> = {
   e1: {
     id: 'e1',
     name: 'CYP2D6',
@@ -386,7 +387,7 @@ export const EnzymesPage = () => {
           </div>
 
           <p className="text-zinc-300 text-sm leading-relaxed max-w-4xl font-sans">
-            {selectedEnzyme.description}
+            <RichText text={selectedEnzyme.description} />
           </p>
         </div>
 
@@ -513,7 +514,7 @@ export const EnzymesPage = () => {
             <Dna className="w-4 h-4 text-zinc-400" /> Farmacogenômica e Polimorfismos Genéticos
           </h3>
           <p className="text-zinc-400 text-xs leading-relaxed font-sans">
-            {selectedEnzyme.genetics}
+            <RichText text={selectedEnzyme.genetics} />
           </p>
         </div>
 
@@ -532,7 +533,7 @@ export const EnzymesPage = () => {
                 Alerta de Interação Clínica / Dica Farmacológica
               </h4>
               <p className="text-zinc-300 text-xs leading-relaxed max-w-4xl font-sans italic">
-                "{selectedEnzyme.clinicalDica}"
+                "<RichText text={selectedEnzyme.clinicalDica} />"
               </p>
             </div>
           </div>

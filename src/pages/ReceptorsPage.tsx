@@ -5,6 +5,7 @@ import { dataService } from '../services/dataService';
 import { cn } from '../utils/cn';
 import { Receptor } from '../data/schema';
 import { RECEPTOR_CLINICAL_PROFILES } from '../data/clinicalKnowledge';
+import { RichText } from '../components/UI/RichText';
 
 export const ReceptorsPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -100,17 +101,21 @@ export const ReceptorsPage = () => {
     // Helper para cor do Ki
     const getKiColor = (ki: number | null | undefined) => {
       if (ki == null) return 'text-zinc-500';
-      if (ki < 1) return 'text-rose-400 font-bold'; // Muito forte
-      if (ki < 10) return 'text-amber-400 font-bold'; // Forte
-      if (ki < 100) return 'text-emerald-400'; // Moderada
-      return 'text-zinc-400'; // Fraca
+      if (ki < 1) return 'text-rose-400 font-bold';
+      if (ki < 10) return 'text-amber-400 font-bold';
+      if (ki < 100) return 'text-emerald-400';
+      return 'text-zinc-400';
     };
 
-    const renderInteractionCard = (interaction: any, bgColor: string, borderColor: string, iconColor: string) => {
+    const renderInteractionCard = (interaction: MoleculeReceptorInteraction, index: number, bgColor: string, borderColor: string, iconColor: string) => {
       const molecule = dataService.getMoleculeById(interaction.moleculeId);
       if (!molecule) return null;
       return (
-        <div key={interaction.moleculeId} onClick={() => navigate('/molecules', { state: { selectedMoleculeId: interaction.moleculeId } })} className={cn("p-4 rounded-xl border flex items-center justify-between cursor-pointer transition-all hover:scale-[1.02]", bgColor, borderColor)}>
+        <Link 
+          to={`/molecules?id=${molecule.id}`}
+          key={`${interaction.moleculeId}-${index}`} 
+          className={cn("p-4 rounded-xl border flex items-center justify-between cursor-pointer transition-all hover:scale-[1.02]", bgColor, borderColor)}
+        >
           <div>
             <h4 className={cn("font-bold text-sm mb-1", iconColor)}>{molecule.name}</h4>
             <span className="text-[10px] uppercase tracking-widest text-zinc-500 font-mono">{interaction.actionType}</span>
@@ -121,7 +126,7 @@ export const ReceptorsPage = () => {
               {interaction.affinityKi != null ? `${interaction.affinityKi} nM` : 'N/D'}
             </div>
           </div>
-        </div>
+        </Link>
       );
     };
 
@@ -134,7 +139,6 @@ export const ReceptorsPage = () => {
           <ArrowLeft className="w-4 h-4" /> Voltar ao Catálogo de Receptores
         </button>
 
-        {/* HERO SECTION */}
         <div className="bg-zinc-900 rounded-3xl p-8 md:p-10 border border-zinc-800 shadow-2xl relative mb-8 overflow-hidden">
           <div className={cn("absolute top-0 left-0 w-full h-2", getSystemColor(selectedReceptor.neurotransmitterSystem).split(' ')[1])}></div>
           <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-white/5 to-transparent rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
@@ -158,13 +162,12 @@ export const ReceptorsPage = () => {
             <div className="w-full md:w-1/2 bg-zinc-950/50 p-5 rounded-2xl border border-zinc-800/80">
               <h3 className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-2 font-mono">Descrição Biológica</h3>
               <p className="text-sm text-zinc-300 leading-relaxed">
-                {selectedReceptor.description}
+                <RichText text={selectedReceptor.description} />
               </p>
             </div>
           </div>
         </div>
 
-        {/* CLINICAL DICTIONARY SECTION */}
         {clinicalProfile && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             {clinicalProfile.blockadeEffects && clinicalProfile.blockadeEffects.length > 0 && (
@@ -175,7 +178,7 @@ export const ReceptorsPage = () => {
                 <ul className="space-y-3">
                   {clinicalProfile.blockadeEffects.map((effect, idx) => (
                     <li key={idx} className="text-sm text-zinc-300 leading-relaxed flex items-start gap-2">
-                      <span className="text-rose-500/50 mt-1">■</span> {effect}
+                      <span className="text-rose-500/50 mt-1">■</span> <RichText text={effect} />
                     </li>
                   ))}
                 </ul>
@@ -190,7 +193,7 @@ export const ReceptorsPage = () => {
                 <ul className="space-y-3">
                   {clinicalProfile.activationEffects.map((effect, idx) => (
                     <li key={idx} className="text-sm text-zinc-300 leading-relaxed flex items-start gap-2">
-                      <span className="text-emerald-500/50 mt-1">■</span> {effect}
+                      <span className="text-emerald-500/50 mt-1">■</span> <RichText text={effect} />
                     </li>
                   ))}
                 </ul>
@@ -202,13 +205,12 @@ export const ReceptorsPage = () => {
                 <h3 className="text-xs font-bold text-indigo-400 uppercase tracking-widest mb-2 flex items-center gap-2">
                   <Activity className="w-4 h-4" /> Importância Clínica na Psiquiatria
                 </h3>
-                <p className="text-sm text-zinc-300 leading-relaxed italic">"{clinicalProfile.clinicalSignificance}"</p>
+                <p className="text-sm text-zinc-300 leading-relaxed italic">"<RichText text={clinicalProfile.clinicalSignificance} />"</p>
               </div>
             )}
           </div>
         )}
 
-        {/* INTERACTION MATRIX */}
         <div className="space-y-8">
           <h2 className="text-xl font-bold text-zinc-100 border-b border-zinc-800 pb-4">Matriz de Interação Farmacológica</h2>
           
@@ -216,8 +218,8 @@ export const ReceptorsPage = () => {
             <section>
               <h3 className="text-xs font-bold text-rose-400 uppercase tracking-widest mb-4 font-mono">Antagonistas / Bloqueadores / Inibidores</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {antagonists.sort((a, b) => (a.affinityKi || 9999) - (b.affinityKi || 9999)).map(interaction => 
-                  renderInteractionCard(interaction, 'bg-zinc-900', 'border-rose-500/20 hover:border-rose-500/50', 'text-rose-100 group-hover:text-rose-400')
+                {antagonists.sort((a, b) => (a.affinityKi || 9999) - (b.affinityKi || 9999)).map((interaction, idx) => 
+                  renderInteractionCard(interaction, idx, 'bg-zinc-900', 'border-rose-500/20 hover:border-rose-500/50', 'text-rose-100 group-hover:text-rose-400')
                 )}
               </div>
             </section>
@@ -227,8 +229,8 @@ export const ReceptorsPage = () => {
             <section>
               <h3 className="text-xs font-bold text-emerald-400 uppercase tracking-widest mb-4 font-mono">Agonistas (Totais e Parciais)</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {agonists.sort((a, b) => (a.affinityKi || 9999) - (b.affinityKi || 9999)).map(interaction => 
-                  renderInteractionCard(interaction, 'bg-zinc-900', 'border-emerald-500/20 hover:border-emerald-500/50', 'text-emerald-100 group-hover:text-emerald-400')
+                {agonists.sort((a, b) => (a.affinityKi || 9999) - (b.affinityKi || 9999)).map((interaction, idx) => 
+                  renderInteractionCard(interaction, idx, 'bg-zinc-900', 'border-emerald-500/20 hover:border-emerald-500/50', 'text-emerald-100 group-hover:text-emerald-400')
                 )}
               </div>
             </section>
@@ -238,8 +240,8 @@ export const ReceptorsPage = () => {
             <section>
               <h3 className="text-xs font-bold text-amber-400 uppercase tracking-widest mb-4 font-mono">Moduladores Alostéricos e Outros</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {modulators.sort((a, b) => (a.affinityKi || 9999) - (b.affinityKi || 9999)).map(interaction => 
-                  renderInteractionCard(interaction, 'bg-zinc-900', 'border-amber-500/20 hover:border-amber-500/50', 'text-amber-100 group-hover:text-amber-400')
+                {modulators.sort((a, b) => (a.affinityKi || 9999) - (b.affinityKi || 9999)).map((interaction, idx) => 
+                  renderInteractionCard(interaction, idx, 'bg-zinc-900', 'border-amber-500/20 hover:border-amber-500/50', 'text-amber-100 group-hover:text-amber-400')
                 )}
               </div>
             </section>
@@ -258,7 +260,6 @@ export const ReceptorsPage = () => {
 
   return (
     <div className="p-6 md:p-8 flex flex-col gap-8 max-w-7xl mx-auto">
-      {/* Header Section */}
       <div className="flex flex-col gap-4">
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 bg-rose-500/10 rounded-xl flex items-center justify-center border border-rose-500/20">
@@ -273,7 +274,6 @@ export const ReceptorsPage = () => {
         </div>
       </div>
 
-      {/* Filters and Search */}
       <div className="flex flex-col md:flex-row gap-4 bg-zinc-900/50 p-4 rounded-xl border border-zinc-800/80 backdrop-blur-sm">
         <div className="flex-1 relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500" />
@@ -315,7 +315,6 @@ export const ReceptorsPage = () => {
         </div>
       </div>
 
-      {/* Grouped Grid of Receptors */}
       {filteredReceptors.length > 0 ? (
         <div className="space-y-12">
           {systems.map(sys => {
@@ -325,7 +324,7 @@ export const ReceptorsPage = () => {
 
             return (
               <div key={sys} className="space-y-4">
-                <h2 className={cn("text-xl font-bold uppercase tracking-widest border-b pb-2 flex items-center gap-3", getSystemColor(sys).replace('bg-', 'border-').split(' ')[0])}>
+                <h2 className={cn("text-xl font-bold uppercase tracking-widest border-b pb-2 flex items-center gap-3", getSystemColor(sys).split(' ')[0])}>
                   {sys}
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

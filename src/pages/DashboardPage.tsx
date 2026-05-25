@@ -230,6 +230,22 @@ export const DashboardPage = () => {
 
         </div>
       </section>
+      {/* Disclaimer Médico-Legal */}
+      <section className="mt-4 p-6 rounded-2xl border border-rose-900/30 bg-rose-950/10 backdrop-blur-sm">
+        <div className="flex items-start gap-4">
+          <div className="p-2 bg-rose-500/10 rounded-lg shrink-0 mt-1">
+            <Info className="w-5 h-5 text-rose-400" />
+          </div>
+          <div>
+            <h4 className="text-rose-400 font-bold uppercase tracking-widest text-xs mb-2">Termos de Uso e Aviso Legal</h4>
+            <p className="text-zinc-400 text-sm leading-relaxed">
+              O Atlas Fármaco é uma plataforma de natureza estritamente educacional e informativa, desenvolvida para fins de estudo e consulta rápida sobre perfis farmacodinâmicos e farmacocinéticos baseados na literatura médica vigente. 
+              <br className="mb-2" />
+              <strong className="text-zinc-300">Atenção:</strong> Esta ferramenta <strong className="text-rose-400">NÃO</strong> substitui o julgamento clínico humano, e seus criadores não se responsabilizam por prescrições, decisões médicas ou desfechos clínicos tomados com base no uso deste simulador. As bulas oficiais dos fabricantes e as diretrizes clínicas locais devem ser sempre a fonte definitiva de consulta para qualquer conduta terapêutica.
+            </p>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };

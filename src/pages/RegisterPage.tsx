@@ -26,13 +26,13 @@ export const RegisterPage = () => {
     setLoading(true);
     setError(null);
 
-    const { error } = await supabase.auth.signUp({
+    const { error: signUpError } = await supabase.auth.signUp({
       email,
       password,
     });
 
-    if (error) {
-      setError(error.message);
+    if (signUpError) {
+      setError(signUpError.message);
       setLoading(false);
     } else {
       setSuccess(true);

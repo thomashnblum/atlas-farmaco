@@ -6,6 +6,7 @@ import { Molecule, MoleculeReceptorInteraction, MoleculeEnzymeInteraction } from
 import { ArrowLeft, Database, ShieldAlert } from 'lucide-react';
 import { ProfileSymbolBadge } from '../components/UI/ProfileSymbolBadge';
 import { MoleculeStructureViewer } from '../components/Molecules/MoleculeStructureViewer';
+import { RichText } from '../components/UI/RichText';
 
 export const MoleculeIndexPage = () => {
   const [axisFilter, setAxisFilter] = useState<string | null>(null);
@@ -30,10 +31,9 @@ export const MoleculeIndexPage = () => {
   useEffect(() => {
     if (location.state && (location.state.selectedId || location.state.selectedMoleculeId)) {
       const searchId = location.state.selectedId || location.state.selectedMoleculeId;
-      setSearchParams({ id: searchId }, { replace: true });
       navigate(location.pathname + '?id=' + searchId, { replace: true, state: {} });
     }
-  }, [location.state, navigate, location.pathname, setSearchParams]);
+  }, [location.state, navigate, location.pathname]);
 
   const molecules = (axisFilter 
     ? allMolecules.filter(m => m.clinicalAxes.includes(axisFilter as any))
@@ -76,7 +76,7 @@ export const MoleculeIndexPage = () => {
             <div className="col-span-1 space-y-8">
               <section>
                 <h3 className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-3 font-mono">Mecanismo de Ação</h3>
-                <p className="text-zinc-500 leading-relaxed text-sm">{selectedMolecule.mechanisms}</p>
+                <p className="text-zinc-500 leading-relaxed text-sm"><RichText text={selectedMolecule.mechanisms} /></p>
               </section>
 
               <section>
@@ -89,7 +89,7 @@ export const MoleculeIndexPage = () => {
                     {selectedMolecule.onLabelUses.map((use, i) => (
                       <div key={i} className="bg-teal-500/5 border border-teal-500/20 p-3.5 rounded-xl transition-all hover:bg-teal-500/10">
                         <div className="flex justify-between items-start mb-2 flex-wrap gap-2">
-                          <span className="font-bold text-sm text-zinc-100">{use.condition}</span>
+                          <span className="font-bold text-sm text-zinc-100"><RichText text={use.condition} /></span>
                           <div className="flex gap-1.5 flex-wrap">
                             <span className="text-[9px] uppercase font-mono font-extrabold px-1.5 py-0.5 rounded border bg-teal-500/10 text-teal-400 border-teal-500/30">
                               {use.line}
@@ -104,13 +104,13 @@ export const MoleculeIndexPage = () => {
                             </span>
                           </div>
                         </div>
-                        <p className="text-[12px] text-zinc-400 leading-relaxed font-sans">{use.justification}</p>
-                        {use.notes && <p className="text-[11px] text-zinc-500 italic mt-2 border-t border-zinc-800 pt-2">{use.notes}</p>}
+                        <p className="text-[12px] text-zinc-400 leading-relaxed font-sans"><RichText text={use.justification} /></p>
+                        {use.notes && <p className="text-[11px] text-zinc-500 italic mt-2 border-t border-zinc-800 pt-2"><RichText text={use.notes} /></p>}
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <p className="text-zinc-500 leading-relaxed text-sm">{selectedMolecule.psychiatryUse || 'Informação primária não listada.'}</p>
+                  <p className="text-zinc-500 leading-relaxed text-sm"><RichText text={selectedMolecule.psychiatryUse || 'Informação primária não listada.'} /></p>
                 )}
               </section>
 
@@ -124,7 +124,7 @@ export const MoleculeIndexPage = () => {
                     {selectedMolecule.offLabelUses.map((use, i) => (
                       <div key={i} className="bg-amber-500/5 border border-amber-500/20 p-3 rounded-lg">
                         <div className="flex justify-between items-start mb-1">
-                          <span className="font-bold text-sm text-zinc-100">{use.condition}</span>
+                          <span className="font-bold text-sm text-zinc-100"><RichText text={use.condition} /></span>
                           <span className={`text-[10px] uppercase font-mono font-bold px-2 py-0.5 rounded border ${
                             use.evidence === 'Alto' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' :
                             use.evidence === 'Moderado' ? 'bg-amber-500/10 text-amber-400 border-amber-500/30' :
@@ -133,8 +133,8 @@ export const MoleculeIndexPage = () => {
                             Nível: {use.evidence}
                           </span>
                         </div>
-                        <p className="text-[12px] text-zinc-500 leading-relaxed">{use.justification}</p>
-                        {use.notes && <p className="text-[11px] text-zinc-600 italic mt-2 border-t border-zinc-800 pt-2">{use.notes}</p>}
+                        <p className="text-[12px] text-zinc-500 leading-relaxed"><RichText text={use.justification} /></p>
+                        {use.notes && <p className="text-[11px] text-zinc-600 italic mt-2 border-t border-zinc-800 pt-2"><RichText text={use.notes} /></p>}
                       </div>
                     ))}
                   </div>
@@ -144,7 +144,7 @@ export const MoleculeIndexPage = () => {
               <section>
                 <h3 className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-3 font-mono">Notas Clínicas</h3>
                 <p className="text-[12px] text-zinc-500 leading-relaxed italic underline decoration-amber-400/30 underline-offset-4 bg-zinc-800/40 border border-zinc-700/50 p-4 rounded-lg">
-                  {selectedMolecule.notes}
+                  <RichText text={selectedMolecule.notes} />
                 </p>
               </section>
 

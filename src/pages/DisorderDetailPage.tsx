@@ -5,11 +5,14 @@ import { Disorder, DisorderTreatment } from '../data/schema';
 import { Brain, ArrowLeft, Activity, Info, Pill } from 'lucide-react';
 import { DISORDER_CLINICAL_PROFILES } from '../data/clinicalKnowledge';
 
+import { RichText } from '../components/UI/RichText';
+
 export const DisorderDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [disorder, setDisorder] = useState<Disorder | null>(null);
   const [treatments, setTreatments] = useState<DisorderTreatment[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (id) {
@@ -18,8 +21,18 @@ export const DisorderDetailPage = () => {
         setDisorder(found);
         setTreatments(dataService.getTreatmentsForDisorder(id));
       }
+      setLoading(false);
     }
   }, [id]);
+
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center h-96 text-zinc-500">
+        <span className="w-8 h-8 rounded-full border-2 border-amber-400 border-t-transparent animate-spin mb-4"></span>
+        <p>Carregando dados do transtorno...</p>
+      </div>
+    );
+  }
 
   if (!disorder) {
     return (
@@ -73,7 +86,7 @@ export const DisorderDetailPage = () => {
           </div>
 
             <div className="bg-zinc-950/50 rounded-2xl p-6 border border-zinc-800/50 text-zinc-300 leading-relaxed text-sm">
-              {disorder.description}
+              <RichText text={disorder.description} />
             </div>
           </div>
         </div>
@@ -85,7 +98,7 @@ export const DisorderDetailPage = () => {
                 <h3 className="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-3 flex items-center gap-2">
                   <Activity className="w-4 h-4 text-indigo-400" /> Epidemiologia
                 </h3>
-                <p className="text-sm text-zinc-300">{profile.epidemiology}</p>
+                <p className="text-sm text-zinc-300"><RichText text={profile.epidemiology} /></p>
               </div>
             )}
             {profile.prognosis && (
@@ -93,7 +106,7 @@ export const DisorderDetailPage = () => {
                 <h3 className="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-3 flex items-center gap-2">
                   <Activity className="w-4 h-4 text-emerald-400" /> Prognóstico
                 </h3>
-                <p className="text-sm text-zinc-300">{profile.prognosis}</p>
+                <p className="text-sm text-zinc-300"><RichText text={profile.prognosis} /></p>
               </div>
             )}
             {profile.neurobiology && profile.neurobiology.length > 0 && (
@@ -104,7 +117,7 @@ export const DisorderDetailPage = () => {
                 <ul className="space-y-2">
                   {profile.neurobiology.map((item, idx) => (
                     <li key={idx} className="text-sm text-zinc-300 flex items-start gap-2">
-                      <span className="text-amber-500/50 mt-1">■</span> {item}
+                      <span className="text-amber-500/50 mt-1">■</span> <RichText text={item} />
                     </li>
                   ))}
                 </ul>
@@ -118,7 +131,7 @@ export const DisorderDetailPage = () => {
                 <ul className="space-y-2">
                   {profile.clinicalMarkers.map((item, idx) => (
                     <li key={idx} className="text-sm text-zinc-300 flex items-start gap-2">
-                      <span className="text-rose-500/50 mt-1">■</span> {item}
+                      <span className="text-rose-500/50 mt-1">■</span> <RichText text={item} />
                     </li>
                   ))}
                 </ul>
@@ -166,7 +179,7 @@ export const DisorderDetailPage = () => {
                       return (
                         <div 
                           key={t.id} 
-                          onClick={() => navigate('/molecules', { state: { selectedId: molecule.id } })}
+                          onClick={() => navigate(`/molecules?id=${molecule.id}`)}
                           className="bg-zinc-900 border border-zinc-800 hover:border-amber-400/50 rounded-xl p-4 cursor-pointer transition-all hover:bg-zinc-800/80 group"
                         >
                           <div className="flex items-center gap-3 mb-2">
