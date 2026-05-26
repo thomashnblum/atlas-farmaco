@@ -1,12 +1,20 @@
 import { supabase } from './supabaseClient';
 import { Molecule, Receptor, MetabolicEnzyme, MoleculeReceptorInteraction, MoleculeEnzymeInteraction, Disorder, DisorderTreatment } from '../data/schema';
 
-// Caches locais
-let molecules: Molecule[] = [];
-let receptors: Receptor[] = [];
-let enzymes: MetabolicEnzyme[] = [];
-let pdInteractions: MoleculeReceptorInteraction[] = [];
-let pkInteractions: MoleculeEnzymeInteraction[] = [];
+import {
+  molecules as localMolecules,
+  receptors as localReceptors,
+  enzymes as localEnzymes,
+  pdInteractions as localPdInteractions,
+  pkInteractions as localPkInteractions
+} from '../data/mockData';
+
+// Caches locais inicializados com dados locais como padrão e fallback
+let molecules: Molecule[] = localMolecules;
+let receptors: Receptor[] = localReceptors;
+let enzymes: MetabolicEnzyme[] = localEnzymes;
+let pdInteractions: MoleculeReceptorInteraction[] = localPdInteractions;
+let pkInteractions: MoleculeEnzymeInteraction[] = localPkInteractions;
 let disorders: Disorder[] = [];
 let disorderTreatments: DisorderTreatment[] = [];
 
@@ -49,22 +57,32 @@ export const dataService = {
         }));
       }
 
-      molecules = (molRes.data || []).map((m: any) => ({
-        id: m.id,
-        name: m.name,
-        tradeNames: m.trade_names || [],
-        class: m.class,
-        clinicalAxes: m.clinical_axes || [],
-        mechanisms: m.mechanisms,
-        notes: m.notes,
-        sideEffects: m.side_effects || [],
-        contraindications: m.contraindications || [],
-        routes: m.routes || [],
-        psychiatryUse: m.psychiatry_use,
-        offLabelUses: m.off_label_uses || [],
-        onLabelUses: m.on_label_uses || [],
-        profileSymbols: m.profile_symbols || []
-      }));
+      molecules = (molRes.data || []).map((m: any) => {
+        const localMol = localMolecules.find(lm => lm.id === m.id);
+        return {
+          id: m.id,
+          name: m.name,
+          tradeNames: m.trade_names || [],
+          class: m.class,
+          clinicalAxes: m.clinical_axes || [],
+          mechanisms: m.mechanisms,
+          notes: m.notes,
+          sideEffects: m.side_effects || [],
+          contraindications: m.contraindications || [],
+          routes: m.routes || [],
+          psychiatryUse: m.psychiatry_use,
+          offLabelUses: m.off_label_uses || [],
+          onLabelUses: m.on_label_uses || [],
+          profileSymbols: m.profile_symbols || [],
+          halfLife: m.half_life || localMol?.halfLife,
+          bioavailability: m.bioavailability || localMol?.bioavailability,
+          onsetOfAction: m.onset_of_action || localMol?.onsetOfAction,
+          peakPlasma: m.peak_plasma || localMol?.peakPlasma,
+          proteinBinding: m.protein_binding || localMol?.proteinBinding,
+          elimination: m.elimination || localMol?.elimination,
+          therapeuticDoseRange: m.therapeutic_dose_range || localMol?.therapeuticDoseRange
+        };
+      });
 
       receptors = (recRes.data || []).map((r: any) => ({
         id: r.id,
