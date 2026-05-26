@@ -141,131 +141,6 @@ export const MoleculeIndexPage = () => {
                 </section>
               )}
 
-              {/* Parâmetros Farmacocinéticos */}
-              {(selectedMolecule.halfLife || selectedMolecule.bioavailability || selectedMolecule.onsetOfAction || selectedMolecule.therapeuticDoseRange) && (
-                <section>
-                  <h3 className="text-xs font-bold text-violet-400 uppercase tracking-widest mb-4 font-mono flex items-center gap-2">
-                    <Activity className="w-4 h-4" /> Parâmetros Farmacocinéticos
-                  </h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {selectedMolecule.halfLife && (
-                      <div className="bg-violet-500/5 border border-violet-500/20 p-3.5 rounded-xl flex items-start gap-3 hover:bg-violet-500/10 transition-all">
-                        <Clock className="w-5 h-5 text-violet-400 shrink-0 mt-0.5" />
-                        <div>
-                          <p className="text-[10px] uppercase font-mono font-bold text-violet-400/70 tracking-widest mb-0.5">Meia-Vida (t½)</p>
-                          <p className="text-sm text-zinc-200 font-semibold">{selectedMolecule.halfLife}</p>
-                        </div>
-                      </div>
-                    )}
-                    {selectedMolecule.onsetOfAction && (
-                      <div className="bg-violet-500/5 border border-violet-500/20 p-3.5 rounded-xl flex items-start gap-3 hover:bg-violet-500/10 transition-all">
-                        <Zap className="w-5 h-5 text-violet-400 shrink-0 mt-0.5" />
-                        <div>
-                          <p className="text-[10px] uppercase font-mono font-bold text-violet-400/70 tracking-widest mb-0.5">Início de Ação</p>
-                          <p className="text-sm text-zinc-200 font-semibold">{selectedMolecule.onsetOfAction}</p>
-                        </div>
-                      </div>
-                    )}
-                    {selectedMolecule.therapeuticDoseRange && (
-                      <div className="bg-violet-500/5 border border-violet-500/20 p-3.5 rounded-xl flex items-start gap-3 hover:bg-violet-500/10 transition-all">
-                        <Pill className="w-5 h-5 text-violet-400 shrink-0 mt-0.5" />
-                        <div>
-                          <p className="text-[10px] uppercase font-mono font-bold text-violet-400/70 tracking-widest mb-0.5">Faixa de Dose Terapêutica</p>
-                          <p className="text-sm text-zinc-200 font-semibold">{selectedMolecule.therapeuticDoseRange}</p>
-                        </div>
-                      </div>
-                    )}
-                    {selectedMolecule.bioavailability && (
-                      <div className="bg-violet-500/5 border border-violet-500/20 p-3.5 rounded-xl flex items-start gap-3 hover:bg-violet-500/10 transition-all">
-                        <FlaskConical className="w-5 h-5 text-violet-400 shrink-0 mt-0.5" />
-                        <div>
-                          <p className="text-[10px] uppercase font-mono font-bold text-violet-400/70 tracking-widest mb-0.5">Biodisponibilidade</p>
-                          <p className="text-sm text-zinc-200 font-semibold">{selectedMolecule.bioavailability}</p>
-                        </div>
-                      </div>
-                    )}
-                    {selectedMolecule.peakPlasma && (
-                      <div className="bg-violet-500/5 border border-violet-500/20 p-3.5 rounded-xl flex items-start gap-3 hover:bg-violet-500/10 transition-all">
-                        <Activity className="w-5 h-5 text-violet-400 shrink-0 mt-0.5" />
-                        <div>
-                          <p className="text-[10px] uppercase font-mono font-bold text-violet-400/70 tracking-widest mb-0.5">Pico Plasmático (Tmax)</p>
-                          <p className="text-sm text-zinc-200 font-semibold">{selectedMolecule.peakPlasma}</p>
-                        </div>
-                      </div>
-                    )}
-                    {selectedMolecule.proteinBinding && (
-                      <div className="bg-violet-500/5 border border-violet-500/20 p-3.5 rounded-xl flex items-start gap-3 hover:bg-violet-500/10 transition-all">
-                        <Droplets className="w-5 h-5 text-violet-400 shrink-0 mt-0.5" />
-                        <div>
-                          <p className="text-[10px] uppercase font-mono font-bold text-violet-400/70 tracking-widest mb-0.5">Ligação Proteica</p>
-                          <p className="text-sm text-zinc-200 font-semibold">{selectedMolecule.proteinBinding}</p>
-                        </div>
-                      </div>
-                    )}
-                    {selectedMolecule.elimination && (
-                      <div className="bg-violet-500/5 border border-violet-500/20 p-3.5 rounded-xl flex items-start gap-3 hover:bg-violet-500/10 transition-all col-span-1 sm:col-span-2">
-                        <FlaskConical className="w-5 h-5 text-violet-400 shrink-0 mt-0.5" />
-                        <div>
-                          <p className="text-[10px] uppercase font-mono font-bold text-violet-400/70 tracking-widest mb-0.5">Eliminação</p>
-                          <p className="text-sm text-zinc-200 font-semibold">{selectedMolecule.elimination}</p>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </section>
-              )}
-
-              <section>
-                <h3 className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-3 font-mono">Notas Clínicas</h3>
-                <p className="text-[12px] text-zinc-500 leading-relaxed italic underline decoration-amber-400/30 underline-offset-4 bg-zinc-800/40 border border-zinc-700/50 p-4 rounded-lg">
-                  <RichText text={selectedMolecule.notes} />
-                </p>
-              </section>
-
-              <section>
-                <h3 className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-3 font-mono">Via de Administração e Formas Farmacêuticas</h3>
-                <div className="flex flex-wrap gap-2">
-                  {selectedMolecule.routes && selectedMolecule.routes.length > 0 ? (
-                    selectedMolecule.routes.map((route, i) => (
-                      <span key={i} className="inline-flex bg-zinc-800 border border-zinc-700 rounded px-2.5 py-1 text-[11px] text-zinc-500 font-mono">
-                        {route}
-                      </span>
-                    ))
-                  ) : (
-                    <span className="text-zinc-600 text-xs italic font-mono">N/D</span>
-                  )}
-                </div>
-              </section>
-
-              <section>
-                <h3 className="text-xs font-bold text-rose-500/80 uppercase tracking-widest mb-3 font-mono flex items-center gap-2">
-                  <ShieldAlert className="w-4 h-4" /> Contraindicações e Alertas Clínicos
-                </h3>
-                {selectedMolecule.contraindications && selectedMolecule.contraindications.length > 0 ? (
-                  <ul className="list-disc list-outside ml-4 space-y-1">
-                    {selectedMolecule.contraindications.map((contra, i) => (
-                      <li key={i} className="text-[12px] text-rose-200/90 leading-relaxed">{contra}</li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p className="text-zinc-600 text-xs italic font-mono">Não constam alertas absolutos específicos nesta base.</p>
-                )}
-              </section>
-
-               <section>
-                <h3 className="text-xs font-bold text-amber-500/80 uppercase tracking-widest mb-3 font-mono">Perfil de Tolerabilidade (Efeitos Adversos Comuns)</h3>
-                <div className="flex flex-wrap gap-2">
-                  {selectedMolecule.sideEffects && selectedMolecule.sideEffects.length > 0 ? (
-                    selectedMolecule.sideEffects.map((effect, i) => (
-                      <span key={i} className="inline-flex bg-amber-900/20 border border-amber-500/30 text-amber-200/80 rounded-full px-3 py-1 text-[11px]">
-                        {effect}
-                      </span>
-                    ))
-                  ) : (
-                    <span className="text-zinc-600 text-xs italic font-mono">Perfil não listado.</span>
-                  )}
-                </div>
-              </section>
             </div>
 
             <div className="col-span-1 lg:col-span-2 space-y-10">
@@ -345,6 +220,134 @@ export const MoleculeIndexPage = () => {
               </section>
 
               <MoleculeStructureViewer molecule={selectedMolecule} />
+
+              {/* Parâmetros Farmacocinéticos */}
+              {(selectedMolecule.halfLife || selectedMolecule.bioavailability || selectedMolecule.onsetOfAction || selectedMolecule.therapeuticDoseRange) && (
+                <section className="pt-6 border-t border-zinc-850">
+                  <h3 className="text-xs font-bold text-violet-400 uppercase tracking-widest mb-4 font-mono flex items-center gap-2">
+                    <Activity className="w-4 h-4" /> Parâmetros Farmacocinéticos
+                  </h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {selectedMolecule.halfLife && (
+                      <div className="bg-violet-500/5 border border-violet-500/20 p-3.5 rounded-xl flex items-start gap-3 hover:bg-violet-500/10 transition-all">
+                        <Clock className="w-5 h-5 text-violet-400 shrink-0 mt-0.5" />
+                        <div>
+                          <p className="text-[10px] uppercase font-mono font-bold text-violet-400/70 tracking-widest mb-0.5">Meia-Vida (t½)</p>
+                          <p className="text-sm text-zinc-200 font-semibold">{selectedMolecule.halfLife}</p>
+                        </div>
+                      </div>
+                    )}
+                    {selectedMolecule.onsetOfAction && (
+                      <div className="bg-violet-500/5 border border-violet-500/20 p-3.5 rounded-xl flex items-start gap-3 hover:bg-violet-500/10 transition-all">
+                        <Zap className="w-5 h-5 text-violet-400 shrink-0 mt-0.5" />
+                        <div>
+                          <p className="text-[10px] uppercase font-mono font-bold text-violet-400/70 tracking-widest mb-0.5">Início de Ação</p>
+                          <p className="text-sm text-zinc-200 font-semibold">{selectedMolecule.onsetOfAction}</p>
+                        </div>
+                      </div>
+                    )}
+                    {selectedMolecule.therapeuticDoseRange && (
+                      <div className="bg-violet-500/5 border border-violet-500/20 p-3.5 rounded-xl flex items-start gap-3 hover:bg-violet-500/10 transition-all">
+                        <Pill className="w-5 h-5 text-violet-400 shrink-0 mt-0.5" />
+                        <div>
+                          <p className="text-[10px] uppercase font-mono font-bold text-violet-400/70 tracking-widest mb-0.5">Faixa de Dose Terapêutica</p>
+                          <p className="text-sm text-zinc-200 font-semibold">{selectedMolecule.therapeuticDoseRange}</p>
+                        </div>
+                      </div>
+                    )}
+                    {selectedMolecule.bioavailability && (
+                      <div className="bg-violet-500/5 border border-violet-500/20 p-3.5 rounded-xl flex items-start gap-3 hover:bg-violet-500/10 transition-all">
+                        <FlaskConical className="w-5 h-5 text-violet-400 shrink-0 mt-0.5" />
+                        <div>
+                          <p className="text-[10px] uppercase font-mono font-bold text-violet-400/70 tracking-widest mb-0.5">Biodisponibilidade</p>
+                          <p className="text-sm text-zinc-200 font-semibold">{selectedMolecule.bioavailability}</p>
+                        </div>
+                      </div>
+                    )}
+                    {selectedMolecule.peakPlasma && (
+                      <div className="bg-violet-500/5 border border-violet-500/20 p-3.5 rounded-xl flex items-start gap-3 hover:bg-violet-500/10 transition-all">
+                        <Activity className="w-5 h-5 text-violet-400 shrink-0 mt-0.5" />
+                        <div>
+                          <p className="text-[10px] uppercase font-mono font-bold text-violet-400/70 tracking-widest mb-0.5">Pico Plasmático (Tmax)</p>
+                          <p className="text-sm text-zinc-200 font-semibold">{selectedMolecule.peakPlasma}</p>
+                        </div>
+                      </div>
+                    )}
+                    {selectedMolecule.proteinBinding && (
+                      <div className="bg-violet-500/5 border border-violet-500/20 p-3.5 rounded-xl flex items-start gap-3 hover:bg-violet-500/10 transition-all">
+                        <Droplets className="w-5 h-5 text-violet-400 shrink-0 mt-0.5" />
+                        <div>
+                          <p className="text-[10px] uppercase font-mono font-bold text-violet-400/70 tracking-widest mb-0.5">Ligação Proteica</p>
+                          <p className="text-sm text-zinc-200 font-semibold">{selectedMolecule.proteinBinding}</p>
+                        </div>
+                      </div>
+                    )}
+                    {selectedMolecule.elimination && (
+                      <div className="bg-violet-500/5 border border-violet-500/20 p-3.5 rounded-xl flex items-start gap-3 hover:bg-violet-500/10 transition-all col-span-1 sm:col-span-2">
+                        <FlaskConical className="w-5 h-5 text-violet-400 shrink-0 mt-0.5" />
+                        <div>
+                          <p className="text-[10px] uppercase font-mono font-bold text-violet-400/70 tracking-widest mb-0.5">Eliminação</p>
+                          <p className="text-sm text-zinc-200 font-semibold">{selectedMolecule.elimination}</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </section>
+              )}
+
+              <section className="pt-6 border-t border-zinc-800">
+                <h3 className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-3 font-mono">Notas Clínicas</h3>
+                <p className="text-[12px] text-zinc-500 leading-relaxed italic underline decoration-amber-400/30 underline-offset-4 bg-zinc-800/40 border border-zinc-700/50 p-4 rounded-lg">
+                  <RichText text={selectedMolecule.notes} />
+                </p>
+              </section>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t border-zinc-800">
+                <section className="space-y-3">
+                  <h3 className="text-xs font-bold text-zinc-500 uppercase tracking-widest font-mono">Via de Administração</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedMolecule.routes && selectedMolecule.routes.length > 0 ? (
+                      selectedMolecule.routes.map((route, i) => (
+                        <span key={i} className="inline-flex bg-zinc-800 border border-zinc-700 rounded px-2.5 py-1 text-[11px] text-zinc-500 font-mono">
+                          {route}
+                        </span>
+                      ))
+                    ) : (
+                      <span className="text-zinc-600 text-xs italic font-mono">N/D</span>
+                    )}
+                  </div>
+                </section>
+
+                <section className="space-y-3">
+                  <h3 className="text-xs font-bold text-rose-500/80 uppercase tracking-widest font-mono flex items-center gap-2">
+                    <ShieldAlert className="w-4 h-4" /> Contraindicações
+                  </h3>
+                  {selectedMolecule.contraindications && selectedMolecule.contraindications.length > 0 ? (
+                    <ul className="list-disc list-outside ml-4 space-y-1">
+                      {selectedMolecule.contraindications.map((contra, i) => (
+                        <li key={i} className="text-[12px] text-rose-200/90 leading-relaxed">{contra}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="text-zinc-600 text-xs italic font-mono">Não constam alertas absolutos específicos nesta base.</p>
+                  )}
+                </section>
+              </div>
+
+              <section className="pt-6 border-t border-zinc-800">
+                <h3 className="text-xs font-bold text-amber-500/80 uppercase tracking-widest mb-3 font-mono">Perfil de Tolerabilidade (Efeitos Adversos Comuns)</h3>
+                <div className="flex flex-wrap gap-2">
+                  {selectedMolecule.sideEffects && selectedMolecule.sideEffects.length > 0 ? (
+                    selectedMolecule.sideEffects.map((effect, i) => (
+                      <span key={i} className="inline-flex bg-amber-900/20 border border-amber-500/30 text-amber-200/80 rounded-full px-3 py-1 text-[11px]">
+                        {effect}
+                      </span>
+                    ))
+                  ) : (
+                    <span className="text-zinc-600 text-xs italic font-mono">Perfil não listado.</span>
+                  )}
+                </div>
+              </section>
             </div>
           </div>
         </div>
