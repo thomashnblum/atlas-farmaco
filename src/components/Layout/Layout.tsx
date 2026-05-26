@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { cn } from '../../utils/cn';
-import { Network, Search, BookOpen, Menu, Sparkles, SlidersHorizontal, Beaker, Info, LogOut, User as UserIcon, LogIn, Activity, Brain } from 'lucide-react';
+import { Network, Search, BookOpen, Menu, Sparkles, SlidersHorizontal, Beaker, Info, LogOut, User as UserIcon, LogIn, Activity, Brain, Lock } from 'lucide-react';
 import { dataService } from '../../services/dataService';
 import { useAuth } from '../../context/AuthContext';
 import { supabase } from '../../services/supabaseClient';
@@ -16,15 +16,15 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
   const { session, user } = useAuth();
 
   const navigation = [
-    { name: 'Dashboard', href: '/', icon: Network },
-    { name: 'Atlas Relacional', href: '/atlas', icon: Search },
-    { name: 'Catálogo de Fármacos', href: '/molecules', icon: BookOpen },
-    { name: 'Catálogo de Transtornos', href: '/disorders', icon: Brain },
-    { name: 'Catálogo de Enzimas', href: '/enzymes', icon: Beaker },
-    { name: 'Catálogo de Receptores', href: '/receptors', icon: Activity },
-    { name: 'Simulador de Interações', href: '/navigator', icon: Sparkles },
-    { name: 'Comparar', href: '/compare', icon: SlidersHorizontal },
-    { name: 'Glossário de Símbolos', href: '/glossary', icon: Info },
+    { name: 'Dashboard', href: '/', icon: Network, isPaid: false },
+    { name: 'Atlas Relacional', href: '/atlas', icon: Search, isPaid: false },
+    { name: 'Catálogo de Fármacos', href: '/molecules', icon: BookOpen, isPaid: true },
+    { name: 'Catálogo de Transtornos', href: '/disorders', icon: Brain, isPaid: false },
+    { name: 'Catálogo de Enzimas', href: '/enzymes', icon: Beaker, isPaid: true },
+    { name: 'Catálogo de Receptores', href: '/receptors', icon: Activity, isPaid: true },
+    { name: 'Simulador de Interações', href: '/navigator', icon: Sparkles, isPaid: true },
+    { name: 'Comparar', href: '/compare', icon: SlidersHorizontal, isPaid: true },
+    { name: 'Glossário de Símbolos', href: '/glossary', icon: Info, isPaid: false },
   ];
 
   // Close search on outside click
@@ -168,19 +168,23 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
           <nav className="hidden 2xl:flex space-x-1 lg:space-x-3 text-[12px] font-medium h-full items-center whitespace-nowrap">
             {navigation.map((item) => {
               const isActive = location.pathname === item.href;
+              const isLocked = item.isPaid && !session;
               return (
                 <Link
                   key={item.name}
                   to={item.href}
                   className={cn(
-                    "flex items-center gap-1.5 transition-colors h-16 border-b-2 border-transparent px-1",
+                    "flex items-center gap-1.5 transition-colors h-16 border-b-2 px-1 relative group/nav",
                     isActive 
                       ? "text-amber-300 border-amber-300" 
-                      : "text-zinc-500 hover:text-zinc-100"
+                      : "text-zinc-500 hover:text-zinc-100 border-transparent"
                   )}
                 >
-                  <item.icon className="w-4 h-4" />
-                  {item.name}
+                  <item.icon className={cn("w-4 h-4", isLocked ? "opacity-50" : "")} />
+                  <span className={cn(isLocked ? "opacity-70" : "")}>{item.name}</span>
+                  {isLocked && (
+                    <Lock className="w-3 h-3 text-rose-500/80 mb-3 -ml-0.5" />
+                  )}
                 </Link>
               );
             })}
@@ -228,20 +232,24 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
         <div className="2xl:hidden bg-zinc-900 border-b border-zinc-800 p-4 space-y-2 max-h-[80vh] overflow-y-auto">
           {navigation.map((item) => {
             const isActive = location.pathname === item.href;
+            const isLocked = item.isPaid && !session;
             return (
               <Link
                 key={item.name}
                 to={item.href}
                 onClick={() => setMobileMenuOpen(false)}
                 className={cn(
-                  "flex items-center gap-2 p-3 rounded-lg text-sm font-medium transition-colors border",
+                  "flex items-center justify-between p-3 rounded-lg text-sm font-medium transition-colors border",
                   isActive 
                     ? "bg-amber-400/10 text-amber-300 border-amber-400/20" 
                     : "text-zinc-500 hover:bg-zinc-800 border-transparent"
                 )}
               >
-                <item.icon className="w-4 h-4" />
-                {item.name}
+                <div className="flex items-center gap-2">
+                  <item.icon className={cn("w-4 h-4", isLocked ? "opacity-50" : "")} />
+                  <span className={cn(isLocked ? "opacity-70" : "")}>{item.name}</span>
+                </div>
+                {isLocked && <Lock className="w-4 h-4 text-rose-500/80" />}
               </Link>
             );
           })}

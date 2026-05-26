@@ -60,26 +60,39 @@ export default function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
               
-              {/* Rotas de Catálogo (Podem ser públicas para atrair SEO ou protegidas) */}
-              <Route path="/molecules" element={<MoleculeIndexPage />} />
+              {/* Rotas de Catálogo (Públicas/Abertas) */}
               <Route path="/disorders" element={<DisordersPage />} />
               <Route path="/disorders/:id" element={<DisorderDetailPage />} />
-              <Route path="/enzymes" element={<EnzymesPage />} />
-              <Route path="/receptors" element={<ReceptorsPage />} />
-              <Route path="/compare" element={<ComparePage />} />
               <Route path="/glossary" element={<GlossaryPage />} />
+              <Route path="/atlas" element={<AtlasViewPage />} />
 
-              {/* Rotas Protegidas (Core Value do SaaS) */}
+              {/* Rotas Premium/Pagas (Protegidas) */}
+              <Route path="/molecules" element={
+                <ProtectedRoute>
+                  <MoleculeIndexPage />
+                </ProtectedRoute>
+              } />
+              <Route path="/enzymes" element={
+                <ProtectedRoute>
+                  <EnzymesPage />
+                </ProtectedRoute>
+              } />
+              <Route path="/receptors" element={
+                <ProtectedRoute>
+                  <ReceptorsPage />
+                </ProtectedRoute>
+              } />
+              <Route path="/compare" element={
+                <ProtectedRoute>
+                  <ComparePage />
+                </ProtectedRoute>
+              } />
               <Route path="/navigator" element={
                 <ProtectedRoute>
                   <NavigatorPage />
                 </ProtectedRoute>
               } />
-              <Route path="/atlas" element={
-                <ProtectedRoute>
-                  <AtlasViewPage />
-                </ProtectedRoute>
-              } />
+
               <Route path="/admin" element={
                 <ProtectedRoute>
                   <AdminPage />

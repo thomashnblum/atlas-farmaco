@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { supabase } from '../services/supabaseClient';
 import { Network, Mail, Lock, Loader2, AlertCircle, Eye, EyeOff } from 'lucide-react';
 import { cn } from '../utils/cn';
@@ -11,6 +11,10 @@ export const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const location = useLocation();
+  
+  const from = location.state?.from?.pathname;
+  const isRestrictedAccess = !!from && from !== '/';
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,10 +41,16 @@ export const LoginPage = () => {
       <div className="w-full max-w-md bg-zinc-900/50 backdrop-blur-md border border-zinc-800 rounded-2xl p-8 shadow-2xl">
         <div className="flex flex-col items-center mb-8">
           <div className="w-12 h-12 bg-amber-400 rounded-xl flex items-center justify-center mb-4 shadow-lg shadow-amber-400/20">
-            <Network className="w-7 h-7 text-zinc-900" />
+            {isRestrictedAccess ? <Lock className="w-6 h-6 text-zinc-900" /> : <Network className="w-7 h-7 text-zinc-900" />}
           </div>
-          <h2 className="text-2xl font-bold text-zinc-100 tracking-tight">Bem-vindo de volta</h2>
-          <p className="text-zinc-500 text-sm mt-1">Acesse sua conta do Atlas Farmaco</p>
+          <h2 className="text-2xl font-bold text-zinc-100 tracking-tight text-center">
+            {isRestrictedAccess ? "Acesso Restrito" : "Bem-vindo de volta"}
+          </h2>
+          <p className="text-zinc-500 text-sm mt-1 text-center">
+            {isRestrictedAccess 
+              ? "Esta área é exclusiva para assinantes do Atlas Farmaco Premium." 
+              : "Acesse sua conta do Atlas Farmaco"}
+          </p>
         </div>
 
         {error && (
