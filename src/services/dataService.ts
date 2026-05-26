@@ -84,22 +84,39 @@ export const dataService = {
         };
       });
 
-      receptors = (recRes.data || []).map((r: any) => ({
+      // 1. Receptors
+      const remoteReceptors = (recRes.data || []).map((r: any) => ({
         id: r.id,
         name: r.name,
         type: r.type,
         neurotransmitterSystem: r.neurotransmitter_system,
         description: r.description
       }));
+      const remoteRecIds = new Set(remoteReceptors.map(r => r.id));
+      receptors = [...remoteReceptors];
+      localReceptors.forEach(lr => {
+        if (!remoteRecIds.has(lr.id)) {
+          receptors.push(lr);
+        }
+      });
 
-      enzymes = (enzRes.data || []).map((e: any) => ({
+      // 2. Enzymes
+      const remoteEnzymes = (enzRes.data || []).map((e: any) => ({
         id: e.id,
         name: e.name,
         description: e.description,
         location: e.location
       }));
+      const remoteEnzIds = new Set(remoteEnzymes.map(e => e.id));
+      enzymes = [...remoteEnzymes];
+      localEnzymes.forEach(le => {
+        if (!remoteEnzIds.has(le.id)) {
+          enzymes.push(le);
+        }
+      });
 
-      pdInteractions = (pdRes.data || []).map((pd: any) => ({
+      // 3. PD Interactions
+      const remotePd = (pdRes.data || []).map((pd: any) => ({
         moleculeId: pd.molecule_id,
         receptorId: pd.receptor_id,
         actionType: pd.action_type,
@@ -107,14 +124,29 @@ export const dataService = {
         notes: pd.notes,
         sources: pd.sources || []
       }));
+      const remotePdKeys = new Set(remotePd.map(pd => `${pd.moleculeId}-${pd.receptorId}`));
+      pdInteractions = [...remotePd];
+      localPdInteractions.forEach(lp => {
+        if (!remotePdKeys.has(`${lp.moleculeId}-${lp.receptorId}`)) {
+          pdInteractions.push(lp);
+        }
+      });
 
-      pkInteractions = (pkRes.data || []).map((pk: any) => ({
+      // 4. PK Interactions
+      const remotePk = (pkRes.data || []).map((pk: any) => ({
         moleculeId: pk.molecule_id,
         enzymeId: pk.enzyme_id,
         role: pk.role,
         notes: pk.notes,
         sources: pk.sources || []
       }));
+      const remotePkKeys = new Set(remotePk.map(pk => `${pk.moleculeId}-${pk.enzymeId}-${pk.role}`));
+      pkInteractions = [...remotePk];
+      localPkInteractions.forEach(lp => {
+        if (!remotePkKeys.has(`${lp.moleculeId}-${lp.enzymeId}-${lp.role}`)) {
+          pkInteractions.push(lp);
+        }
+      });
 
       console.log(`Dados carregados: ${molecules.length} Mols, ${receptors.length} Recs, ${enzymes.length} Enzs.`);
     } catch (error) {

@@ -121,7 +121,8 @@ export const receptors: Receptor[] = [
   { id: 'r20', name: 'xCT', type: 'Enzima Alvo', neurotransmitterSystem: 'Glutamatérgico', description: 'Antiporter cistina-glutamato, modulador do glutamato na fenda extrassináptica.' },
   { id: 'r21', name: 'Sigma-1', type: 'Receptor', neurotransmitterSystem: 'Glutamatérgico / Geral', description: 'Receptor chaperona intracelular associado à neuroproteção, plasticidade sináptica e efeitos ansiolíticos.' },
   { id: 'r22', name: '5-HT3', type: 'Receptor', neurotransmitterSystem: 'Serotoninérgico', description: 'Canal iônico serotoninérgico; seu antagonismo alivia náuseas e aumenta acetilcolina/noradrenalina no córtex.' },
-  { id: 'r23', name: '5-HT7', type: 'Receptor', neurotransmitterSystem: 'Serotoninérgico', description: 'Receptor metabotrópico regulador do sono, ritmo circadiano e cognição pré-frontal.' }
+  { id: 'r23', name: '5-HT7', type: 'Receptor', neurotransmitterSystem: 'Serotoninérgico', description: 'Receptor metabotrópico regulador do sono, ritmo circadiano e cognição pré-frontal.' },
+  { id: 'r24', name: 'Adenosina (A1/A2A)', type: 'Receptor', neurotransmitterSystem: 'Adenosinérgico', description: 'Receptores neuromoduladores reguladores do sono, fadiga e tônus cardiovascular.' }
 ];
 
 export const enzymes: MetabolicEnzyme[] = [
@@ -275,7 +276,8 @@ export const pdInteractions: MoleculeReceptorInteraction[] = [
   { moleculeId: 'm33', receptorId: 'r22', actionType: 'Antagonista', affinityKi: 3.7, notes: 'Bloqueio potente de 5-HT3, induzindo liberação de acetilcolina e dopamina.' },
   { moleculeId: 'm33', receptorId: 'r23', actionType: 'Antagonista', affinityKi: 19, notes: 'Antagonismo potente de 5-HT7, melhorando ritmos circadianos e cognição.' },
   { moleculeId: 'm32', receptorId: 'r23', actionType: 'Antagonista', affinityKi: 29, notes: 'Bloqueio de 5-HT7 contribui para a regulação do sono profundo.' },
-  { moleculeId: 'm17', receptorId: 'r22', actionType: 'Antagonista', affinityKi: 8.1, notes: 'Forte antagonismo de 5-HT3, reduzindo propensões a náuseas e regulando o apetite.' }
+  { moleculeId: 'm17', receptorId: 'r22', actionType: 'Antagonista', affinityKi: 8.1, notes: 'Forte antagonismo de 5-HT3, reduzindo propensões a náuseas e regulando o apetite.' },
+  { moleculeId: 'm56', receptorId: 'r24', actionType: 'Antagonista', affinityKi: 20000, notes: 'Bloqueio dos receptores de adenosina promove estado de vigília e estimulação.' }
 ];
 
 export const pkInteractions: MoleculeEnzymeInteraction[] = [
@@ -376,5 +378,19 @@ export const pkInteractions: MoleculeEnzymeInteraction[] = [
   { moleculeId: 'm20', enzymeId: 'e1', role: 'Substrato', notes: 'Depurada por vias do CYP2D6.' },
   { moleculeId: 'm20', enzymeId: 'e4', role: 'Inibidor Moderado', notes: 'Inibe secundariamente o CYP2C19.' },
   { moleculeId: 'm19', enzymeId: 'e1', role: 'Substrato', notes: 'Metabolizada por vias do CYP2D6.' },
-  { moleculeId: 'm19', enzymeId: 'e2', role: 'Substrato', notes: 'Metabolizada secundariamente pelo CYP3A4.' }
+  { moleculeId: 'm19', enzymeId: 'e2', role: 'Substrato', notes: 'Metabolizada secundariamente pelo CYP3A4.' },
+  { moleculeId: 'm6', enzymeId: 'e4', role: 'Substrato', notes: 'Escitalopram é metabolizado majoritariamente pelo CYP2C19.' },
+  { moleculeId: 'm6', enzymeId: 'e2', role: 'Substrato', notes: 'Metabolização secundária pelo CYP3A4.' },
+  { moleculeId: 'm6', enzymeId: 'e1', role: 'Substrato', notes: 'Metabolização secundária pelo CYP2D6.' },
+  { moleculeId: 'm7', enzymeId: 'e4', role: 'Substrato', notes: 'Citalopram é metabolizado majoritariamente pelo CYP2C19.' },
+  { moleculeId: 'm7', enzymeId: 'e2', role: 'Substrato', notes: 'Metabolização secundária pelo CYP3A4.' },
+  { moleculeId: 'm7', enzymeId: 'e1', role: 'Substrato', notes: 'Metabolização secundária pelo CYP2D6.' },
+  { moleculeId: 'm26', enzymeId: 'e2', role: 'Substrato', notes: 'Ziprasidona é metabolizada majoritariamente pelo CYP3A4.' },
+  { moleculeId: 'm10', enzymeId: 'e6', role: 'Substrato', notes: 'Desvenlafaxina é depurada por UGT central sem envolver CYP significativamente.' },
+  { moleculeId: 'm12', enzymeId: 'e6', role: 'Substrato', notes: 'Milnaciprana é eliminada majoritariamente por glucuronidação UGT.' },
+  { moleculeId: 'm18', enzymeId: 'e1', role: 'Substrato', notes: 'Maprotilina é metabolizada pelo CYP2D6.' },
+  { moleculeId: 'm35', enzymeId: 'e2', role: 'Substrato', notes: 'Buspirona é metabolizada majoritariamente pelo CYP3A4.' },
+  { moleculeId: 'm52', enzymeId: 'e1', role: 'Substrato', notes: 'Lisdexanfetamina (d-anfetamina) é parcialmente metabolizada pelo CYP2D6.' },
+  { moleculeId: 'm53', enzymeId: 'e1', role: 'Substrato', notes: 'Dextroanfetamina é parcialmente metabolizada pelo CYP2D6.' },
+  { moleculeId: 'm55', enzymeId: 'e2', role: 'Substrato', notes: 'Armodafinil é metabolizado pelo CYP3A4.' }
 ];
