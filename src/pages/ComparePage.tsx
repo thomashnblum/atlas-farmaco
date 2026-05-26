@@ -1,38 +1,11 @@
 import { useState, useEffect } from 'react';
 import { dataService } from '../services/dataService';
 import { Molecule } from '../data/schema';
-import { Sparkles } from 'lucide-react';
-import { aiService, AIInsight } from '../services/aiService';
 import { ProfileSymbolBadge } from '../components/UI/ProfileSymbolBadge';
 
 export const ComparePage = () => {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
-  const [insight, setInsight] = useState<AIInsight | null>(null);
-  const [loadingInsight, setLoadingInsight] = useState(false);
   const molecules = dataService.getMolecules();
-
-  useEffect(() => {
-    const generateInsight = async () => {
-      const selectedMolecules = selectedIds.map(id => dataService.getMoleculeById(id)).filter(Boolean) as any[];
-      if (selectedMolecules.length >= 2) {
-        setLoadingInsight(true);
-        try {
-          const pd = selectedMolecules.flatMap(m => dataService.getPharmacodynamics(m.id));
-          const pk = selectedMolecules.flatMap(m => dataService.getPharmacokinetics(m.id));
-          const newInsight = await aiService.generateClinicalInsights(selectedMolecules, pd, pk);
-          setInsight(newInsight);
-        } catch (error) {
-          console.error("Erro ao gerar insight:", error);
-          setInsight(null);
-        } finally {
-          setLoadingInsight(false);
-        }
-      } else {
-        setInsight(null);
-      }
-    };
-    generateInsight();
-  }, [selectedIds]);
 
   const addMolecule = (id: string) => {
     if (id && !selectedIds.includes(id) && selectedIds.length < 3) {
@@ -222,35 +195,7 @@ export const ComparePage = () => {
               );
             })}
           </div>
-          
-          {loadingInsight ? (
-             <div className="mt-6 p-4 rounded-xl border border-indigo-500/30 bg-indigo-500/10 flex items-center justify-center gap-3 animate-pulse">
-               <Sparkles className="w-4 h-4 text-indigo-400" />
-               <span className="text-xs font-mono font-bold text-indigo-400 uppercase tracking-widest">Sintetizando Insight Clínico AI...</span>
-             </div>
-          ) : insight && (
-             <div className={`mt-6 p-5 rounded-xl border flex gap-4 ${
-               insight.severity === 'danger' ? 'bg-rose-500/10 border-rose-500/30' :
-               insight.severity === 'warning' ? 'bg-amber-500/10 border-amber-500/30' :
-               'bg-indigo-500/10 border-indigo-500/30'
-             }`}>
-               <div className="shrink-0 mt-0.5">
-                 <Sparkles className={`w-5 h-5 ${
-                   insight.severity === 'danger' ? 'text-rose-400' :
-                   insight.severity === 'warning' ? 'text-amber-400' :
-                   'text-indigo-400'
-                 }`} />
-               </div>
-               <div>
-                 <h4 className={`text-xs font-bold uppercase tracking-widest mb-1 ${
-                   insight.severity === 'danger' ? 'text-rose-400' :
-                   insight.severity === 'warning' ? 'text-amber-400' :
-                   'text-indigo-400'
-                 }`}>{insight.title}</h4>
-                 <p className="text-[13px] text-zinc-500 leading-relaxed font-sans">{insight.description}</p>
-               </div>
-             </div>
-          )}
+          {/* Removido Insight Clínico Automatizado IA */}
         </div>
       ) : (
          <div className="flex-1 flex items-center justify-center bg-zinc-900 border border-zinc-800 rounded-xl">
