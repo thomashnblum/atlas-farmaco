@@ -11,7 +11,7 @@ export type ClinicalAxis =
   | 'Opioide'
   | 'Neuroprotetor'
   | 'Suplemento';
-export type ActionType = 'Agonista' | 'Agonista Total' | 'Agonista Parcial' | 'Agonista Seletivo' | 'Antagonista' | 'Inibidor de Recaptação' | 'Modulador Alostérico' | 'Inibidor Enzimático' | 'Outro';
+export type ActionType = 'Agonista' | 'Agonista Total' | 'Agonista Parcial' | 'Agonista Seletivo' | 'Antagonista' | 'Inibidor de Recaptação' | 'Modulador Alostérico' | 'Inibidor Enzimático' | 'Precursor / Modulador' | 'Substrato (Liberador)' | 'Outro';
 export type EnzymaticRole = 'Substrato' | 'Inibidor Forte' | 'Inibidor Moderado' | 'Inibidor Fraco' | 'Indutor Forte' | 'Indutor Moderado' | 'Indutor Fraco';
 
 export interface OffLabelUse {
@@ -56,6 +56,13 @@ export interface Molecule {
   offLabelUses?: OffLabelUse[];
   onLabelUses?: OnLabelUse[];
   profileSymbols?: ProfileSymbolKey[];
+  halfLife?: string;
+  bioavailability?: string;
+  onsetOfAction?: string;
+  peakPlasma?: string;
+  proteinBinding?: string;
+  elimination?: string;
+  therapeuticDoseRange?: string;
 }
 
 export interface Receptor {

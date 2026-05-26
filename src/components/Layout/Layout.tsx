@@ -39,12 +39,13 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const searchResults = () => {
-    if (searchQuery.length < 2) return { molecules: [], receptors: [], enzymes: [] };
+    if (searchQuery.length < 2) return { molecules: [], receptors: [], enzymes: [], disorders: [] };
     const q = searchQuery.toLowerCase();
     return {
       molecules: dataService.getMolecules().filter(m => m.name.toLowerCase().includes(q) || m.tradeNames.some(t => t.toLowerCase().includes(q))),
       receptors: dataService.getReceptors().filter(r => r.name.toLowerCase().includes(q)),
-      enzymes: dataService.getEnzymes().filter(e => e.name.toLowerCase().includes(q))
+      enzymes: dataService.getEnzymes().filter(e => e.name.toLowerCase().includes(q)),
+      disorders: dataService.getDisorders().filter(d => d.name.toLowerCase().includes(q))
     };
   };
 

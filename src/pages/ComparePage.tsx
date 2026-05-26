@@ -173,6 +173,50 @@ export const ComparePage = () => {
                         <p className="text-xs text-zinc-600 font-mono italic mt-2">Sem atividade CYP catalogada.</p>
                       )}
                     </section>
+
+                    {(mol.halfLife || mol.therapeuticDoseRange || mol.bioavailability) && (
+                      <section>
+                        <h4 className="text-[10px] uppercase text-violet-400 font-mono font-bold mb-2 tracking-widest border-b border-zinc-800 pb-1">Parâmetros Farmacocinéticos</h4>
+                        <div className="space-y-1.5 mt-2">
+                          {mol.halfLife && (
+                            <div className="flex justify-between items-center bg-violet-500/5 border border-violet-500/20 p-2 rounded">
+                              <span className="text-[10px] font-mono font-bold text-violet-400/70 uppercase">Meia-Vida</span>
+                              <span className="text-[11px] text-zinc-200 font-semibold text-right max-w-[60%]">{mol.halfLife}</span>
+                            </div>
+                          )}
+                          {mol.onsetOfAction && (
+                            <div className="flex justify-between items-center bg-violet-500/5 border border-violet-500/20 p-2 rounded">
+                              <span className="text-[10px] font-mono font-bold text-violet-400/70 uppercase">Início de Ação</span>
+                              <span className="text-[11px] text-zinc-200 font-semibold text-right max-w-[60%]">{mol.onsetOfAction}</span>
+                            </div>
+                          )}
+                          {mol.therapeuticDoseRange && (
+                            <div className="flex justify-between items-center bg-violet-500/5 border border-violet-500/20 p-2 rounded">
+                              <span className="text-[10px] font-mono font-bold text-violet-400/70 uppercase">Dose</span>
+                              <span className="text-[11px] text-zinc-200 font-semibold text-right max-w-[60%]">{mol.therapeuticDoseRange}</span>
+                            </div>
+                          )}
+                          {mol.bioavailability && (
+                            <div className="flex justify-between items-center bg-violet-500/5 border border-violet-500/20 p-2 rounded">
+                              <span className="text-[10px] font-mono font-bold text-violet-400/70 uppercase">Biodisponib.</span>
+                              <span className="text-[11px] text-zinc-200 font-semibold text-right max-w-[60%]">{mol.bioavailability}</span>
+                            </div>
+                          )}
+                          {mol.proteinBinding && (
+                            <div className="flex justify-between items-center bg-violet-500/5 border border-violet-500/20 p-2 rounded">
+                              <span className="text-[10px] font-mono font-bold text-violet-400/70 uppercase">Lig. Proteica</span>
+                              <span className="text-[11px] text-zinc-200 font-semibold text-right max-w-[60%]">{mol.proteinBinding}</span>
+                            </div>
+                          )}
+                          {mol.elimination && (
+                            <div className="flex justify-between items-center bg-violet-500/5 border border-violet-500/20 p-2 rounded">
+                              <span className="text-[10px] font-mono font-bold text-violet-400/70 uppercase">Eliminação</span>
+                              <span className="text-[11px] text-zinc-200 font-semibold text-right max-w-[60%]">{mol.elimination}</span>
+                            </div>
+                          )}
+                        </div>
+                      </section>
+                    )}
                   </div>
                 </div>
               );

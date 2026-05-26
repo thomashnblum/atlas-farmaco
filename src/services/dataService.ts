@@ -1,5 +1,5 @@
 import { supabase } from './supabaseClient';
-import { Molecule, Receptor, MetabolicEnzyme, MoleculeReceptorInteraction, MoleculeEnzymeInteraction } from '../data/schema';
+import { Molecule, Receptor, MetabolicEnzyme, MoleculeReceptorInteraction, MoleculeEnzymeInteraction, Disorder, DisorderTreatment } from '../data/schema';
 
 // Caches locais
 let molecules: Molecule[] = [];

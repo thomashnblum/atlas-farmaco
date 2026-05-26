@@ -3,7 +3,7 @@ import { useLocation, useNavigate, useSearchParams, Link } from 'react-router-do
 import { Network, Search, Filter, Fingerprint, Info, Brain, Zap, Activity, ArrowLeft } from 'lucide-react';
 import { dataService } from '../services/dataService';
 import { cn } from '../utils/cn';
-import { Receptor } from '../data/schema';
+import { Receptor, MoleculeReceptorInteraction } from '../data/schema';
 import { RECEPTOR_CLINICAL_PROFILES } from '../data/clinicalKnowledge';
 import { RichText } from '../components/UI/RichText';
 

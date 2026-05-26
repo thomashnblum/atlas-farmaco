@@ -1,5 +1,6 @@
 import { Molecule } from '../../data/schema';
 import { ProfileSymbolBadge } from '../UI/ProfileSymbolBadge';
+import { Clock, Pill } from 'lucide-react';
 
 interface MoleculeCardProps {
   key?: any;
@@ -32,10 +33,27 @@ export const MoleculeCard = ({ molecule, onClick }: MoleculeCardProps) => {
         </span>
       </div>
       
-      <div className="mb-6 flex-1">
+      <div className="mb-4 flex-1">
         <h4 className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-2 font-mono">Mecanismo de Ação</h4>
         <p className="text-sm text-zinc-500 line-clamp-3 leading-relaxed">{molecule.mechanisms}</p>
       </div>
+
+      {(molecule.halfLife || molecule.therapeuticDoseRange) && (
+        <div className="mb-4 flex flex-wrap gap-2">
+          {molecule.halfLife && (
+            <span className="inline-flex items-center gap-1.5 bg-violet-500/10 border border-violet-500/20 rounded-lg px-2.5 py-1.5 text-[10px] text-violet-300 font-mono font-bold">
+              <Clock className="w-3 h-3" />
+              t½: {molecule.halfLife.split(' (')[0]}
+            </span>
+          )}
+          {molecule.therapeuticDoseRange && (
+            <span className="inline-flex items-center gap-1.5 bg-teal-500/10 border border-teal-500/20 rounded-lg px-2.5 py-1.5 text-[10px] text-teal-300 font-mono font-bold">
+              <Pill className="w-3 h-3" />
+              {molecule.therapeuticDoseRange}
+            </span>
+          )}
+        </div>
+      )}
 
       <div className="mt-auto pt-4 border-t border-zinc-800 flex flex-wrap gap-2">
         {molecule.clinicalAxes.map((axis) => (
