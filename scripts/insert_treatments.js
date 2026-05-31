@@ -73,6 +73,7 @@ const treatmentRules = [
   { disorder: 'tr_bipolar_1', drug: 'Carbamazepina', line: '2ª Linha' },
   { disorder: 'tr_bipolar_1', drug: 'Haloperidol', line: '2ª Linha' },
   { disorder: 'tr_bipolar_1', drug: 'Clozapina', line: 'Refratária' },
+  { disorder: 'tr_bipolar_1', drug: 'Topiramato', line: 'Off-label' },
   
   // Bipolar 2
   { disorder: 'tr_bipolar_2', drug: 'Quetiapina', line: '1ª Linha' },
@@ -138,10 +139,12 @@ const treatmentRules = [
   { disorder: 'tr_eating_bn', drug: 'Fluoxetina', line: '1ª Linha' },
   { disorder: 'tr_eating_bn', drug: 'Sertralina', line: '2ª Linha' },
   { disorder: 'tr_eating_bn', drug: 'Lisdexanfetamina', line: 'Off-label' }, // Oficial p/ TCAP, não bulimia estrita
+  { disorder: 'tr_eating_bn', drug: 'Topiramato', line: 'Off-label' },
 
   // Álcool
   { disorder: 'tr_sud_alcohol', drug: 'Naltrexona', line: '1ª Linha' },
   { disorder: 'tr_sud_alcohol', drug: 'Diazepam', line: '1ª Linha' }, // Para desintoxicação aguda
+  { disorder: 'tr_sud_alcohol', drug: 'Topiramato', line: 'Off-label' },
 
   // TDPM
   { disorder: 'tr_pmdd', drug: 'Sertralina', line: '1ª Linha' },

@@ -91,6 +91,7 @@ const baseMolecules: Molecule[] = [
   { id: 'm55', name: 'Armodafinil', tradeNames: ['Nuvigil'], class: 'Estimulante do SNC (Eugeroico)', clinicalAxes: ['Estimulante'], mechanisms: 'Enantiômero R purificado do modafinil. Efeito principal como inibidor longo do DAT.', notes: 'Perfil parecido com modafinil, porém pico sérico tardio conferiu maior duração durante o dia.', sideEffects: ["Cefaleia forte", "Palpitações", "Ansiedade aguda"], contraindications: ["Hipersensibilidade"], routes: ["Oral", "Comprimido"] , halfLife: "~15h", bioavailability: "Não determinada (boa absorção)", onsetOfAction: "1-3h", peakPlasma: "2h (jejum); 4-6h (alimentado)", proteinBinding: "~60%", elimination: "Renal (como metabólitos)", therapeuticDoseRange: "150-250 mg/dia" },
   { id: 'm56', name: 'Cafeína', tradeNames: ['Vivendo', 'Dose extra'], class: 'Metilxantina', clinicalAxes: ['Estimulante', 'Suplemento'], mechanisms: 'Antagonista não seletivo dos receptores de adenosina (A1 e A2A), resultando em aumento secundário indireto nos disparos de dopamina e outras catecolaminas.', notes: 'Uso off-label em TDAH leve e astenia depressiva. Doses excessivas simulam/precipitam ataques de pânico.', sideEffects: ["Taquicardia", "Tremores", "Inquietação nervosa", "Diurese farta"], contraindications: ["Arritmias clinicamente instáveis", "Transtorno de Pânico Descompensado"], routes: ["Oral", "Comprimido", "Pó"] , halfLife: "3-5h (adultos)", bioavailability: "~99%", onsetOfAction: "15-45 min", peakPlasma: "30-120 min", proteinBinding: "~36%", elimination: "Renal (como metabólitos)", therapeuticDoseRange: "100-400 mg/dia" },
   { id: 'm57', name: 'Atomoxetina', tradeNames: ['Strattera', 'Atentina'], class: 'Inibidor de Recaptação (Não-estimulante)', clinicalAxes: ['Estimulante'], mechanisms: 'Inibidor seletivo e altamente potente do transportador de noradrenalina (NET). Aumenta DA em regiões específicas (córtex pré-frontal) onde o NET recolhe DA.', notes: 'É listado entre medicamentos de TDAH como "não-estimulante", possuindo atraso terapêutico semelhante aos antidepressivos (4-8 semanas).', sideEffects: ["Desconforto GI", "Náusea", "Astenia letárgica / Sonolência atípica", "Riscos hepáticos"], contraindications: ["Uso com IMAO", "Glaucoma de ângulo estreito", "Feocromocitoma"], routes: ["Oral", "Cápsula"] , halfLife: "5h (metabolizadores extensivos); 21h (lentos CYP2D6)", bioavailability: "63-94% (variável por CYP2D6)", onsetOfAction: "4-8 semanas (efeito pleno)", peakPlasma: "1-2h", proteinBinding: "98%", elimination: "Renal (>80% como metabólitos)", therapeuticDoseRange: "40-100 mg/dia" },
+  { id: 'm58', name: 'Topiramato', tradeNames: ['Amato', 'Topamax', 'Sigmax'], class: 'Anticonvulsivante', clinicalAxes: ['Estabilizador', 'Anticonvulsivante'], mechanisms: 'Bloqueio de canais de sódio voltagem-dependentes (VSSC), potenciação do receptor GABA-A e antagonismo do receptor AMPA/Kainato.', notes: 'Frequente queixa de lentificação cognitiva (fog mental) e parestesia. Muito útil para profilaxia de enxaqueca.', sideEffects: ["Parestesia", "Lentificação cognitiva", "Perda de apetite", "Gosto metálico", "Acidose metabólica leve"], contraindications: ["Gravidez (Risco D)", "Histórico de nefrolitíase", "Glaucoma de ângulo fechado agudo"], routes: ["Oral", "Comprimido"] , halfLife: "19-25h", bioavailability: "80%", onsetOfAction: "2-4 semanas (profilaxia/estabilização)", peakPlasma: "2-3h", proteinBinding: "15-41%", elimination: "Renal (70% inalterado)", therapeuticDoseRange: "25-200 mg/dia" }
 ];
 
 export const molecules: Molecule[] = baseMolecules.map(m => ({
@@ -122,7 +123,8 @@ export const receptors: Receptor[] = [
   { id: 'r21', name: 'Sigma-1', type: 'Receptor', neurotransmitterSystem: 'Glutamatérgico / Geral', description: 'Receptor chaperona intracelular associado à neuroproteção, plasticidade sináptica e efeitos ansiolíticos.' },
   { id: 'r22', name: '5-HT3', type: 'Receptor', neurotransmitterSystem: 'Serotoninérgico', description: 'Canal iônico serotoninérgico; seu antagonismo alivia náuseas e aumenta acetilcolina/noradrenalina no córtex.' },
   { id: 'r23', name: '5-HT7', type: 'Receptor', neurotransmitterSystem: 'Serotoninérgico', description: 'Receptor metabotrópico regulador do sono, ritmo circadiano e cognição pré-frontal.' },
-  { id: 'r24', name: 'Adenosina (A1/A2A)', type: 'Receptor', neurotransmitterSystem: 'Adenosinérgico', description: 'Receptores neuromoduladores reguladores do sono, fadiga e tônus cardiovascular.' }
+  { id: 'r24', name: 'Adenosina (A1/A2A)', type: 'Receptor', neurotransmitterSystem: 'Adenosinérgico', description: 'Receptores neuromoduladores reguladores do sono, fadiga e tônus cardiovascular.' },
+  { id: 'r25', name: 'AMPA/Kainato', type: 'Receptor', neurotransmitterSystem: 'Glutamatérgico', description: 'Receptores glutamatérgicos ionotrópicos mediando transmissão excitatória rápida.' }
 ];
 
 export const enzymes: MetabolicEnzyme[] = [
@@ -277,7 +279,10 @@ export const pdInteractions: MoleculeReceptorInteraction[] = [
   { moleculeId: 'm33', receptorId: 'r23', actionType: 'Antagonista', affinityKi: 19, notes: 'Antagonismo potente de 5-HT7, melhorando ritmos circadianos e cognição.' },
   { moleculeId: 'm32', receptorId: 'r23', actionType: 'Antagonista', affinityKi: 29, notes: 'Bloqueio de 5-HT7 contribui para a regulação do sono profundo.' },
   { moleculeId: 'm17', receptorId: 'r22', actionType: 'Antagonista', affinityKi: 8.1, notes: 'Forte antagonismo de 5-HT3, reduzindo propensões a náuseas e regulando o apetite.' },
-  { moleculeId: 'm56', receptorId: 'r24', actionType: 'Antagonista', affinityKi: 20000, notes: 'Bloqueio dos receptores de adenosina promove estado de vigília e estimulação.' }
+  { moleculeId: 'm56', receptorId: 'r24', actionType: 'Antagonista', affinityKi: 20000, notes: 'Bloqueio dos receptores de adenosina promove estado de vigília e estimulação.' },
+  { moleculeId: 'm58', receptorId: 'r12', actionType: 'Modulador Alostérico', affinityKi: null, notes: 'Bloqueio de canais de sódio voltagem-dependentes reduz disparos repetitivos de alta frequência.' },
+  { moleculeId: 'm58', receptorId: 'r13', actionType: 'Modulador Alostérico', affinityKi: null, notes: 'Potencializa a atividade do GABA em subtipos específicos de receptores GABA-A.' },
+  { moleculeId: 'm58', receptorId: 'r25', actionType: 'Antagonista', affinityKi: null, notes: 'Antagonismo seletivo dos receptores excitatórios AMPA/Kainato reduz excitotoxicidade.' }
 ];
 
 export const pkInteractions: MoleculeEnzymeInteraction[] = [
@@ -392,5 +397,7 @@ export const pkInteractions: MoleculeEnzymeInteraction[] = [
   { moleculeId: 'm35', enzymeId: 'e2', role: 'Substrato', notes: 'Buspirona é metabolizada majoritariamente pelo CYP3A4.' },
   { moleculeId: 'm52', enzymeId: 'e1', role: 'Substrato', notes: 'Lisdexanfetamina (d-anfetamina) é parcialmente metabolizada pelo CYP2D6.' },
   { moleculeId: 'm53', enzymeId: 'e1', role: 'Substrato', notes: 'Dextroanfetamina é parcialmente metabolizada pelo CYP2D6.' },
-  { moleculeId: 'm55', enzymeId: 'e2', role: 'Substrato', notes: 'Armodafinil é metabolizado pelo CYP3A4.' }
+  { moleculeId: 'm55', enzymeId: 'e2', role: 'Substrato', notes: 'Armodafinil é metabolizado pelo CYP3A4.' },
+  { moleculeId: 'm58', enzymeId: 'e4', role: 'Inibidor Fraco', notes: 'Topiramato inibe fracamente a atividade de CYP2C19.' },
+  { moleculeId: 'm58', enzymeId: 'e2', role: 'Indutor Fraco', notes: 'Topiramato induz levemente a CYP3A4, podendo reduzir a eficácia de contraceptivos orais com doses >200mg/dia.' }
 ];
