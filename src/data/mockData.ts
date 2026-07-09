@@ -348,7 +348,7 @@ export const pkInteractions: MoleculeEnzymeInteraction[] = [
 
   // Others
   { moleculeId: 'm31', enzymeId: 'e1', role: 'Inibidor Forte', notes: 'Bupropiona bloqueia metabolização de betabloqueadores, aripiprazol.' },
-  { moleculeId: 'm31', enzymeId: 'e8', role: 'Substrato Principal', notes: 'Metabolizada por hidroxilação via CYP2B6 a hidroxibupropiona.' },
+  { moleculeId: 'm31', enzymeId: 'e8', role: 'Substrato', notes: 'Substrato principal do CYP2B6: metabolizada por hidroxilação a hidroxibupropiona.' },
   { moleculeId: 'm31', enzymeId: 'e2', role: 'Substrato' },
   { moleculeId: 'm32', enzymeId: 'e2', role: 'Substrato' },
   { moleculeId: 'm33', enzymeId: 'e1', role: 'Substrato' },

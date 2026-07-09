@@ -2,17 +2,14 @@
 
 Este documento registra limitações aceitas, problemas que ocorrem e gambiarras conscientes. Serve para poupar tempo de debugging caso algo bizarro aconteça.
 
-## 1. [CRÍTICO] O build de produção NÃO roda type-check
-- **O que é:** O comando de deploy é `vite build` (ver `package.json`), que apenas transpila via esbuild e **não executa o TypeScript compiler**. O type-check só acontece no script separado `lint` (`tsc --noEmit`), que **não é chamado pelo build nem por nenhum gate de CI**. Consequência: código com erros de tipagem compila, passa e é publicado. A Vercel deploya silenciosamente mesmo com o `tsc` quebrado.
-- **Prova concreta:** Hoje `npm run lint` falha (`src/data/mockData.ts:351` — `TS2322`, valor `'Substrato Principal'` fora da união `EnzymaticRole`; ver [02-DATA_MODEL.md](02-DATA_MODEL.md) item 3), mas `npm run build` passa e a Vercel deploya. O erro está em produção sem sinal nenhum.
-- **Onde está:** `package.json` (`"build": "vite build"` sem `tsc`), e ausência de workflow de CI que rode `lint`.
-- **Por que é grave:** Qualquer regressão de tipagem chega em produção sem barreira. O type system existe mas não protege nada no caminho de deploy.
-- **Solução ideal:** Fazer o build type-checkar antes de transpilar — `"build": "tsc --noEmit && vite build"` — e/ou adicionar um GitHub Actions que rode `npm run lint` em cada push/PR e bloqueie o merge se falhar. (Não aplicado aqui: mudar o comando de build fará o deploy atual quebrar de imediato por causa do TS2322 pré-existente — resolver a divergência do enum antes.)
+## 1. [RESOLVIDO em 2026-07-09] O build de produção não rodava type-check
+- **O que era:** O comando de deploy era `vite build`, que apenas transpila via esbuild e **não executava o TypeScript compiler**. O type-check só rodava no script separado `lint`, não chamado pelo build nem por CI. Consequência: código com erro de tipo compilava, passava e era publicado — a Vercel deployava com o `tsc` quebrado sem sinal nenhum.
+- **Correção aplicada:** o script de build virou `"build": "tsc --noEmit && vite build"` (`package.json`). Agora um erro de tipagem **falha o build** e barra o deploy. A divergência de enum que expunha o problema (ver [02-DATA_MODEL.md](02-DATA_MODEL.md) item 3) também foi resolvida, então o build passa limpo.
+- **Melhoria futura recomendada:** adicionar um GitHub Actions que rode `npm run lint` em cada push/PR, para pegar o erro antes mesmo do deploy da Vercel (defesa em profundidade).
 
-## 2. Branch `origin/master` órfã e HEAD remoto apontando errado
-- **O que é:** O repositório tem uma branch `master` com um único commit (`feat: versão inicial`), abandonada. O `HEAD` padrão do GitHub aponta para `origin/master`, não para `origin/main` (a branch viva de onde a Vercel deploya).
-- **Por que importa:** Quem clona o repo cai em `master` por padrão e vê um projeto vazio/obsoleto; ferramentas que assumem o default branch podem operar sobre lixo. É fonte de confusão e de erro operacional.
-- **Solução ideal:** No painel do GitHub (Settings → Branches), mudar o default branch para `main` e então deletar `origin/master`. **Ação destrutiva e fora do repositório — requer o Thom.**
+## 2. [RESOLVIDO em 2026-07-09] Branch `origin/master` órfã e HEAD remoto errado
+- **O que era:** O repositório tinha uma branch `master` com um único commit (`feat: versão inicial`), abandonada, e o default branch do GitHub apontava para ela em vez de `main` (a branch viva de onde a Vercel deploya). Quem clonava caía em `master` e via projeto obsoleto.
+- **Correção aplicada:** default branch do GitHub alterado para `main` e a branch `origin/master` deletada (verificado antes que não tinha nenhum commit exclusivo — o único commit dela já estava contido em `main`).
 
 ## 3. CMS (Painel /admin) Limitado
 - **O que é:** O painel de administração permite adicionar ou editar entidades-pai (`Molecules`), mas carece da capacidade de adicionar relações (como vincular uma enzima e atribuir Ki ou papel, ou gerenciar Receptores).
