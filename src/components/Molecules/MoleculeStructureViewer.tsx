@@ -207,7 +207,7 @@ export const MoleculeStructureViewer = ({ molecule }: MoleculeStructureViewerPro
           description: "A Bupropiona é uma aminocetona monocíclica quimicamente relacionada à catinona estimulante. Possui um cloro meta-substituído e um volumoso grupo N-terc-butila.",
           highlights: [
             { name: "Anel Meta-Clorofenil", detail: "Aumenta drasticamente a potência de inibição do DAT/NET e previne a degradação metabólica acelerada." },
-            { name: "Grupo terc-Butila", detail: "O impedimento estérico deste grupo impede a hidroxilação rápida por IMAO e previne toxicidade simpática anfetamínica clássica." }
+            { name: "Grupo terc-Butila", detail: "O impedimento estérico deste grupo previne a toxicidade simpática anfetamínica clássica. A molécula é metabolizada por hidroxilação via CYP2B6, formando a hidroxibupropiona (metabólito ativo)." }
           ]
         };
 
