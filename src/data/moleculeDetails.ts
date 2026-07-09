@@ -56,6 +56,22 @@ export function getMoleculeDetails(molecule: Pick<Molecule, 'class' | 'name' | '
     };
   }
 
+  if (name.includes('topiramato')) {
+    return {
+      psychiatryUse: "Neuromodulador e anticonvulsivante de amplo espectro com propriedades estabilizadoras de humor e profiláticas secundárias. Atua por múltiplos eixos sinápticos: (1) bloqueio de canais de sódio voltagem-dependentes (VSSC); (2) potenciação da atividade do GABA no receptor GABA-A; (3) antagonismo de receptores glutamatérgicos do tipo AMPA/Kainato; e (4) inibição fraca da Anidrase Carbônica. Muito utilizado em psiquiatria de forma adjuvante para controle de impulsividade, compulsão alimentar e controle de peso corporal.",
+      onLabelUses: [
+        { condition: "Profilaxia de Enxaqueca (Migrânea)", line: "1ª Linha", evidence: "Robusto", justification: "Eficácia consistente na redução da frequência, intensidade e duração das crises de cefaleia em adultos." },
+        { condition: "Crises Convulsivas Parciais e Tônico-Clônicas", line: "1ª Linha", evidence: "Robusto", justification: "Neuromodulação de amplo espectro estabilizando disparos neuronais anômalos." }
+      ],
+      offLabelUses: [
+        { condition: "Compulsão Alimentar Periódica (TCAP) / Obesidade", evidence: "Alto", justification: "Modulação gaba-glutamato auxilia no controle do apetite e no controle da fissura alimentar impulsiva." },
+        { condition: "Transtorno por Uso de Álcool (Prevenção de Recaídas)", evidence: "Moderado", justification: "Ajuda a reduzir a fissura (craving) pelo álcool através do reequilíbrio excitatório/inibitório central." },
+        { condition: "Estabilização de Humor (Adjuvante no Transtorno Bipolar)", evidence: "Moderado", justification: "Auxilia no controle de ganho de peso e sintomas de impulsividade associada sem induzir ciclagens afetivas." }
+      ],
+      profileSymbols: ['gabaergic', 'glutamatergic']
+    };
+  }
+
   if (name.includes('bupropiona')) {
     const profileSymbols: ProfileSymbolKey[] = ['dopaminergic', 'noradrenergic'];
     return {
