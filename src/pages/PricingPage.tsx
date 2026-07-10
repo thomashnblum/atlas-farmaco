@@ -4,6 +4,7 @@ import { Check, Sparkles, ShieldCheck, Lock, ArrowRight, Crown } from 'lucide-re
 import { useAuth } from '../context/AuthContext';
 import { useEntitlement } from '../hooks/useEntitlement';
 import { PLANS, PREMIUM_FEATURES } from '../data/plans';
+import { MP_PLAN_URLS } from '../config/features';
 import { cn } from '../utils/cn';
 
 export const PricingPage = () => {
@@ -96,15 +97,28 @@ export const PricingPage = () => {
 
                   <div className="pt-8">
                     {session ? (
-                      // Logado, sem assinatura: checkout ainda não existe (pagamento adiado).
-                      <button
-                        type="button"
-                        disabled
-                        title="O pagamento (Pix e cartão) está sendo finalizado."
-                        className="w-full py-3 text-center text-xs font-bold rounded-lg uppercase tracking-wider bg-zinc-800 text-zinc-400 cursor-not-allowed border border-zinc-700"
-                      >
-                        Assinatura em breve
-                      </button>
+                      MP_PLAN_URLS[plan.id] ? (
+                        // Logado: vai ao checkout de assinatura do Mercado Pago.
+                        <a
+                          href={MP_PLAN_URLS[plan.id]}
+                          className={cn(
+                            'w-full py-3 text-center text-xs font-bold rounded-lg uppercase tracking-wider transition-all flex items-center justify-center gap-2',
+                            plan.highlight ? 'bg-amber-500 text-black hover:bg-amber-400' : 'bg-white/5 text-zinc-200 hover:bg-white/10 border border-white/10',
+                          )}
+                        >
+                          Assinar com Mercado Pago
+                        </a>
+                      ) : (
+                        // Sem link configurado ainda: pagamento em finalização.
+                        <button
+                          type="button"
+                          disabled
+                          title="O pagamento (Pix e cartão) está sendo finalizado."
+                          className="w-full py-3 text-center text-xs font-bold rounded-lg uppercase tracking-wider bg-zinc-800 text-zinc-400 cursor-not-allowed border border-zinc-700"
+                        >
+                          Assinatura em breve
+                        </button>
+                      )
                     ) : (
                       // Sem conta: primeiro cria a conta grátis.
                       <Link
@@ -138,11 +152,15 @@ export const PricingPage = () => {
             </div>
 
             {/* Nota honesta sobre o pagamento */}
-            {session && (
+            {session && (MP_PLAN_URLS.mensal || MP_PLAN_URLS.anual) ? (
+              <p className="text-center text-[11px] text-amber-400/80 font-mono max-w-xl mx-auto">
+                Importante: no checkout do Mercado Pago, pague com o <strong>mesmo e-mail</strong> desta conta — é assim que liberamos o seu acesso premium automaticamente.
+              </p>
+            ) : session ? (
               <p className="text-center text-[11px] text-zinc-500 font-mono max-w-xl mx-auto">
                 O checkout com Pix e cartão está em finalização. Assim que entrar no ar, você ativa o plano direto por aqui — sua conta grátis continua funcionando até lá.
               </p>
-            )}
+            ) : null}
           </>
         )}
       </div>
