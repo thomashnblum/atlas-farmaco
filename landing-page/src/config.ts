@@ -2,8 +2,8 @@
  * Configuração de integração da landing (site de vendas) com o app (produto).
  *
  * A landing e o Atlas são deploys separados (topologia por subdomínio):
- *   - Landing: atlasfarmaco.com.br      (este projeto)
- *   - App:     app.atlasfarmaco.com.br  (o Atlas)
+ *   - Landing: atlasfarmaco.com      (este projeto)
+ *   - App:     app.atlasfarmaco.com  (o Atlas)
  *
  * Enquanto o domínio próprio não é comprado, VITE_APP_URL cai no deploy atual
  * da Vercel. Quando o domínio existir, basta setar VITE_APP_URL nas env vars da
