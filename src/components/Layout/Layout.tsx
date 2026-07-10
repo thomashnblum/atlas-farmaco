@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { cn } from '../../utils/cn';
-import { Network, Search, BookOpen, Menu, Sparkles, SlidersHorizontal, Beaker, Info, LogOut, User as UserIcon, LogIn, Activity, Brain, Lock } from 'lucide-react';
+import { Network, Search, BookOpen, Menu, Sparkles, SlidersHorizontal, Beaker, Info, LogOut, User as UserIcon, LogIn, Activity, Brain, Lock, Crown } from 'lucide-react';
 import { dataService } from '../../services/dataService';
 import { useAuth } from '../../context/AuthContext';
+import { useEntitlement } from '../../hooks/useEntitlement';
+import { ENFORCE_PAYWALL } from '../../config/features';
 import { supabase } from '../../services/supabaseClient';
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
@@ -14,6 +16,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
   const searchRef = useRef<HTMLDivElement>(null);
   const { session, user } = useAuth();
+  const { isPremium } = useEntitlement();
 
   const navigation = [
     { name: 'Dashboard', href: '/', icon: Network, isPaid: false },
@@ -169,7 +172,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
           <nav className="hidden 2xl:flex space-x-1 lg:space-x-3 text-[12px] font-medium h-full items-center whitespace-nowrap">
             {navigation.map((item) => {
               const isActive = location.pathname === item.href;
-              const isLocked = item.isPaid && !session;
+              const isLocked = item.isPaid && (ENFORCE_PAYWALL ? !isPremium : !session);
               return (
                 <Link
                   key={item.name}
@@ -194,6 +197,15 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
           <div className="hidden sm:flex items-center pl-4 xl:border-l xl:border-zinc-800 shrink-0">
             {session ? (
               <div className="flex items-center gap-3">
+                {isPremium ? (
+                  <span className="hidden md:inline-flex items-center gap-1 text-[10px] font-bold text-amber-400 uppercase tracking-widest border border-amber-500/30 px-2 py-1 rounded bg-amber-500/10 whitespace-nowrap shrink-0">
+                    <Crown className="w-3 h-3" /> Premium
+                  </span>
+                ) : (
+                  <Link to="/pricing" className="hidden md:inline-flex items-center gap-1 text-[10px] font-bold text-amber-400 uppercase tracking-widest border border-amber-500/30 px-2 py-1 rounded bg-amber-500/10 hover:bg-amber-500/20 transition-colors whitespace-nowrap shrink-0">
+                    <Sparkles className="w-3 h-3" /> Assinar
+                  </Link>
+                )}
                 {user?.email === 'thomas.n.blum@gmail.com' && (
                   <Link to="/admin" className="text-[10px] font-bold text-amber-500 hover:text-amber-400 uppercase tracking-widest border border-amber-500/30 px-2 py-1 rounded bg-amber-500/10 whitespace-nowrap shrink-0">CMS Admin</Link>
                 )}
@@ -256,6 +268,15 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
           })}
           
           <div className="pt-2 mt-2 border-t border-zinc-800">
+            {session && !isPremium && (
+              <Link
+                to="/pricing"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center justify-center gap-2 p-3 mb-2 rounded-lg bg-amber-400/10 text-amber-400 hover:bg-amber-400/20 text-sm font-medium transition-colors"
+              >
+                <Sparkles className="w-4 h-4" /> Assinar o Premium
+              </Link>
+            )}
             {session ? (
               <div className="flex items-center justify-between p-3">
                 <div className="flex items-center gap-2 text-zinc-400 text-sm">

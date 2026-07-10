@@ -16,11 +16,13 @@ import { EnzymesPage } from './pages/EnzymesPage';
 import { ReceptorsPage } from './pages/ReceptorsPage';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
+import { PricingPage } from './pages/PricingPage';
 import { AdminPage } from './pages/AdminPage';
 import { DisordersPage } from './pages/DisordersPage';
 import { DisorderDetailPage } from './pages/DisorderDetailPage';
 import { AuthProvider } from './context/AuthContext';
-import { ProtectedRoute } from './components/ProtectedRoute';
+import { RequireSubscription } from './components/RequireSubscription';
+import { AdminRoute } from './components/AdminRoute';
 
 const AtlasViewPage = React.lazy(() => import('./pages/AtlasViewPage').then(module => ({ default: module.AtlasViewPage })));
 
@@ -59,44 +61,46 @@ export default function App() {
               <Route path="/" element={<DashboardPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
-              
+              <Route path="/pricing" element={<PricingPage />} />
+
               {/* Rotas de Catálogo (Públicas/Abertas) */}
               <Route path="/disorders" element={<DisordersPage />} />
               <Route path="/disorders/:id" element={<DisorderDetailPage />} />
               <Route path="/glossary" element={<GlossaryPage />} />
               <Route path="/atlas" element={<AtlasViewPage />} />
 
-              {/* Rotas Premium/Pagas (Protegidas) */}
+              {/* Rotas Premium/Pagas (login + assinatura quando o paywall está ligado) */}
               <Route path="/molecules" element={
-                <ProtectedRoute>
+                <RequireSubscription>
                   <MoleculeIndexPage />
-                </ProtectedRoute>
+                </RequireSubscription>
               } />
               <Route path="/enzymes" element={
-                <ProtectedRoute>
+                <RequireSubscription>
                   <EnzymesPage />
-                </ProtectedRoute>
+                </RequireSubscription>
               } />
               <Route path="/receptors" element={
-                <ProtectedRoute>
+                <RequireSubscription>
                   <ReceptorsPage />
-                </ProtectedRoute>
+                </RequireSubscription>
               } />
               <Route path="/compare" element={
-                <ProtectedRoute>
+                <RequireSubscription>
                   <ComparePage />
-                </ProtectedRoute>
+                </RequireSubscription>
               } />
               <Route path="/navigator" element={
-                <ProtectedRoute>
+                <RequireSubscription>
                   <NavigatorPage />
-                </ProtectedRoute>
+                </RequireSubscription>
               } />
 
+              {/* Painel do dono apenas */}
               <Route path="/admin" element={
-                <ProtectedRoute>
+                <AdminRoute>
                   <AdminPage />
-                </ProtectedRoute>
+                </AdminRoute>
               } />
             </Routes>
           </Suspense>
