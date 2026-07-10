@@ -587,6 +587,38 @@ export function getMoleculeDetails(molecule: Pick<Molecule, 'class' | 'name' | '
       };
     }
 
+    // Cafeína NÃO é tratamento de TDAH — é uma metilxantina de alerta leve.
+    if (name.includes('cafeína')) {
+      return {
+        psychiatryUse: "Metilxantina de ação estimulante leve por antagonismo dos receptores de adenosina (A1/A2A). Não tem indicação psiquiátrica formal; na clínica psiquiátrica importa mais pelos efeitos adversos (ansiedade, insônia, precipitação de crises de pânico) do que como tratamento.",
+        onLabelUses: [],
+        offLabelUses: [
+          { condition: "Astenia / Sonolência Leve", evidence: "Baixo", justification: "Aumento transitório do alerta e redução da percepção de fadiga pelo bloqueio da adenosina." },
+          { condition: "Adjuvante Analgésico (Cefaleia)", evidence: "Moderado", justification: "Potencializa analgésicos em formulações para cefaleia (uso clínico consagrado)." }
+        ],
+        profileSymbols: ['dopaminergic']
+      };
+    }
+
+    // Atomoxetina é a opção NÃO-estimulante do TDAH — não é o padrão-ouro.
+    if (name.includes('atomoxetina')) {
+      return {
+        psychiatryUse: "Inibidor seletivo da recaptação de noradrenalina (NET) — a principal opção NÃO-estimulante para o TDAH. Início de efeito lento (4-8 semanas) e sem potencial de abuso; preferida quando há risco de abuso de estimulantes, tiques ou ansiedade comórbida.",
+        onLabelUses: [
+          {
+            condition: "TDAH (Transtorno de Déficit de Atenção e Hiperatividade)",
+            line: "1ª Linha",
+            evidence: "Robusto",
+            justification: "Alternativa não-estimulante de primeira escolha; aumenta noradrenalina e, no córtex pré-frontal, também dopamina. Eficácia consolidada, porém com início bem mais lento que os estimulantes."
+          }
+        ],
+        offLabelUses: [
+          { condition: "TDAH com Ansiedade Comórbida", evidence: "Moderado", justification: "Menos ativadora que os estimulantes, útil quando a ansiedade limita o uso destes." }
+        ],
+        profileSymbols: ['noradrenergic']
+      };
+    }
+
     const onLabelUses: OnLabelUse[] = [
       {
         condition: "TDAH (Transtorno de Déficit de Atenção e Hiperatividade)",
