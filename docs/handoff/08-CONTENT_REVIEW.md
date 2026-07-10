@@ -20,7 +20,7 @@ possível, fortalecer com fontes confiáveis. Feito por blocos, com log recuper�
 | # | Bloco | Escopo | Status |
 |---|-------|--------|--------|
 | 1 | Alvos | 25 receptores + 8 enzimas (definições/tipos) em mockData | ✅ 1ª passada |
-| 2 | Perfis clínicos de receptores | `clinicalKnowledge.ts` (bloqueio/ativação por receptor) | ⬜ pendente |
+| 2 | Perfis clínicos de receptores | `clinicalKnowledge.ts` (bloqueio/ativação por receptor) | ✅ revisado (sólido) |
 | 3 | Antidepressivos | ISRS, ISRSN, tricíclicos, atípicos, IMAO, SARI (perfil + Ki + PK) | ⬜ pendente |
 | 4 | Antipsicóticos | típicos + atípicos | ⬜ pendente |
 | 5 | Estabilizadores & anticonvulsivantes | lítio, valproato, lamotrigina, carbamazepina, topiramato… | ⬜ pendente |
@@ -46,3 +46,12 @@ Erros corrigidos em `src/data/mockData.ts`:
 Notas / pendências deste bloco:
 - r15: a `description` usa escape unicode `α2δ`; a nota "não age no GABA" ainda pode ser reforçada no perfil dos gabapentinoides (Bloco 6).
 - r7 `M1`: descrição mistura efeitos antimuscarínicos gerais; refinar em passada futura (baixa prioridade).
+
+### Bloco 2 — Perfis clínicos dos receptores — 2026-07-10
+Revisados os 15 perfis em `RECEPTOR_CLINICAL_PROFILES` (D2, D3, 5-HT1A/2A/2C/3, H1, Alpha-1/2, M1, SERT, NET, DAT, GABA-A, NMDA).
+
+**Resultado: nenhum erro factual — conteúdo sólido e coerente com o modelo do Stahl.** Efeitos de bloqueio/ativação e significância clínica estão corretos (ex.: ocupação D2 65–80%, atipicidade via 5-HT2A, freio α2 da mirtazapina, NMDA/cetamina). Nenhuma correção aplicada — churnar edições aqui só arriscaria piorar.
+
+**Lacuna registrada (enhancement, não erro):** apenas 15 dos 25 receptores têm perfil clínico. Faltam perfis para: MAO-A, MAO-B, VSSC, MT1/MT2, VGCC-α2δ, µ/κ/δ-Opioide, xCT, Sigma-1, 5-HT7, Adenosina (A1/A2A), AMPA/Kainato. Autorar esses perfis é trabalho de conteúdo novo (não revisão) — proposto como bloco extra, sob confirmação do Thom.
+
+Obs.: `DISORDER_CLINICAL_PROFILES` (transtornos) também vive neste arquivo; será revisado no Bloco 8. Leitura preliminar não achou erros graves.
