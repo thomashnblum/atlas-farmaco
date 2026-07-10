@@ -498,14 +498,25 @@ export function getMoleculeDetails(molecule: Pick<Molecule, 'class' | 'name' | '
         line: "1ª Linha",
         evidence: "Padrão-Ouro",
         justification: "Reduz drasticamente taxas de recaídas em ambas as polaridades (principalmente mania para Lítio/Valproato e depressão para Lamotrigina)."
-      },
-      {
+      }
+    ];
+
+    // A Lamotrigina NÃO tem eficácia antimaníaca aguda — atua no polo depressivo/manutenção.
+    if (name.includes('lamotrigina')) {
+      onLabelUses.push({
+        condition: "Prevenção de Episódios Depressivos no Transtorno Bipolar",
+        line: "1ª Linha",
+        evidence: "Padrão-Ouro",
+        justification: "Eficácia consolidada na prevenção do polo depressivo do bipolar. Não é indicada para mania aguda."
+      });
+    } else {
+      onLabelUses.push({
         condition: "Mania Bipolar Aguda",
         line: "1ª Linha",
         evidence: "Robusto",
-        justification: "Doses otimizadas de Carbonato de Lítio ou Ácido Valproico desaceleram o surto psicomotor maníaco em poucos dias."
-      }
-    ];
+        justification: "Doses otimizadas de Lítio, Ácido Valproico ou Carbamazepina desaceleram o surto psicomotor maníaco em poucos dias."
+      });
+    }
 
     if (name.includes('lítio')) {
       onLabelUses.push({
