@@ -13,16 +13,37 @@
 //   MP_WEBHOOK_SECRET         (opcional — "Assinatura secreta" do painel de
 //                              Webhooks do MP; se setado, a assinatura é validada)
 // ============================================================================
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+// Sem dependências externas de propósito: usamos só `fetch` contra a REST API do
+// Supabase (PostgREST). Isso evita falhas de boot ao publicar por API e mantém a
+// função self-contained.
 
 const MP_ACCESS_TOKEN = Deno.env.get("MP_ACCESS_TOKEN") ?? "";
-const SUPABASE_URL = Deno.env.get("SUPABASE_URL") ?? "";
+const SUPABASE_URL = (Deno.env.get("SUPABASE_URL") ?? "").replace(/\/+$/, "");
 const SERVICE_ROLE = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
 const WEBHOOK_SECRET = Deno.env.get("MP_WEBHOOK_SECRET") ?? "";
 
-const admin = createClient(SUPABASE_URL, SERVICE_ROLE, {
-  auth: { persistSession: false, autoRefreshToken: false },
-});
+/** Atualiza o profile casado por e-mail (case-insensitive). Retorna nº de linhas afetadas. */
+async function updateProfileByEmail(
+  email: string,
+  patch: Record<string, unknown>,
+): Promise<number> {
+  const url = `${SUPABASE_URL}/rest/v1/profiles?email=ilike.${encodeURIComponent(email)}`;
+  const res = await fetch(url, {
+    method: "PATCH",
+    headers: {
+      apikey: SERVICE_ROLE,
+      Authorization: `Bearer ${SERVICE_ROLE}`,
+      "Content-Type": "application/json",
+      Prefer: "return=representation",
+    },
+    body: JSON.stringify(patch),
+  });
+  if (!res.ok) {
+    throw new Error(`PostgREST PATCH -> ${res.status}: ${(await res.text()).slice(0, 200)}`);
+  }
+  const rows = (await res.json()) as unknown[];
+  return Array.isArray(rows) ? rows.length : 0;
+}
 
 async function mpGet(path: string): Promise<Record<string, unknown>> {
   const res = await fetch(`https://api.mercadopago.com${path}`, {
@@ -44,23 +65,20 @@ async function refreshSubscription(preapprovalId: string): Promise<void> {
     return;
   }
 
-  const { data, error } = await admin
-    .from("profiles")
-    .update({
+  try {
+    const affected = await updateProfileByEmail(email, {
       is_premium: isPremium,
       subscription_status: status,
       mp_preapproval_id: preapprovalId,
       updated_at: new Date().toISOString(),
-    })
-    .eq("email", email)
-    .select("id");
-
-  if (error) {
-    console.error(`[mp-webhook] erro ao atualizar profile ${email}:`, error.message);
-  } else if (!data || data.length === 0) {
-    console.warn(`[mp-webhook] nenhum profile com email ${email} (pagou com e-mail diferente da conta?)`);
-  } else {
-    console.log(`[mp-webhook] ${email} -> premium=${isPremium} (${status})`);
+    });
+    if (affected === 0) {
+      console.warn(`[mp-webhook] nenhum profile com email ${email} (pagou com e-mail diferente da conta?)`);
+    } else {
+      console.log(`[mp-webhook] ${email} -> premium=${isPremium} (${status})`);
+    }
+  } catch (e) {
+    console.error(`[mp-webhook] erro ao atualizar profile ${email}:`, (e as Error).message);
   }
 }
 
