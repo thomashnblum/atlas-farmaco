@@ -1,0 +1,6 @@
+{
+  "name": "Atlas Fármaco",
+  "description": "Plataforma interativa e visual de psicofarmacologia clínica para estudantes de psiquiatria, medicina e residentes.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
