@@ -621,7 +621,7 @@ export function getMoleculeDetails(molecule: Pick<Molecule, 'class' | 'name' | '
       psychiatryUse: "São drogas inestimáveis, e ultimamente pouco utilizadas, com perfis curativos incomparáveis para quem exibe fobias atípicas sociais, ou depressões reativas com ganho de peso, paralisias hiperssoníferas e chumbo emocional ('Leaden Paralysis'). Sua complexa margem de dieta em compostos tiramínicos exige alta competência e monitoria, fazendo dessa uma quarta linha excepcional pra nichos.",
       offLabelUses: [
         { condition: "Anedonia Refratária Absoluta e Retardo Psicomotor Isolado", evidence: "Anedótico", justification: "Promissora elevação brutal da neuro-volição quando a ausência da quebra orgânica da Monoamina Oxidase reverte déficits mesolímbicos inertes de anos a fio." },
-        { condition: "Doença de Parkinson Adjuvante", evidence: "Moderado", justification: "Ao pararem a degradação da dopamina em níveis profundos por vias B nos ganglios de base, aliviam os sintomas distônicos parkinsonianos atípicos." }
+        { condition: "Fobia Social / Ansiedade Social Refratária", evidence: "Moderado", justification: "Classe historicamente eficaz na ansiedade social grave resistente a ISRS; a inibição da MAO eleva as monoaminas envolvidas na regulação do medo social (fenelzina e moclobemida têm evidência específica)." }
       ],
       onLabelUses,
       profileSymbols
