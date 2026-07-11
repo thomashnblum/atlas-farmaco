@@ -209,6 +209,130 @@ export const RECEPTOR_CLINICAL_PROFILES: Record<string, ReceptorClinicalProfile>
       'Se excessivo: morte neuronal por entrada massiva de cálcio.'
     ],
     clinicalSignificance: 'O alvo da Cetamina revolucionou o tratamento da depressão resistente.'
+  },
+
+  // ===== Perfis adicionados (revisão 2026-07-11): enzimas-alvo, canais, transportadores e alvos extras =====
+  // Para enzimas/transportadores, "blockadeEffects" = efeitos da INIBIÇÃO do alvo.
+
+  'MAO-A': {
+    id: 'MAO-A',
+    blockadeEffects: [
+      'Acúmulo de serotonina, noradrenalina e dopamina (efeito antidepressivo robusto).',
+      'Risco de crise hipertensiva com tiramina da dieta (queijos, vinhos) ou simpatomiméticos.',
+      'Risco de síndrome serotoninérgica se associada a ISRS/duais.'
+    ],
+    clinicalSignificance: 'A inibição da MAO-A é o que confere o efeito antidepressivo dos IMAOs. Exige dieta pobre em tiramina nos IMAOs irreversíveis; a RIMA (moclobemida) reduz muito esse risco por ser reversível.'
+  },
+  'MAO-B': {
+    id: 'MAO-B',
+    blockadeEffects: [
+      'Redução do catabolismo de dopamina no SNC.',
+      'Efeito neuroprotetor e antiparkinsoniano.'
+    ],
+    clinicalSignificance: 'Alvo da selegilina e rasagilina no Parkinson. Em dose baixa é seletiva para MAO-B (sem restrição de tiramina); em dose alta perde a seletividade e volta a exigir cuidado dietético.'
+  },
+  'VSSC': {
+    id: 'VSSC',
+    blockadeEffects: [
+      'Estabilização de membranas neuronais hiperexcitáveis (efeito anticonvulsivante e estabilizador de humor).',
+      'Redução de disparos repetitivos de alta frequência (bloqueio uso-dependente, poupando o disparo normal).',
+      'Em excesso: sedação, ataxia, diplopia.'
+    ],
+    clinicalSignificance: 'Mecanismo central de carbamazepina, lamotrigina, valproato e topiramato. O bloqueio uso-dependente atinge preferencialmente os neurônios em disparo patológico.'
+  },
+  'MT1/MT2': {
+    id: 'MT1/MT2',
+    activationEffects: [
+      'Sincronização do ritmo circadiano e indução fisiológica do sono.',
+      'Efeito cronobiótico e antidepressivo via reajuste do núcleo supraquiasmático (SCN).'
+    ],
+    clinicalSignificance: 'Alvo da agomelatina (agonista MT1/MT2 somado a antagonismo 5-HT2C) e da melatonina/ramelteona. Trata insônia e depressão com componente circadiano, sem potencial de dependência.'
+  },
+  'VGCC-α2δ': {
+    id: 'VGCC-α2δ',
+    blockadeEffects: [
+      'Redução da liberação de neurotransmissores excitatórios (glutamato, substância P).',
+      'Efeito ansiolítico, analgésico (dor neuropática) e anticonvulsivante.',
+      'Efeitos adversos: sedação, tontura, ganho de peso, edema periférico.'
+    ],
+    clinicalSignificance: 'Alvo dos gabapentinoides (gabapentina, pregabalina). Apesar do nome "GABA", NÃO agem no receptor GABA — ligam-se à subunidade α2δ e reduzem o influxo pré-sináptico de cálcio.'
+  },
+  'µ-Opioide': {
+    id: 'µ-Opioide',
+    activationEffects: [
+      'Analgesia potente, euforia e recompensa.',
+      'Depressão respiratória, sedação, constipação, miose.',
+      'Tolerância e dependência física com uso crônico.'
+    ],
+    blockadeEffects: [
+      'Reversão de overdose (naloxona) e redução do craving/consumo (naltrexona).'
+    ],
+    clinicalSignificance: 'Alvo central dos opioides. Em psiquiatria, o antagonismo µ (naltrexona) trata dependência de álcool e opioides; a modulação µ é foco de antidepressivos mais novos.'
+  },
+  'κ-Opioide': {
+    id: 'κ-Opioide',
+    activationEffects: [
+      'Analgesia, porém acompanhada de disforia, ansiedade e efeitos psicotomiméticos.',
+      'Redução da liberação de dopamina (efeito anti-recompensa).'
+    ],
+    blockadeEffects: [
+      'Potencial efeito antidepressivo e ansiolítico (alvo em pesquisa).'
+    ],
+    clinicalSignificance: 'O sistema κ/dinorfina medeia estados disfóricos ligados ao estresse e à abstinência. Antagonistas κ são investigados para depressão e adição.'
+  },
+  'δ-Opioide': {
+    id: 'δ-Opioide',
+    activationEffects: [
+      'Efeitos antidepressivos e ansiolíticos.',
+      'Neuroproteção; risco pró-convulsivante em altas doses.'
+    ],
+    clinicalSignificance: 'Menos ligado à recompensa que o receptor µ. Agonistas δ são explorados como antidepressivos/ansiolíticos sem o perfil clássico de abuso dos opioides µ.'
+  },
+  'xCT': {
+    id: 'xCT',
+    activationEffects: [
+      'Aumento do glutamato extrassináptico, ativando autorreceptores inibitórios mGlu2/3.',
+      'Restauração do tônus glutamatérgico e reposição de glutationa (antioxidante).'
+    ],
+    clinicalSignificance: 'Antiporter cistina-glutamato, alvo indireto da N-acetilcisteína (NAC). A normalização do glutamato extrassináptico embasa o uso off-label da NAC em TOC, tricotilomania e dependências.'
+  },
+  'Sigma-1': {
+    id: 'Sigma-1',
+    activationEffects: [
+      'Neuroproteção e modulação do estresse do retículo endoplasmático.',
+      'Efeitos ansiolíticos, antidepressivos e pró-cognitivos.'
+    ],
+    clinicalSignificance: 'Receptor-chaperona intracelular. A alta afinidade da fluvoxamina (e menor da fluoxetina/sertralina) pelo Sigma-1 contribui para efeitos ansiolíticos e anti-inflamatórios.'
+  },
+  '5-HT7': {
+    id: '5-HT7',
+    blockadeEffects: [
+      'Melhora dos ritmos circadianos e do sono.',
+      'Efeito antidepressivo e pró-cognitivo.'
+    ],
+    clinicalSignificance: 'O antagonismo 5-HT7 (vortioxetina, e atípicos como a lurasidona) contribui para benefícios sobre humor, cognição e regulação do sono.'
+  },
+  'Adenosina (A1/A2A)': {
+    id: 'Adenosina (A1/A2A)',
+    blockadeEffects: [
+      'Vigília, alerta e redução da fadiga (desinibição de dopamina e glutamato).',
+      'Em excesso: ansiedade, insônia, taquicardia e tremor.'
+    ],
+    activationEffects: [
+      'Sonolência e sedação — a adenosina acumulada ao longo da vigília promove o sono.'
+    ],
+    clinicalSignificance: 'A cafeína é um antagonista não seletivo A1/A2A — daí seu efeito estimulante. O A2A modula a via dopaminérgica indireta, alvo de interesse no Parkinson.'
+  },
+  'AMPA/Kainato': {
+    id: 'AMPA/Kainato',
+    activationEffects: [
+      'Transmissão excitatória rápida; essencial para a potenciação de longa duração (LTP) e o aprendizado.',
+      'Em excesso: excitotoxicidade.'
+    ],
+    blockadeEffects: [
+      'Efeito anticonvulsivante e neuroprotetor.'
+    ],
+    clinicalSignificance: 'O antagonismo AMPA/Kainato contribui para a ação do topiramato e do perampanel (antiepilépticos). Moduladores AMPA positivos (ampakinas) são investigados para cognição.'
   }
 };
 
