@@ -138,7 +138,7 @@ Nota: `clinicalAxes` da atomoxetina é `['Estimulante']` embora ela seja não-es
 3. **Memantina como "Adjuvante" na Alzheimer** — na verdade é **1ª linha** na doença moderada-grave; subestimada (o dataset não tem anticolinesterásicos, então ela é a única droga de AD presente).
 4. **Fluoxetina como "Adjuvante" na Anorexia** — evidência fraca na AN aguda (SSRIs não funcionam em baixo peso); defensável só como adjuvante de comorbidade.
 
-**Ação para o Thom:** aplicar essas 4 (especialmente a nº 1) é editar o **banco de produção**. Posso preparar um SQL curto e reversível quando ele autorizar.
+**APLICADO (2026-07-11, autorizado pelo Thom):** as 4 mudanças foram feitas no banco de produção **e** no seed `scripts/insert_treatments.js` (fonte da verdade, para não reverterem num re-seed). Lisdexanfetamina removida da bulimia (102→101 linhas); diazepam no álcool virou "Adjuvante" + nota (desintoxicação); memantina na Alzheimer virou "1ª Linha" + nota; fluoxetina na anorexia ganhou nota (evidência fraca na fase aguda). O seed passou a suportar campo `note` opcional.
 
 ### Bloco 9 — Auditoria numérica dos Ki — 2026-07-11
 Auditados os 74 valores de `affinityKi` da tabela `pdInteractions` (`mockData.ts`) contra farmacologia consolidada (padrão PDSP/IUPHAR).

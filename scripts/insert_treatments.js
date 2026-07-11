@@ -133,17 +133,18 @@ const treatmentRules = [
 
   // Anorexia
   { disorder: 'tr_eating_an', drug: 'Olanzapina', line: 'Adjuvante' },
-  { disorder: 'tr_eating_an', drug: 'Fluoxetina', line: 'Adjuvante' }, // Apenas após restauração de peso
+  { disorder: 'tr_eating_an', drug: 'Fluoxetina', line: 'Adjuvante', note: 'Evidência fraca na fase aguda (baixo peso); considerar sobretudo após restauração de peso ou para comorbidades (depressão/TOC).' },
   
   // Bulimia
   { disorder: 'tr_eating_bn', drug: 'Fluoxetina', line: '1ª Linha' },
   { disorder: 'tr_eating_bn', drug: 'Sertralina', line: '2ª Linha' },
-  { disorder: 'tr_eating_bn', drug: 'Lisdexanfetamina', line: 'Off-label' }, // Oficial p/ TCAP, não bulimia estrita
+  // Lisdexanfetamina REMOVIDA da bulimia (revisao 2026-07-11): aprovada para TCAP, nao bulimia;
+  // em BN ha risco de abuso/purgacao. Segue disponivel no TCAP se este for adicionado.
   { disorder: 'tr_eating_bn', drug: 'Topiramato', line: 'Off-label' },
 
   // Álcool
   { disorder: 'tr_sud_alcohol', drug: 'Naltrexona', line: '1ª Linha' },
-  { disorder: 'tr_sud_alcohol', drug: 'Diazepam', line: '1ª Linha' }, // Para desintoxicação aguda
+  { disorder: 'tr_sud_alcohol', drug: 'Diazepam', line: 'Adjuvante', note: 'Uso restrito à desintoxicação/abstinência aguda (prevenção de delirium tremens e convulsões), não ao tratamento de manutenção do transtorno.' },
   { disorder: 'tr_sud_alcohol', drug: 'Topiramato', line: 'Off-label' },
 
   // TDPM
@@ -153,7 +154,7 @@ const treatmentRules = [
   { disorder: 'tr_pmdd', drug: 'Escitalopram', line: '1ª Linha' },
 
   // Alzheimer
-  { disorder: 'tr_demencia_alz', drug: 'Memantina', line: 'Adjuvante' },
+  { disorder: 'tr_demencia_alz', drug: 'Memantina', line: '1ª Linha', note: 'Antagonista NMDA de 1ª linha na doença moderada a grave (isolada ou com anticolinesterásico).' },
   { disorder: 'tr_demencia_alz', drug: 'Risperidona', line: 'Off-label' } // Para agitação severa (com blackbox warning)
 ];
 
@@ -188,7 +189,8 @@ async function run() {
       id: crypto.randomUUID(),
       disorder_id: rule.disorder,
       molecule_id: molId,
-      line: rule.line
+      line: rule.line,
+      ...(rule.note ? { notes: rule.note } : {})
     });
   }
 
