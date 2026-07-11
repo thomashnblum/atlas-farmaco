@@ -259,8 +259,8 @@ export const pdInteractions: MoleculeReceptorInteraction[] = [
   { moleculeId: 'm52', receptorId: 'r4', actionType: 'Substrato (Liberador)', affinityKi: 26 },
   { moleculeId: 'm53', receptorId: 'r5', actionType: 'Substrato (Liberador)', affinityKi: 40 },
   { moleculeId: 'm53', receptorId: 'r4', actionType: 'Substrato (Liberador)', affinityKi: 26 },
-  { moleculeId: 'm54', receptorId: 'r5', actionType: 'Inibidor de Recaptação', affinityKi: 1451 },
-  { moleculeId: 'm54', receptorId: 'r4', actionType: 'Inibidor de Recaptação', affinityKi: 5 },
+  { moleculeId: 'm54', receptorId: 'r5', actionType: 'Inibidor de Recaptação', affinityKi: 1451, notes: 'Principal alvo: inibição FRACA do DAT (baixa afinidade). Base do efeito eugeroico.' },
+  { moleculeId: 'm54', receptorId: 'r4', actionType: 'Inibidor de Recaptação', affinityKi: null, notes: 'Ação sobre NET fraca e mal caracterizada — o modafinil NÃO é um inibidor potente da recaptação de noradrenalina.' },
   { moleculeId: 'm55', receptorId: 'r5', actionType: 'Inibidor de Recaptação', affinityKi: null },
   { moleculeId: 'm57', receptorId: 'r4', actionType: 'Inibidor de Recaptação', affinityKi: null },
 

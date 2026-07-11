@@ -27,7 +27,9 @@ possível, fortalecer com fontes confiáveis. Feito por blocos, com log recuper�
 | 6 | Ansiolíticos & hipnóticos | BZDs, drogas-Z, buspirona, gabapentinoides | ✅ revisado (sólido) |
 | 7 | Estimulantes & outros | metilfenidato, anfetaminas, atomoxetina, modafinila, cafeína, suplementos | ✅ revisado |
 | 8 | Transtornos & tratamentos | transtornos + linhas de tratamento (DisorderTreatment) | ✅ revisado (sólido; 4 notas p/ decisão) |
-| 9 | Afinidades Ki (auditoria numérica) | conferir valores de Ki das interações vs IUPHAR/PDSP | ⬜ pendente |
+| 9 | Afinidades Ki (auditoria numérica) | conferir valores de Ki das interações vs IUPHAR/PDSP | ✅ auditado (1 erro corrigido) |
+
+**1ª passada completa (blocos 1–9).** Correções de maior impacto: xCT (tipo), α2δ (rótulo), citalopram (contraindicação), IMAO/Parkinson, lamotrigina/mania aguda, cafeína & atomoxetina (falso padrão-ouro TDAH), Modafinil/NET (Ki espúrio). Pendências abertas: 4 ajustes de tratamento no banco (Bloco 8, aguardando decisão), refino das super-generalizações do template (BZD/antipsicóticos), preencher `sources`, e autorar os 10 perfis de receptor faltantes.
 
 ---
 
@@ -137,3 +139,13 @@ Nota: `clinicalAxes` da atomoxetina é `['Estimulante']` embora ela seja não-es
 4. **Fluoxetina como "Adjuvante" na Anorexia** — evidência fraca na AN aguda (SSRIs não funcionam em baixo peso); defensável só como adjuvante de comorbidade.
 
 **Ação para o Thom:** aplicar essas 4 (especialmente a nº 1) é editar o **banco de produção**. Posso preparar um SQL curto e reversível quando ele autorizar.
+
+### Bloco 9 — Auditoria numérica dos Ki — 2026-07-11
+Auditados os 74 valores de `affinityKi` da tabela `pdInteractions` (`mockData.ts`) contra farmacologia consolidada (padrão PDSP/IUPHAR).
+
+**Qualidade altíssima — os valores batem com a literatura.** Conferidos e corretos, entre outros: D2 (haloperidol 1.5, aripiprazol 0.34, risperidona 3.1, olanzapina 11, clozapina 160, quetiapina 580, ziprasidona 4.8); 5-HT2A (risperidona 0.16, mirtazapina 69); H1 (mirtazapina 0.14, clozapina 1.1); M1 (clozapina/olanzapina 1.9); SERT dos ISRS (paroxetina 0.13, sertralina 0.28, fluoxetina 0.8); DAT do metilfenidato 34, NET 339; adenosina da cafeína 20000 nM (~20 µM); MT1/2 da agomelatina 0.1; Sigma-1 da fluvoxamina 36. Claramente extraídos de base confiável.
+
+**1 erro real corrigido em `mockData.ts`:**
+- **m54 Modafinil × NET (r4): `affinityKi: 5`** → o valor sugeria que o modafinil é um dos NRIs mais potentes existentes, o que é **falso**. O modafinil é um inibidor **fraco** do DAT e não um inibidor potente de recaptação de noradrenalina. Corrigido para `null` + nota explicando a ação fraca/mal caracterizada no NET; adicionada nota também na linha do DAT (r5, 1451) reforçando que é afinidade baixa.
+
+**Sinalizado para verificação (não corrigido):** naltrexona × δ-opioide (r18) com Ki 2.8 parece alto-afinidade demais (δ costuma ser bem mais fraco que µ/κ na naltrexona) — conferir contra fonte. Biodisponibilidade da quetiapina "~9%" (herdado do Bloco 4) também segue para conferência.
