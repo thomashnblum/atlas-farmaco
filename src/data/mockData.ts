@@ -262,7 +262,7 @@ export const pdInteractions: MoleculeReceptorInteraction[] = [
   { moleculeId: 'm54', receptorId: 'r5', actionType: 'Inibidor de Recaptação', affinityKi: 1451, notes: 'Principal alvo: inibição FRACA do DAT (baixa afinidade). Base do efeito eugeroico.' },
   { moleculeId: 'm54', receptorId: 'r4', actionType: 'Inibidor de Recaptação', affinityKi: null, notes: 'Ação sobre NET fraca e mal caracterizada — o modafinil NÃO é um inibidor potente da recaptação de noradrenalina.' },
   { moleculeId: 'm55', receptorId: 'r5', actionType: 'Inibidor de Recaptação', affinityKi: null },
-  { moleculeId: 'm57', receptorId: 'r4', actionType: 'Inibidor de Recaptação', affinityKi: null },
+  { moleculeId: 'm57', receptorId: 'r4', actionType: 'Inibidor de Recaptação', affinityKi: 5, notes: 'Inibidor seletivo e potente do NET (Ki ~5 nM) — base do efeito no TDAH sem perfil estimulante.' },
 
   // Novas interações para Lítio (m27) para puxá-lo ao centro do Atlas
   { moleculeId: 'm27', receptorId: 'r19', actionType: 'Modulador Alostérico', affinityKi: null, notes: 'Inibe a sinalização excitotóxica hiperativa do receptor NMDA.' },
