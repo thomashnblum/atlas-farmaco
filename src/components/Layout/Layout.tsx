@@ -313,9 +313,9 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
       </main>
 
       <footer className="h-12 border-t border-zinc-800 bg-zinc-900/80 px-4 md:px-8 flex items-center justify-between text-[11px] text-zinc-500 shrink-0 mt-auto">
-        <div className="flex space-x-4 md:space-x-6 overflow-x-auto whitespace-nowrap hide-scrollbar">
-          <span>SISTEMA DOPAMINÉRGICO: OK</span>
-          <span className="hidden sm:inline">SEROTONINÉRGICO: OK</span>
+        <div className="flex items-center space-x-4 md:space-x-6 overflow-x-auto whitespace-nowrap hide-scrollbar">
+          <Link to="/sources" className="text-zinc-400 hover:text-amber-400 transition-colors font-medium">Fontes & Metodologia</Link>
+          <span className="hidden sm:inline">DOPAMINÉRGICO: OK</span>
           <span className="hidden sm:inline">CYP450 ATLAS: LOADED</span>
         </div>
         <div className="shrink-0 ml-4 font-mono">v1.0.4 - SINC-REALTIME</div>

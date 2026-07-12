@@ -17,6 +17,7 @@ import { ReceptorsPage } from './pages/ReceptorsPage';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { PricingPage } from './pages/PricingPage';
+import { SourcesPage } from './pages/SourcesPage';
 import { AdminPage } from './pages/AdminPage';
 import { DisordersPage } from './pages/DisordersPage';
 import { DisorderDetailPage } from './pages/DisorderDetailPage';
@@ -62,6 +63,7 @@ export default function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/pricing" element={<PricingPage />} />
+              <Route path="/sources" element={<SourcesPage />} />
 
               {/* Rotas de Catálogo (Públicas/Abertas) */}
               <Route path="/disorders" element={<DisordersPage />} />
