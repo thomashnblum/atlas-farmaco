@@ -29,7 +29,13 @@ possível, fortalecer com fontes confiáveis. Feito por blocos, com log recuper�
 | 8 | Transtornos & tratamentos | transtornos + linhas de tratamento (DisorderTreatment) | ✅ revisado (sólido; 4 notas p/ decisão) |
 | 9 | Afinidades Ki (auditoria numérica) | conferir valores de Ki das interações vs IUPHAR/PDSP | ✅ auditado (1 erro corrigido) |
 
-**1ª passada completa (blocos 1–9).** Correções de maior impacto: xCT (tipo), α2δ (rótulo), citalopram (contraindicação), IMAO/Parkinson, lamotrigina/mania aguda, cafeína & atomoxetina (falso padrão-ouro TDAH), Modafinil/NET (Ki espúrio). Pendências abertas: 4 ajustes de tratamento no banco (Bloco 8, aguardando decisão), refino das super-generalizações do template (BZD/antipsicóticos), preencher `sources`, e autorar os 10 perfis de receptor faltantes.
+**1ª passada completa (blocos 1–9).** Correções de maior impacto: xCT (tipo), α2δ (rótulo), citalopram (contraindicação), IMAO/Parkinson, lamotrigina/mania aguda, cafeína & atomoxetina (falso padrão-ouro TDAH), Modafinil/NET (Ki espúrio). **Pós-passada, TUDO concluído:** 4 ajustes de tratamento no banco ✅, refino das super-generalizações do template (BZD/antipsicóticos) ✅, 13 perfis de receptor faltantes autorados ✅, e citações (`sources`) ✅ (ver abaixo).
+
+### Citações / fontes (`sources`) — 2026-07-11
+As tabelas `pd_interactions`/`pk_interactions` já tinham coluna `sources` (vazia) e o campo era carregado pelo `dataService` mas **nunca exibido**. Implementação:
+- `src/data/sources.ts`: proveniência por CATEGORIA (evita 150 arrays idênticos). Afinidade com Ki → PDSP + IUPHAR; ação sem Ki (mecanismo) → IUPHAR + Stahl; papel enzimático → Flockhart + Bulas FDA/ANVISA. Uma citação específica gravada no `sources` da interação SEMPRE tem prioridade (permite artigos pontuais no futuro). Nomes casam com a página `/sources`.
+- `MoleculeIndexPage`: rodapé de fontes sob as tabelas farmacodinâmica (Ki) e farmacocinética, com link para `/sources` (metodologia). Verificado por type-check + runtime dos helpers.
+- Extensão futura opcional: mesmos rodapés em Receptores/Enzimas/Navegador/Comparar.
 
 ---
 

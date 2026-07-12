@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams, Link } from 'react-router-dom';
 import { dataService } from '../services/dataService';
+import { getPdSources, getPkSources, unionSources } from '../data/sources';
 import { MoleculeCard } from '../components/Molecules/MoleculeCard';
 import { Molecule, MoleculeReceptorInteraction, MoleculeEnzymeInteraction } from '../data/schema';
 import { ArrowLeft, Database, ShieldAlert, Clock, Pill, Activity, FlaskConical, Droplets, Zap } from 'lucide-react';
@@ -152,6 +153,7 @@ export const MoleculeIndexPage = () => {
                   </h3>
                 </div>
                 {pd.length > 0 ? (
+                  <>
                   <div className="border border-zinc-800 rounded-xl overflow-hidden bg-zinc-900/50">
                     <table className="min-w-full divide-y divide-zinc-800 text-left text-sm">
                       <thead className="bg-zinc-800/80">
@@ -181,6 +183,10 @@ export const MoleculeIndexPage = () => {
                       </tbody>
                     </table>
                   </div>
+                  <p className="mt-2 text-[10px] text-zinc-600 font-mono leading-relaxed">
+                    Fontes: {unionSources(pd.map(getPdSources)).join(' · ')} · <Link to="/sources" className="text-amber-500/70 hover:text-amber-400 underline">metodologia</Link>
+                  </p>
+                  </>
                 ) : (
                   <p className="text-zinc-500 text-sm italic font-mono">Nenhum dado primário catalogado no momento.</p>
                 )}
@@ -194,6 +200,7 @@ export const MoleculeIndexPage = () => {
                   </h3>
                 </div>
                 {pk.length > 0 ? (
+                  <>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {pk.map(interaction => {
                       const enzyme = dataService.getEnzymeById(interaction.enzymeId);
@@ -214,6 +221,10 @@ export const MoleculeIndexPage = () => {
                       )
                     })}
                   </div>
+                  <p className="mt-3 text-[10px] text-zinc-600 font-mono leading-relaxed">
+                    Fontes: {unionSources(pk.map(getPkSources)).join(' · ')} · <Link to="/sources" className="text-amber-500/70 hover:text-amber-400 underline">metodologia</Link>
+                  </p>
+                  </>
                 ) : (
                   <p className="text-zinc-500 text-sm italic font-mono">Nenhuma via metabólica crítica cadastrada.</p>
                 )}
