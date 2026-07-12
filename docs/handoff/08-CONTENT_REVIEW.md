@@ -112,7 +112,12 @@ Notas registradas (super-generalizações do template por classe — mesmo padr�
 - Redundância: no ramo BZD, "Estado de Mal Epiléptico" e "Abstinência Alcoólica" aparecem tanto em on- quanto em offLabel.
 - m44 Eszopiclona: mecanismo diz "afinidade extrínseca no GABA-A" — jargão sem sentido; trocar por "modulador alostérico positivo do GABA-A" numa passada de estilo.
 
-**Recomendação transversal:** as super-generalizações do template (BZD + antipsicóticos) merecem um refino dedicado com indicações por-fármaco — candidato a bloco extra depois da 1ª passada.
+**Recomendação transversal:** as super-generalizações do template (BZD + antipsicóticos) merecem um refino dedicado com indicações por-fármaco — candidato a bloco extra depois da 1ª passada. → ✅ **FEITO (2026-07-11).**
+
+### Refino das super-generalizações (BZD + antipsicóticos) — 2026-07-11
+`moleculeDetails.ts` deixou de aplicar a mesma lista de indicações a todos os membros da classe; agora as indicações são por-fármaco (condicionais por nome). Verificado em runtime:
+- **Benzodiazepínicos:** todos mantêm "ansiedade aguda (curto prazo)". Pânico → só clonazepam/alprazolam (alta potência). Estado de mal epiléptico (1ª linha/padrão-ouro) → lorazepam/diazepam/midazolam (uso IV/IM agudo); clonazepam vira "epilepsia adjuvante crônico"; alprazolam/bromazepam NÃO recebem estado de mal. Abstinência alcoólica → diazepam/lorazepam. Sedação de procedimento → só midazolam. Catatonia → só lorazepam ("teste do lorazepam"). Removida a redundância on/off-label (estado de mal + abstinência) do offLabel; adicionada insônia de curtíssimo prazo. Lorazepam ganhou `gold_standard`.
+- **Antipsicóticos atípicos:** "Mania Aguda 1ª Linha" agora exclui a **clozapina** (reservada a refratários; não é 1ª linha para mania) — clozapina fica só com esquizofrenia refratária. Evidência da mania ajustada de "Padrão-Ouro" para "Robusto". Corrigida a super-afirmação do `psychiatryUse` ("o papel principal virou adjuvante na depressão" → "permanecem centrais em psicose/bipolar, com papel crescente como adjuvantes").
 
 ### Bloco 7 — Estimulantes & outros — 2026-07-10
 Revisados perfis em `mockData.ts` (estimulantes m51-m57; outros m47-m50) e prosa em `moleculeDetails.ts` (ramo `isStimulant`, modafinil, naltrexona, memantina, cetamina).

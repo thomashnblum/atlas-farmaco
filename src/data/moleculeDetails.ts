@@ -296,13 +296,17 @@ export function getMoleculeDetails(molecule: Pick<Molecule, 'class' | 'name' | '
           ? "Tratamento padrão-ouro absoluto para esquizofrenia resistente a múltiplos antipsicóticos. Reduz tendências suicidas." 
           : "Tratamento de escolha para controlar sintomas psicóticos positivos e negativos com menor risco de sintomas extrapiramidais."
       },
-      {
+    ];
+
+    // Mania aguda: indicação dos atípicos EXCETO clozapina (reservada a quadros refratários; não é 1ª linha para mania).
+    if (!name.includes('clozapina')) {
+      onLabelUses.push({
         condition: "Transtorno Bipolar (Mania Aguda)",
         line: "1ª Linha",
-        evidence: "Padrão-Ouro",
+        evidence: "Robusto",
         justification: "Rápida desaceleração psicomotora, redução da euforia ideativa e reestabelecimento do sono em episódios maníacos."
-      }
-    ];
+      });
+    }
 
     if (name.includes('quetiapina') || name.includes('aripiprazol')) {
       onLabelUses.push({
@@ -323,7 +327,7 @@ export function getMoleculeDetails(molecule: Pick<Molecule, 'class' | 'name' | '
     }
 
     return {
-      psychiatryUse: "Essencialmente desenvolvidos para o tratamento de espectros esquizofreniformes e crises do transtorno bipolar. Contudo, seu principal papel tem evoluído para o uso como adjuvante impulsionador na depressão maior refratária de difícil tratamento (como potencializador do antidepressivo primário). Recomendados também para acalmar quadros graves de agitação e severa impulsividade.",
+      psychiatryUse: "Desenvolvidos para o tratamento de espectros esquizofreniformes e das crises do transtorno bipolar, onde permanecem centrais. Ganharam ainda um papel crescente como adjuvantes na depressão maior refratária (potencializando o antidepressivo primário) e no controle de quadros graves de agitação e impulsividade.",
       offLabelUses: [
         { condition: "Insônia Primária Refratária", evidence: "Moderado", justification: "Extremo poder anticolinérgico/anti-histamínico gera sedação química (Quetiapina é amplamente abusada nesse fim, com ressalvas metabólicas graves)." },
         { condition: "Transtorno da Personalidade Borderline (TPB)", evidence: "Baixo", justification: "Utilizado em baixas dosagens para atenuar a instabilidade afetiva explosiva e pseudo-sintomas psicóticos passageiros." },
@@ -438,37 +442,85 @@ export function getMoleculeDetails(molecule: Pick<Molecule, 'class' | 'name' | '
   
   if (isBZD) {
     const profileSymbols: ProfileSymbolKey[] = ['gabaergic'];
-    if (name.includes('clonazepam')) {
+    if (name.includes('clonazepam') || name.includes('lorazepam')) {
       profileSymbols.push('gold_standard');
     }
 
     const onLabelUses: OnLabelUse[] = [
       {
-        condition: "Crise de Ansiedade / Ataque de Pânico Agudo",
-        line: "1ª Linha",
+        condition: "Ansiedade Aguda e Agitação (curto prazo)",
+        line: "Adjuvante",
         evidence: "Robusto",
-        justification: "Tratamento de socorro para alívio imediato (minutos) de crises de pânico descontroladas."
-      },
-      {
-        condition: "Estado de Mal Epiléptico e Crises Convulsivas",
-        line: "1ª Linha",
-        evidence: "Padrão-Ouro",
-        justification: "O aumento na condutância de cloreto induz hiperpolarização central imediata, cessando disparos elétricos generalizados."
-      },
-      {
-        condition: "Prevenção de Abstinência Alcoólica Grave",
-        line: "1ª Linha",
-        evidence: "Padrão-Ouro",
-        justification: "Substituição cruzada crucial de receptores de GABA para evitar delirium tremens, alucinações e convulsões por retirada súbita de álcool."
+        justification: "Alívio sintomático rápido (minutos) enquanto o tratamento de base (ISRS/psicoterapia) não age. Uso de curto prazo pelo risco de tolerância e dependência."
       }
     ];
+
+    // Pânico — benzodiazepínicos de alta potência
+    if (name.includes('clonazepam') || name.includes('alprazolam')) {
+      onLabelUses.push({
+        condition: "Transtorno de Pânico",
+        line: "Adjuvante",
+        evidence: "Robusto",
+        justification: "Alta potência aborta crises de pânico rapidamente; o clonazepam (meia-vida longa) causa menos rebote entre doses que o alprazolam (curto e de dependência rápida)."
+      });
+    }
+
+    // Estado de mal epiléptico — benzodiazepínicos de uso agudo IV/IM
+    if (name.includes('lorazepam') || name.includes('diazepam') || name.includes('midazolam')) {
+      onLabelUses.push({
+        condition: "Estado de Mal Epiléptico (emergência)",
+        line: "1ª Linha",
+        evidence: "Padrão-Ouro",
+        justification: name.includes('lorazepam')
+          ? "Lorazepam IV é a primeira escolha para abortar o estado de mal epiléptico."
+          : "Aborta crises prolongadas por hiperpolarização GABAérgica imediata (diazepam IV/retal; midazolam IM, muito usado no pré-hospitalar)."
+      });
+    } else if (name.includes('clonazepam')) {
+      onLabelUses.push({
+        condition: "Epilepsia (adjuvante crônico)",
+        line: "Adjuvante",
+        evidence: "Robusto",
+        justification: "Anticonvulsivante de manutenção em certos tipos de crise; não é a escolha para o estado de mal agudo."
+      });
+    }
+
+    // Abstinência alcoólica — meia-vida longa (auto-desmame) ou glucuronidação (hepatopatas)
+    if (name.includes('diazepam') || name.includes('lorazepam')) {
+      onLabelUses.push({
+        condition: "Abstinência Alcoólica",
+        line: "1ª Linha",
+        evidence: "Padrão-Ouro",
+        justification: name.includes('lorazepam')
+          ? "Substituição cruzada do GABA que previne delirium tremens e convulsões; o lorazepam (glucuronidação direta) é preferível em hepatopatas."
+          : "A meia-vida longa do diazepam gera auto-desmame suave, prevenindo delirium tremens e convulsões na retirada do álcool."
+      });
+    }
+
+    // Sedação de procedimento e indução anestésica — midazolam
+    if (name.includes('midazolam')) {
+      onLabelUses.push({
+        condition: "Sedação para Procedimentos e Indução Anestésica",
+        line: "1ª Linha",
+        evidence: "Padrão-Ouro",
+        justification: "Início ultrarrápido, meia-vida curta e amnésia anterógrada — ideal para sedação consciente e indução em procedimentos."
+      });
+    }
+
+    // Catatonia — lorazepam
+    if (name.includes('lorazepam')) {
+      onLabelUses.push({
+        condition: "Catatonia",
+        line: "1ª Linha",
+        evidence: "Padrão-Ouro",
+        justification: "O 'teste do lorazepam' é diagnóstico e terapêutico: pode reverter dramaticamente o quadro catatônico."
+      });
+    }
 
     return {
       psychiatryUse: "Fármacos sintomáticos essenciais para alívio imediatista, rápido e ponte provisória para quadros de agitação em internamentos e neutralização instantânea de ataques de pânico avassaladores. Sua inclusão deve prever sempre a retirada a curto prazo (2-6 semanas) pela escalada de neuro-tolerância anatômica subjacente que cronicamente prejudica o prognóstico cognitivo e aditivo do paciente.",
       offLabelUses: [
-        { condition: "Espasmos Musculares Complexos / Cãibras Rígidas", evidence: "Moderado", justification: "Propriedade original robusta miorrelaxante, deprimindo a espasticidade motora voluntária." },
-        { condition: "Status Epilepticus / Epilepsia Aguda", evidence: "Alto", justification: "Redução maciça do limiar convulsivo ao deflagrar GABA, hiperpolarizando os feixes elétricos excessivos temporariamente." },
-        { condition: "Síndrome de Abstinência Alcoólica Grave", evidence: "Alto", justification: "Uso mandatório cruzado para evitar morte induzida e delerium tremens quando da retirada crônica exógena do álcool cerebral." }
+        { condition: "Espasticidade e Espasmos Musculares", evidence: "Moderado", justification: "Efeito miorrelaxante central, mais marcante no diazepam." },
+        { condition: "Insônia de Curtíssimo Prazo", evidence: "Moderado", justification: "Reduzem a latência do sono, mas prejudicam a arquitetura do sono e geram tolerância rápida — evitar uso crônico." }
       ],
       onLabelUses,
       profileSymbols
