@@ -121,6 +121,8 @@ export const dataService = {
         receptorId: pd.receptor_id,
         actionType: pd.action_type,
         affinityKi: pd.affinity_ki != null ? Number(pd.affinity_ki) : undefined,
+        functionalPotency: pd.functional_potency != null ? Number(pd.functional_potency) : undefined,
+        potencyType: pd.potency_type || undefined,
         notes: pd.notes,
         sources: pd.sources || []
       }));

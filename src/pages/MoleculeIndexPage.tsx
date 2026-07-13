@@ -160,7 +160,7 @@ export const MoleculeIndexPage = () => {
                         <tr>
                           <th className="px-4 py-3 font-mono text-[10px] uppercase font-bold text-zinc-500 tracking-widest">Receptor</th>
                           <th className="px-4 py-3 font-mono text-[10px] uppercase font-bold text-zinc-500 tracking-widest">Tipo de Ação</th>
-                          <th className="px-4 py-3 font-mono text-[10px] uppercase font-bold text-zinc-500 tracking-widest">Afinidade (Ki)</th>
+                          <th className="px-4 py-3 font-mono text-[10px] uppercase font-bold text-zinc-500 tracking-widest">Afinidade / Potência</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-zinc-800/50">
@@ -174,8 +174,17 @@ export const MoleculeIndexPage = () => {
                                   {interaction.actionType}
                                 </span>
                               </td>
-                              <td className="px-4 py-3 text-[11px] font-mono font-bold text-amber-300">
-                                {interaction.affinityKi != null ? `${interaction.affinityKi} nM` : <span className="text-zinc-500 font-mono">N/D</span>}
+                              <td className="px-4 py-3 text-[11px] font-mono font-bold">
+                                {interaction.affinityKi != null ? (
+                                  <span className="text-amber-300">{interaction.affinityKi} nM</span>
+                                ) : interaction.functionalPotency != null ? (
+                                  <span className="text-sky-300 inline-flex items-center gap-1" title="Potência funcional (IC50/EC50) — não é constante de ligação (Ki)">
+                                    {interaction.functionalPotency >= 1000 ? `${interaction.functionalPotency / 1000} µM` : `${interaction.functionalPotency} nM`}
+                                    <span className="text-[8px] uppercase tracking-wider text-sky-500/90 border border-sky-500/30 rounded px-1 py-px">{interaction.potencyType || 'IC50'}</span>
+                                  </span>
+                                ) : (
+                                  <span className="text-zinc-500">N/D</span>
+                                )}
                               </td>
                             </tr>
                           );

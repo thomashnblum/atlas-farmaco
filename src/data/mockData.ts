@@ -245,10 +245,10 @@ export const pdInteractions: MoleculeReceptorInteraction[] = [
   { moleculeId: 'm47', receptorId: 'r16', actionType: 'Antagonista', affinityKi: 0.08 },
   { moleculeId: 'm47', receptorId: 'r17', actionType: 'Antagonista', affinityKi: 0.22 },
   { moleculeId: 'm47', receptorId: 'r18', actionType: 'Antagonista', affinityKi: 2.8 },
-  { moleculeId: 'm48', receptorId: 'r19', actionType: 'Antagonista', affinityKi: null },
+  { moleculeId: 'm48', receptorId: 'r19', actionType: 'Antagonista', affinityKi: null, functionalPotency: 1000, potencyType: 'IC50', notes: 'Bloqueador de canal NMDA de BAIXA afinidade (IC50 ~1 µM) e uso-dependente — é justamente essa baixa afinidade que o torna tolerável, diferente de bloqueadores de alta afinidade (neurotóxicos).' },
   { moleculeId: 'm49', receptorId: 'r20', actionType: 'Precursor / Modulador', affinityKi: null },
   { moleculeId: 'm49', receptorId: 'r19', actionType: 'Modulador Alostérico', affinityKi: null, notes: 'Modulação indireta do receptor NMDA via glutationa/xCT.' },
-  { moleculeId: 'm50', receptorId: 'r19', actionType: 'Antagonista', affinityKi: null },
+  { moleculeId: 'm50', receptorId: 'r19', actionType: 'Antagonista', affinityKi: null, functionalPotency: 500, potencyType: 'IC50', notes: 'Antagonista não competitivo do canal NMDA (IC50 ~0,5 µM). O bloqueio da neurotransmissão glutamatérgica dispara a cascata de neuroplasticidade (BDNF) do efeito antidepressivo rápido.' },
   { moleculeId: 'm50', receptorId: 'r5', actionType: 'Inibidor de Recaptação', affinityKi: null, notes: 'Inibição fraca do DAT contribui para efeitos estimulantes.' },
   { moleculeId: 'm28', receptorId: 'r15', actionType: 'Antagonista', affinityKi: null, notes: 'Inibição de canais de cálcio voltagem-dependentes (N e P/Q).' },
   

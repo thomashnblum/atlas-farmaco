@@ -84,7 +84,15 @@ export interface MoleculeReceptorInteraction {
   moleculeId: string;
   receptorId: string;
   actionType: ActionType;
+  /** Constante de LIGAÇÃO (Ki), em nM. Apropriada para quem se liga a receptor/transportador. */
   affinityKi?: number | null;
+  /**
+   * Potência FUNCIONAL (IC50/EC50), em nM. Para alvos onde o Ki de ligação não é a
+   * métrica certa — canais iônicos e enzimas (ex.: memantina/cetamina no NMDA).
+   * Renderizada como fallback quando affinityKi é null.
+   */
+  functionalPotency?: number | null;
+  potencyType?: 'IC50' | 'EC50';
   notes?: string;
   sources?: string[];
 }

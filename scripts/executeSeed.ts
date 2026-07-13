@@ -70,6 +70,8 @@ async function runSeed() {
     receptor_id: pd.receptorId,
     action_type: pd.actionType,
     affinity_ki: pd.affinityKi,
+    functional_potency: pd.functionalPotency ?? null,
+    potency_type: pd.potencyType ?? null,
     notes: pd.notes,
     sources: pd.sources || []
   })), { onConflict: 'molecule_id,receptor_id' });
